@@ -57,12 +57,6 @@
     <ClInclude Include="include\Functions.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\stdafx.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\targetver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cn\allocate_annual_growth.cpp">
@@ -472,9 +466,6 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="tec\stdafx.cpp">
-      <Filter>源文件\tec</Filter>
     </ClCompile>
     <ClCompile Include="parallel\parallel_basins_pches.cpp">
       <Filter>源文件\parallel</Filter>

@@ -18,7 +18,6 @@
 //	added check_zero_stores
 //------------------------------------------------------------------------------------------------------------------------------
 #include <stdio.h>
-
 #include <math.h>
 #include "CHESS.h"
 #include "Constants.h"
