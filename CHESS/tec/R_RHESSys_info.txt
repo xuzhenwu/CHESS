@@ -1,0 +1,49 @@
+=======================================================================================================================
+Note:: Users should specify the following information for running R-RHESSys
+=======================================================================================================================
+1. The spatial extent of the study region or input grid data
+maxr:: 143                
+maxc:: 115                
+xll::  701984.0           
+yll::  4342483.0            
+cellsize:: 100.
+NODATA_value:: -9999.0
+=========================================================================================================================
+2. Specifying the simulation year, month and day
+Note::Actually, the program will determine the endingdate for each month because it varies between normal and leap year
+start_year::   1961
+end_year::     2012
+start_month::  1
+end_month::    12
+start_day::    1
+end_day::      31   
+start_hour::   1
+end_hour::     24
+=========================================================================================================================
+3. Specifying the period for outputting simulation results
+out_first_year::    1991
+out_last_year::     2012
+out_first_month::   1
+out_last_month::    12
+out_first_day::     1
+out_last_day::      31
+out_first_hour::    1
+out_last_hour::     24
+==========================================================================================================================
+4. Specifying the number of years to spin-up model simulations
+Note:: The spin interval must less than the length of your input climate data
+spin_years::    312   
+spin_interval:: 52   
+spin_flag::     1
+==========================================================================================================================
+5. Specifying the paths for input and output files
+input_data_name_prefix::   cleve_matchwest
+input_Default_File::       c:\\GuopingData\\GBPROGRAMS\\CleveCreek\\defs\\
+input_Image_File::         c:\\GuopingData\\GBPROGRAMS\\CleveCreek\\Inputimage\\
+input_Flowpath_File::      c:\\GuopingData\\GBPROGRAMS\\CleveCreek\\
+input_Climatedata_file::   c:\\GuopingData\\GBPROGRAMS\\CleveCreek\\indata\\
+outPut_file_Path::         e:\\GuopingData\\GBPROGRAMS\\CleveCreek\\outwest1\\
+FlowTableName::            cleve_matchwest_flow_table.dat
+==========================================================================================================================
+
+For question and problems, please contact Dr. Guoping Tang by tangg2010@gmail.com

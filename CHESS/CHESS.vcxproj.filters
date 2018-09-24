@@ -13,21 +13,479 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="源文件\hydro">
+      <UniqueIdentifier>{de0698da-4415-401b-99ca-01aee7ab6c2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\rad">
+      <UniqueIdentifier>{c3045960-9dab-436b-aca4-cecfcaea9c27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\chess">
+      <UniqueIdentifier>{e9681574-b008-4a84-b795-8436d997dd67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\init">
+      <UniqueIdentifier>{52f19224-f91f-4341-ab32-349ae0d4796b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\clim">
+      <UniqueIdentifier>{e827005a-c769-456f-bb11-fa1027799dfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\tec">
+      <UniqueIdentifier>{7778ee68-4567-4f82-824d-a203927cfa09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\util">
+      <UniqueIdentifier>{aa4fa5ae-1dd7-421f-bfbc-534da6c8005e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\cn">
+      <UniqueIdentifier>{864fb61a-f3b3-4eb5-901a-89424c2dccbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\output">
+      <UniqueIdentifier>{9348f66e-cf1e-480d-adb3-e724fcefa624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\cycle">
+      <UniqueIdentifier>{6c9cdfca-ca75-48b9-81ee-fbecbc59dc4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\parallel">
+      <UniqueIdentifier>{149db567-9d20-4f1b-81dc-48f675a8f5d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="include\CHESS.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="include\Constants.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Functions.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="cn\allocate_annual_growth.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\allocate_daily_growth.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\allocate_daily_growth_Dickenson.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\allocate_daily_growth_Waring.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_annual_litfall.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_annual_turnover.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_cwd_decay.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_deadleaf_turnover.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_farq_psn.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_froot_litfall.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_growingseason_index.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_growth_resp.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_leaf_litfall.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_maint_resp.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_N_leached.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_potential_decomp.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_potential_N_uptake.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_potential_N_uptake_Dickenson.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\compute_potential_N_uptake_Waring.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\Ksat_z_curve.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\leaf_conductance_APAR_curve.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\leaf_conductance_CO2_curve.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\leaf_conductance_LWP_curve.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\leaf_conductance_tavg_curve.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\leaf_conductance_tmin_curve.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\leaf_conductance_vpd_curve.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\resolve_sminn_competition.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\update_C_stratum_daily.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\update_decomp.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\update_denitrif.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\update_dissolved_organic_losses.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\update_mortality.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\update_N_stratum_daily.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\update_nitrif.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\update_phenology.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\update_rooting_depth.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\update_septic.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="cn\zero_stratum_daily_flux.cpp">
+      <Filter>源文件\cn</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_capillary_rise.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_delta_water.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_field_capacity.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_ground_water_loss.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_hourly_rain_stored.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_infiltration.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_layer_field_capacity.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_litter_rain_stored.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_lwp_predawn.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_nonvascular_stratum_conductance.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_potential_exfiltration.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_potential_rain_interception.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_potential_snow_interception.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_ra_overstory.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_ra_surface.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_ra_understory.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_rain_stored.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_snow_stored.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_snow_sublimation.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_soil_water_potential.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_subsurface_routing_new.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_transmissivity_curve.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_unsat_zone_drainage.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_varbased_flow.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_varbased_returnflow.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_vascular_stratum_conductance.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\compute_z_final.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\penman_monteith.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\recompute_gamma.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\snowpack_daily_F.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\update_drainage_land_new.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\update_drainage_stream_new.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\update_gw_drainage.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\update_litter_interception_capacity.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\zero_patch_daily_flux.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="chess\chess_channel_daily.cpp">
+      <Filter>源文件\chess</Filter>
+    </ClCompile>
+    <ClCompile Include="chess\chess_climate_daily.cpp">
+      <Filter>源文件\chess</Filter>
+    </ClCompile>
+    <ClCompile Include="chess\chess_land_daily.cpp">
+      <Filter>源文件\chess</Filter>
+    </ClCompile>
+    <ClCompile Include="init\assign_neighbours.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\construct_channel_default.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\construct_command_line.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\construct_landuse_defaults.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\construct_patch.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\construct_patch_defaults.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\construct_routing_topology_new.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\construct_soil_defaults.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\construct_stratum_defaults.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\File_IO.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\Init_patch_object.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\open_climat_files.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\parse_dyn_flag.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\parse_phenology_type.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\parse_veg_type.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\read_daily_climatedata.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\Construct_canopy_strata.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="clim\compute_atm_pres.cpp">
+      <Filter>源文件\clim</Filter>
+    </ClCompile>
+    <ClCompile Include="clim\compute_toc_wind.cpp">
+      <Filter>源文件\clim</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\canopy_stratum_daily_F_old.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\canopy_stratum_daily_I.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\canopy_stratum_growth.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\initialize_phenology_object.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\patch_daily_F_new.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\patch_daily_I.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\patch_hourly_new.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\surface_daily_F.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\zone_daily_F.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\zone_daily_I.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="output\close_patch_output_files.cpp">
+      <Filter>源文件\output</Filter>
+    </ClCompile>
+    <ClCompile Include="output\construct_basin_output_files.cpp">
+      <Filter>源文件\output</Filter>
+    </ClCompile>
+    <ClCompile Include="output\construct_patch_output_files.cpp">
+      <Filter>源文件\output</Filter>
+    </ClCompile>
+    <ClCompile Include="output\out_basin_level_daily.cpp">
+      <Filter>源文件\output</Filter>
+    </ClCompile>
+    <ClCompile Include="output\out_patch_level_daily.cpp">
+      <Filter>源文件\output</Filter>
+    </ClCompile>
+    <ClCompile Include="output\output_basin_daily_growth.cpp">
+      <Filter>源文件\output</Filter>
+    </ClCompile>
+    <ClCompile Include="output\output_basin_daily_hydrology.cpp">
+      <Filter>源文件\output</Filter>
+    </ClCompile>
+    <ClCompile Include="output\output_patch_daily_growth.cpp">
+      <Filter>源文件\output</Filter>
+    </ClCompile>
+    <ClCompile Include="output\output_patch_daily_hydrology.cpp">
+      <Filter>源文件\output</Filter>
+    </ClCompile>
+    <ClCompile Include="tec\valid_option.cpp">
+      <Filter>源文件\tec</Filter>
+    </ClCompile>
+    <ClCompile Include="rad\compute_diffuse_radiative_fluxes.cpp">
+      <Filter>源文件\rad</Filter>
+    </ClCompile>
+    <ClCompile Include="rad\compute_diffuse_radiative_PAR_fluxes.cpp">
+      <Filter>源文件\rad</Filter>
+    </ClCompile>
+    <ClCompile Include="rad\compute_direct_radiative_fluxes.cpp">
+      <Filter>源文件\rad</Filter>
+    </ClCompile>
+    <ClCompile Include="rad\compute_direct_radiative_PAR_fluxes.cpp">
+      <Filter>源文件\rad</Filter>
+    </ClCompile>
+    <ClCompile Include="rad\compute_Lstar.cpp">
+      <Filter>源文件\rad</Filter>
+    </ClCompile>
+    <ClCompile Include="rad\compute_radiative_fluxes.cpp">
+      <Filter>源文件\rad</Filter>
+    </ClCompile>
+    <ClCompile Include="rad\compute_surface_heat_flux.cpp">
+      <Filter>源文件\rad</Filter>
+    </ClCompile>
+    <ClCompile Include="util\alloc.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="util\check_zero_stores.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="util\compute_year_day.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="util\end_day_leap.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="util\find_patch.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="util\julday.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="util\key_compare.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="util\match_patch.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="util\read_record.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="util\rewind_daily_clim.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="util\sort_patch_layers.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="util\spaveg.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="util\yearday.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CHESS.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="tec\stdafx.cpp">
+      <Filter>源文件\tec</Filter>
     </ClCompile>
+    <ClCompile Include="parallel\parallel_basins_pches.cpp">
+      <Filter>源文件\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="parallel\parallel_daily.cpp">
+      <Filter>源文件\parallel</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="tec\R_RHESSys_info.txt">
+      <Filter>源文件\tec</Filter>
+    </Text>
   </ItemGroup>
 </Project>
