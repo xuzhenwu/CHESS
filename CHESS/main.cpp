@@ -136,6 +136,10 @@ int	main(int main_argc, char **main_argv)
 	//Initialize the default values of patch fields/members
 	construct_patch(patch, command_line, maxr, maxc, inDefFile, prefix);
 
+
+	//xu. this section cost too much time 
+	//a key problem is how to exchange values of struct
+	//I sugguest should 1\ flow table then  2\construct patch and read images
 	//constructing routing list topography
 	num_patches = construct_routing_topology(patch, inFlowFile, FlowTableName, maxr, maxc);
 
