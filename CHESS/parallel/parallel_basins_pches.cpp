@@ -17,7 +17,7 @@ void		parallel_basins_pches(struct 	patch_object *patch,
 	int thread_patch_num[]
 )
 {
-	int thread_inx{};
+	int thread_inx=0;
 
 	for (int inx = 0; inx < patch_num; inx++) {
 		

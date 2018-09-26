@@ -60,7 +60,7 @@ int assign_neighbours( struct neighbour_object *neighbours,
 			//printf("neighbours[inx].patch->ID %d %d \n",inx,neighbours[inx].patch->ID);
 			inx += 1;
 		}
-		else	new_num_neighbours -= 1;
+		else	new_num_neighbours -= 1;//xu. ??? gamma<0? which has been checked in Create flowtable.exe
 	}
 
 	return(new_num_neighbours);

@@ -5,8 +5,8 @@ struct  command_line_object	*construct_command_line(int main_argc, char **, stru
 void    read_R_RHESSys_File(char *, struct Input_Grid_Data *, struct In_File_Path  *, struct Input_Data_Range  *, struct out_date_range  *, struct Spin_Up *);
 //void    read_R_RHESSys_File(char *);
 
-void	read_images(struct patch_object *, int, int, double, double, double, char *, char *, int, int);
-void    construct_patch(struct patch_object *, struct command_line_object *, int, int, char *, char *);
+void	read_images(struct patch_object *, int, int, double, double, double, char *, char *, int, int, int );
+void    construct_patch(struct patch_object *, struct command_line_object *, int, int, char *, char *, int);
 int     construct_routing_topology(struct patch_object *, char *, char *, int, int);
 struct  input_Clim_Files open_Clim_Files(char *, char *);
 void    construct_output_files(int, int, struct date, char *, struct output_hydro_plant *, struct command_line_object *);

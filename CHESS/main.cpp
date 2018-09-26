@@ -50,7 +50,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "chess.h"
 #include "Functions.h"
 #include "Constants.h"
@@ -109,7 +108,10 @@ int	main(int main_argc, char **main_argv)
 	struct  input_Clim_Files   inClimFiles{};
 	struct  reservoir_object   reservoir = { 10072, 2284.5, 50, 338.6, 100, 1514.4, 2351.55, 0., 4. };
 	struct command_line_object *command_line = new struct command_line_object;
-	struct patch_object *patch = new struct patch_object[maxr*maxc]{};
+
+	//xu. for lower use memory we use patch_num instead of cols*rows
+	//only 1/4 memory are needed now
+	struct patch_object *patch = new struct patch_object[patch_num]{};
 	struct  daily_clim_object *daily_clim = new struct daily_clim_object;//change it as a pointer
 
 	//xu. parallel
@@ -126,22 +128,19 @@ int	main(int main_argc, char **main_argv)
 	//=======================================================================================================================
 	//xu. BUILD AND INITIAL THE ENDVIRONMENT FOR SIMULATION
 	//=======================================================================================================================
-	
+	printf("Starting initialization:: \n");
+
 	//construct and assign command line arguments
 	construct_command_line(main_argc, main_argv, command_line);	
+ 
+	//xu. I sugguest should 1\ flow table then  2\construct patch and read images
+	num_patches = construct_routing_topology(patch, inFlowFile, FlowTableName, maxr, maxc);
 
 	//reading GRASS- or ArcInfo-based input images such as DEM,slope,aspect....stream,roads
-	read_images(patch, maxr, maxc, cellsize, xll, yll, inImgFile, prefix, f_flag, arc_flag);
+	read_images(patch, maxr, maxc, cellsize, xll, yll, inImgFile, prefix, f_flag, arc_flag,num_patches);
 
 	//Initialize the default values of patch fields/members
-	construct_patch(patch, command_line, maxr, maxc, inDefFile, prefix);
-
-
-	//xu. this section cost too much time 
-	//a key problem is how to exchange values of struct
-	//I sugguest should 1\ flow table then  2\construct patch and read images
-	//constructing routing list topography
-	num_patches = construct_routing_topology(patch, inFlowFile, FlowTableName, maxr, maxc);
+	construct_patch(patch, command_line, maxr, maxc, inDefFile, prefix,num_patches);
 
 	//open input climate files (daily precipitation, minimum temperature and maximum temperature)
 	inClimFiles = open_Clim_Files(inClimPath, prefix);
@@ -149,7 +148,7 @@ int	main(int main_argc, char **main_argv)
 	//distribute parallel threads of each basins
 	parallel_basins_pches(patch, patch_pch, thread_patch_num);
 
-
+	//xu. 11 minute process of initialization are now shorter to 40 second
 
 	//=======================================================================================================================
 	//xu. SPIN UP and CHESS SIMULATION

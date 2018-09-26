@@ -18,11 +18,11 @@ using namespace std;
 
 //===============================================================================================================================
 //creating x and y coordinate 
-void create_x_coordinates(double *indata, int mr, int mc, double cellsize, double xll){
+void create_x_coordinates(double *indata, int mr, int mc, double cellsize, double xll) {
 	int i, j, r;
-	for (i = 0; i<mr; i++){
-		for (j = 0; j<mc; j++){
-			r = i*mc + j;
+	for (i = 0; i<mr; i++) {
+		for (j = 0; j<mc; j++) {
+			r = i * mc + j;
 			indata[r] = xll + (double)j*cellsize;
 			//printf("\n longitude %f \n",indata[r]);
 
@@ -32,11 +32,11 @@ void create_x_coordinates(double *indata, int mr, int mc, double cellsize, doubl
 	return;
 }
 
-void create_y_coordinates(double *indata, int mr, int mc, double cellsize, double yll){
+void create_y_coordinates(double *indata, int mr, int mc, double cellsize, double yll) {
 	int i, j, r;
-	for (i = 0; i<mr; i++){
-		for (j = 0; j<mc; j++){
-			r = i*mc + j;
+	for (i = 0; i<mr; i++) {
+		for (j = 0; j<mc; j++) {
+			r = i * mc + j;
 			indata[r] = yll + (double)(mr - i - 1)*cellsize;
 		}
 	}
@@ -47,25 +47,25 @@ void create_y_coordinates(double *indata, int mr, int mc, double cellsize, doubl
 //===============================================================================================================================
 //        input_ascii_int() - input an ascii image into an interger array using the (row, col) coordinates maxr and maxc.
 //===============================================================================================================================
-void input_ascii_int(int *indata, char *filename, int mc, int mr, int arc_flag){
+void input_ascii_int(int *indata, char *filename, int mc, int mr, int arc_flag) {
 	FILE *in1;
 	int  r;
 	int max;
 	void    pause();
 
 	max = 0;
-	if ((in1 = fopen(filename, "r")) == NULL){
+	if ((in1 = fopen(filename, "r")) == NULL) {
 		printf("cannot open file %s\n", filename);
 		pause();
 	}
 	else {
 		/* skip header */
 		if (arc_flag == 0)
-		for (r = 0; r < LEN_GRASSHEADER; r++)
-			fscanf(in1, "%*s");
+			for (r = 0; r < LEN_GRASSHEADER; r++)
+				fscanf(in1, "%*s");
 		else
-		for (r = 0; r < LEN_ARCHEADER; r++)
-			fscanf(in1, "%*s");
+			for (r = 0; r < LEN_ARCHEADER; r++)
+				fscanf(in1, "%*s");
 
 		for (r = 0; r < mr*mc; r++) {
 			fscanf(in1, "%d", &indata[r]);
@@ -92,18 +92,18 @@ void input_ascii_float(float *indata, char *filename, int mc, int mr, int arc_fl
 	void    pause();
 
 	max = 0;
-	if ((in1 = fopen(filename, "r")) == NULL){
+	if ((in1 = fopen(filename, "r")) == NULL) {
 		printf("cannot open file %s\n", filename);
 		pause();
 	}
 	else {
 		/* skip header */
 		if (arc_flag == 0)
-		for (r = 0; r < LEN_GRASSHEADER; r++)
-			fscanf(in1, "%*s");
+			for (r = 0; r < LEN_GRASSHEADER; r++)
+				fscanf(in1, "%*s");
 		else
-		for (r = 0; r < LEN_ARCHEADER; r++)
-			fscanf(in1, "%*s");
+			for (r = 0; r < LEN_ARCHEADER; r++)
+				fscanf(in1, "%*s");
 
 		for (r = 0; r < mr*mc; r++) {
 			fscanf(in1, "%f", &indata[r]);
@@ -124,13 +124,13 @@ void input_ascii_float(float *indata, char *filename, int mc, int mr, int arc_fl
 //===============================================================================================================================
 //        input_header() - input information (row, col) from [root].header
 //===============================================================================================================================
-void input_header(int maxr, int maxc, char *fndem, int arc_flag){
+void input_header(int maxr, int maxc, char *fndem, int arc_flag) {
 	FILE  *in1;
 	char tmp[100];
 	int i;
 	void    header_help(int, int, char*);
 
-	if ((in1 = fopen(fndem, "r")) == NULL){
+	if ((in1 = fopen(fndem, "r")) == NULL) {
 		fprintf(stderr, "cannot open file %s\n\n", fndem);
 		header_help(maxr, maxc, fndem);
 	}
@@ -152,7 +152,7 @@ void input_header(int maxr, int maxc, char *fndem, int arc_flag){
 //        header_help() - inform user they need a [root].header file
 //===============================================================================================================================
 
-void header_help(int maxr, int maxc, char *fnhdr){
+void header_help(int maxr, int maxc, char *fnhdr) {
 	FILE  *in1;
 
 	fprintf(stderr, "\n\n I cannot open the .hdr file to retreive the row and\n");
@@ -179,7 +179,7 @@ void header_help(int maxr, int maxc, char *fnhdr){
 //        input_prompt() - input root filename, create full filenames
 //===============================================================================================================================
 void	read_images(struct patch_object *patch, int rows, int cols, double cellsize, double xll, double yll,
-	char *filename, char *prefix, int f_flag, int arc_flag){
+	char *filename, char *prefix, int f_flag, int arc_flag, int num_patches) {
 
 	// filenames for each image and file
 	char  fnpatch[MAXS], fndem[MAXS], fnslope[MAXS], fnaspect[MAXS], fneast_horizon[MAXS], fnwest_horizon[MAXS];
@@ -197,7 +197,7 @@ void	read_images(struct patch_object *patch, int rows, int cols, double cellsize
 	int          *pveg;
 	int		     *pstream;
 	//xu.
-	int			*pstreamorder; 
+	int			*pstreamorder;
 	int			*pbasins;
 
 	int          *proads;
@@ -225,6 +225,7 @@ void	read_images(struct patch_object *patch, int rows, int cols, double cellsize
 	strcpy(fnveg, filename);
 	strcpy(fnstream, filename);
 	strcpy(fnroads, filename);
+	
 	//xu.
 	strcpy(fnstreamorder, filename);
 	strcpy(fnbasins, filename);
@@ -240,6 +241,7 @@ void	read_images(struct patch_object *patch, int rows, int cols, double cellsize
 	strcat(fnveg, ".veg");
 	strcat(fnstream, ".stream");
 	strcat(fnroads, ".road");
+	
 	//xu.
 	strcat(fnstreamorder, ".streamorder");
 	strcat(fnbasins, ".basins");
@@ -247,64 +249,75 @@ void	read_images(struct patch_object *patch, int rows, int cols, double cellsize
 	input_header(rows, cols, fndem, arc_flag);
 
 	// allocate and read input map images
-	ppatch = (int *)malloc(rows*cols*sizeof(int));
+	ppatch = (int *)malloc(rows*cols * sizeof(int));
 	input_ascii_int(ppatch, fnpatch, rows, cols, arc_flag);
 
-	plon = (double *)malloc(rows*cols*sizeof(double));
+	plon = (double *)malloc(rows*cols * sizeof(double));
 	create_x_coordinates(plon, rows, cols, cellsize, xll);
 
-	plat = (double *)malloc(rows*cols*sizeof(double));
+	plat = (double *)malloc(rows*cols * sizeof(double));
 	create_y_coordinates(plat, rows, cols, cellsize, yll);
 
-	pdem = (float *)malloc(rows*cols*sizeof(float));
+	pdem = (float *)malloc(rows*cols * sizeof(float));
 	input_ascii_float(pdem, fndem, rows, cols, arc_flag);
 
-	pslope = (float *)malloc(rows*cols*sizeof(float));
+	pslope = (float *)malloc(rows*cols * sizeof(float));
 	input_ascii_float(pslope, fnslope, rows, cols, arc_flag);
 
-	paspect = (float *)malloc(rows*cols*sizeof(float));
+	paspect = (float *)malloc(rows*cols * sizeof(float));
 	input_ascii_float(paspect, fnaspect, rows, cols, arc_flag);
 
-	peast_horizon = (float *)malloc(rows*cols*sizeof(float));
+	peast_horizon = (float *)malloc(rows*cols * sizeof(float));
 	input_ascii_float(peast_horizon, fneast_horizon, rows, cols, arc_flag);
 
-	pwest_horizon = (float *)malloc(rows*cols*sizeof(float));
+	pwest_horizon = (float *)malloc(rows*cols * sizeof(float));
 	input_ascii_float(pwest_horizon, fnwest_horizon, rows, cols, arc_flag);
 
-	psoil = (int *)malloc(rows*cols*sizeof(int));
+	psoil = (int *)malloc(rows*cols * sizeof(int));
 	input_ascii_int(psoil, fnsoil, rows, cols, arc_flag);
 
-	pveg = (int *)malloc(rows*cols*sizeof(int));
+	pveg = (int *)malloc(rows*cols * sizeof(int));
 	input_ascii_int(pveg, fnveg, rows, cols, arc_flag);
 
-	pstream = (int *)malloc(rows*cols*sizeof(int));
+	pstream = (int *)malloc(rows*cols * sizeof(int));
 	input_ascii_int(pstream, fnstream, rows, cols, arc_flag);
-	proads = (int *)malloc(rows*cols*sizeof(int));
+	proads = (int *)malloc(rows*cols * sizeof(int));
 	input_ascii_int(proads, fnroads, rows, cols, arc_flag);
 
 	//xu.
-	pstreamorder = (int *)malloc(rows*cols*sizeof(int));
+	pstreamorder = (int *)malloc(rows*cols * sizeof(int));
 	input_ascii_int(pstreamorder, fnstreamorder, rows, cols, arc_flag);
 	pbasins = (int *)malloc(rows*cols * sizeof(int));
 	input_ascii_int(pbasins, fnbasins, rows, cols, arc_flag);
 
-	for (i = 0; i<rows*cols; i++){
-		patch[i].ID = ppatch[i];
-		patch[i].x = plon[i];
-		patch[i].y = plat[i];
-		patch[i].z = pdem[i];
-		patch[i].slope = pslope[i];
-		patch[i].aspect = paspect[i];
-		patch[i].e_horizon = peast_horizon[i];
-		patch[i].w_horizon = pwest_horizon[i];
-		patch[i].stream = pstream[i];
-		//xu.
-		patch[i].streamorder = pstreamorder[i];
-		patch[i].basins = pbasins[i];
+	printf("\n");
+	//---------------------------------------------------------------------------------------------------------------------------
+	//xu. MATCH PATHES WITH THEIR GEO IMAGIES
+	//---------------------------------------------------------------------------------------------------------------------------
+	for (int patch_inx = 0; patch_inx < num_patches; patch_inx++) {
+		for (int imag_inx = 0; imag_inx < cols*rows; imag_inx++) {
 
-		patch[i].road = proads[i];
-		patch[i].vegtype = pveg[i];
-		patch[i].soiltype = psoil[i];
+			if (patch[patch_inx].ID == ppatch[imag_inx]) {
+				patch[patch_inx].ID = ppatch[imag_inx];
+				patch[patch_inx].x = plon[imag_inx];
+				patch[patch_inx].y = plat[imag_inx];
+				patch[patch_inx].z = pdem[imag_inx];
+				patch[patch_inx].slope = pslope[imag_inx];
+				patch[patch_inx].aspect = paspect[imag_inx];
+				patch[patch_inx].e_horizon = peast_horizon[imag_inx];
+				patch[patch_inx].w_horizon = pwest_horizon[imag_inx];
+				patch[patch_inx].stream = pstream[imag_inx];
+
+				//xu.
+				patch[patch_inx].streamorder = pstreamorder[imag_inx];
+				patch[patch_inx].basins = pbasins[imag_inx];
+
+				patch[patch_inx].road = proads[imag_inx];
+				patch[patch_inx].vegtype = pveg[imag_inx];
+				patch[patch_inx].soiltype = psoil[imag_inx];
+				break;
+			}
+		}
 	}
 
 	free(ppatch);
@@ -316,13 +329,16 @@ void	read_images(struct patch_object *patch, int rows, int cols, double cellsize
 	free(psoil);
 	free(pveg);
 	free(pstream);
+	
 	//xu.
 	free(pstreamorder);
+	free(pbasins);
 
 	free(proads);
 	free(plon);
 	free(plat);
 
+	printf("\nFinishing reading_geo_images.cpp\n");
 	return;
 }
 
