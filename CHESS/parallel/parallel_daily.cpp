@@ -15,7 +15,7 @@ using namespace std;
 void		parallel_daily(struct 	patch_object *patch,
 	struct 	command_line_object *command_line,
 	struct	date 			current_date,
-	struct  daily_clim_object daily_clim,
+	struct  daily_clim_object *daily_clim,
 	int patch_pch[][patch_num],
 	int thread_patch_num[],
 	int thread_inx
@@ -38,7 +38,7 @@ void		parallel_daily(struct 	patch_object *patch,
 		//Computation of Daylength, FieldCapacity, Capillary Rise, Max Exfiltration Rate,
 		//Cycles in Canopy layers, Soil water potential
 		//---------------------------------------------------------------------------------------------------------------------------
-		patch_daily_I(&patch[pch], daily_clim, command_line, current_date);
+		patch_daily_I(&patch[pch], daily_clim[thread_inx], command_line, current_date);
 
 		//---------------------------------------------------------------------------------------------------------------------------
 		//Kdirect and Kdiffuse

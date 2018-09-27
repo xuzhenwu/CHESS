@@ -112,7 +112,7 @@ int	main(int main_argc, char **main_argv)
 	//xu. for lower use memory we use patch_num instead of cols*rows
 	//only 1/4 memory are needed now
 	struct patch_object *patch = new struct patch_object[patch_num]{};
-	struct  daily_clim_object *daily_clim = new struct daily_clim_object;//change it as a pointer
+	struct  daily_clim_object *daily_clim = new struct daily_clim_object[basin_num]{};//change it as a pointer
 
 	//xu. parallel
 	int(*patch_pch)[patch_num] = new int[thread_num][patch_num]{};//storage of pch to each thread
@@ -226,7 +226,7 @@ int	main(int main_argc, char **main_argv)
 					//---------------------------------------------------------------------------------------------------------------------------
 					//xu. LAND.. Initial and run parallel CHESS daily Ecohydrological process and Transport of water and nutrients
 					//---------------------------------------------------------------------------------------------------------------------------
-					chess_land_daily(patch, command_line, current_date, *daily_clim, num_patches, patch_pch, thread_patch_num);//daily_clim is a pointer now, the changes through out chess land daily 
+					chess_land_daily(patch, command_line, current_date, daily_clim, num_patches, patch_pch, thread_patch_num);//daily_clim is a pointer now, the changes through out chess land daily 
 
 					//---------------------------------------------------------------------------------------------------------------------------
 					//xu. CHANNEL.. Channel flow routing process the route out the water

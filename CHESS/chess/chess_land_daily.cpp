@@ -15,7 +15,7 @@ using namespace std;
 void  chess_land_daily(struct patch_object *patch,
 	struct 	command_line_object *command_line,
 	struct	date 			current_date,
-	struct  daily_clim_object daily_clim,
+	struct  daily_clim_object *daily_clim,
 	int num_patches,
 	int patch_pch[][patch_num],
 	int thread_patch_num[]

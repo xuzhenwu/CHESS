@@ -41,7 +41,7 @@ int read_record(FILE *, char *);
 void init_phenology_object(patch_object *, int);
 
 //xu. parallel
-void	parallel_daily(struct patch_object *patch, struct command_line_object *command_line, struct	date current_date, struct  daily_clim_object daily_clim,
+void	parallel_daily(struct patch_object *patch, struct command_line_object *command_line, struct	date current_date, struct  daily_clim_object *daily_clim,
 	int patch_pch[][patch_num], int thread_patch_num[], int thread_inx);
 void	parallel_basins_pches(struct 	patch_object *patch, int patch_pch[][patch_num], int thread_patch_num[]);
 
@@ -51,7 +51,7 @@ void    chess_climate_daily(struct input_Clim_Files, struct date, struct  daily_
 
 //LAND
 void	chess_land_daily(struct 	patch_object *patch, struct 	command_line_object *command_line, struct date current_date,
-	struct  daily_clim_object daily_clim, int num_patches, int patch_pch[][patch_num], int thread_patch_num[]);
+	struct  daily_clim_object *daily_clim, int num_patches, int patch_pch[][patch_num], int thread_patch_num[]);
 
 //CHANNEL
 void    chess_channel_daily(struct patch_object *, struct reservoir_object, struct command_line_object *, struct	date, int, double);

@@ -553,7 +553,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	}
 
 
-	printf("\nFinishing initialization of all parameter :: construct_patch.cpp  \n");
+	printf("\nFinishing initialization of all parameter in construct_patch.cpp  \n");
 
 	return;
 };
