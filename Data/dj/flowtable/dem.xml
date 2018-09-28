@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xml:lang="zh"><Esri><CreaDate>20180920</CreaDate><CreaTime>16045700</CreaTime><ArcGISFormat>1.0</ArcGISFormat><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Conversion Tools.tbx\RasterToASCII" Date="20180920" Time="160457">RasterToASCII DEM_mask2_Resample_500m I:\NSEC\Dongjiang\flowtable\dem.TXT</Process></lineage></DataProperties></Esri></metadata>

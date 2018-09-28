@@ -58,7 +58,6 @@
 
 using namespace std;
 
-//no means xu.
 
 //=======================================================================================================================
 //GLOBAL VARS TO BE DEFINED
@@ -87,11 +86,11 @@ bool      spin_flag = true;
 
 // define the input file prefix and paths for model forcing data
 char  prefix[20] = "dj";
-char  inDefFile[120] = { "I://NSEC//Data//CHESS//dj//defs//" };
-char  inImgFile[120] = { "I://NSEC//Data//CHESS//dj//flowtable//" };
-char  inFlowFile[120] = { "I://NSEC//Data//CHESS//dj//flowtable//" };
-char  inClimPath[120] = { "I://NSEC//Data//CHESS//dj//climate//" };
-char  outPutPath[120] = { "I://NSEC//Data//CHESS//dj//out//" };
+char  inDefFile[120] = { "D://xu//CHESS//Data//dj//defs//" };
+char  inImgFile[120] = { "D://xu//CHESS//Data//dj//flowtable//" };
+char  inFlowFile[120] = { "D://xu//CHESS//Data//dj//flowtable//" };
+char  inClimPath[120] = { "D://xu//CHESS//Data//dj//climate//" };
+char  outPutPath[120] = { "D://xu//CHESS//Data//dj//out//" };
 char  FlowTableName[40] = "dj_flow_table_RMD_inf.dat";
 
 
