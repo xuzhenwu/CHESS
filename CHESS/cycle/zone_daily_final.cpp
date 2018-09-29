@@ -75,16 +75,14 @@
 //	added parameters for snow/rain transition		
 //===============================================================================================================================
 #include <stdio.h>
-
 #include <iostream>
-
 #include <math.h>
 #include "CHESS.h"
 #include "Constants.h"
 using namespace std;
 
 
-void		zone_daily_F(struct 	patch_object 	*patch, struct command_line_object *command_line,
+void	zone_daily_final(struct 	patch_object 	*patch, struct command_line_object *command_line,
 						struct 	date 	current_date)
 {
 	//===========================================================================================================================

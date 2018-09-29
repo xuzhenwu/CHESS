@@ -20,206 +20,16 @@
 #include <stdio.h>
 #include <math.h>
 #include "CHESS.h"
+#include "Functions.h"
 #include "Constants.h"
 #include <iostream>
 using namespace std;
 
 
-void		patch_daily_F(struct 	patch_object *patch,
+void	patch_daily_final (struct 	patch_object *patch,
 						  struct 	command_line_object *command_line,
-						  struct	date 			current_date)
+						  struct	date   current_date)
 {
-	//--------------------------------------------------------------------------------------------------------------------------
-	//	Local Function Declarations.
-	//--------------------------------------------------------------------------------------------------------------------------
-	void zone_daily_F(struct patch_object *,struct command_line_object *,struct date);
-	void compute_Lstar(struct patch_object *);
-	double compute_delta_water(int, double, double,	double, double, double);
-
-
-	double compute_layer_field_capacity(
-		int,
-		int,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double);
-
-	void canopy_stratum_daily_F(
-		struct patch_object *,
-		struct layer_object *,
-		struct canopy_strata_object *,
-		struct command_line_object *,
-		struct date);
-
-	void   surface_daily_F(
-		struct patch_object *,
-		struct command_line_object *,
-		struct date);
-
-	double	snowpack_daily_F (
-		struct date,
-		int,
-		struct	snowpack_object	*,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double *,
-		double *,
-		double *,
-		double *,
-		double,
-		double,
-		double,
-		double,
-		double);
-
-	double	compute_infiltration(
-		int,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double);
-
-	double  compute_surface_heat_flux(
-		int,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double);
-
-	double	compute_unsat_zone_drainage(
-		int,
-		int,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double);
-
-	double  compute_radiative_fluxes(
-		int,
-		double *,
-		double,
-		double,
-		double);
-
-
-//--------------------------------------------
-//		double  compute_stability_correction(
-//		int ,
-//		double,
-//		double,
-//		double,
-//		double,
-//		double,
-//		double);
-//	----------------------------------------
-
-	double  compute_z_final(
-		int,
-		double,
-		double,
-		double,
-		double,
-		double);
-
-	void 	check_zero_stores(
-		struct  soil_c_object   *,
-		struct  soil_n_object   *,
-		struct  litter_c_object *,
-		struct  litter_n_object *
-		);
-
-	void	update_decomp(
-		struct	date,
-		struct  soil_c_object   *,
-		struct  soil_n_object   *,
-		struct  litter_c_object *,
-		struct  litter_n_object *,
-		struct cdayflux_patch_struct *,
-		struct ndayflux_patch_struct *,
-		struct patch_object *);
-
-	void	update_dissolved_organic_losses(
-		struct	date,
-		double,
-		struct  soil_c_object   *,
-		struct  soil_n_object   *,
-		struct  litter_c_object *,
-		struct  litter_n_object *,
-		struct cdayflux_patch_struct *,
-		struct ndayflux_patch_struct *);
-
-	void	update_septic(
-		struct	date,
-		struct  patch_object   *);
-
-	void	update_nitrif(
-		struct  soil_c_object   *,
-		struct  soil_n_object   *,
-		struct cdayflux_patch_struct *,
-		struct ndayflux_patch_struct *,
-		struct soil_class,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double);
-
-	void	update_denitrif(
-		struct  soil_c_object   *,
-		struct  soil_n_object   *,
-		struct cdayflux_patch_struct *,
-		struct ndayflux_patch_struct *,
-		struct soil_class,
-		double,
-		double);
-
-	int	resolve_sminn_competition(
-		struct  soil_n_object   *,
-		double, double,
-		struct ndayflux_patch_struct *);
-
-	void   canopy_stratum_growth(
-		struct patch_object *,
-		struct canopy_strata_object *,
-		struct command_line_object *,
-		struct date);
-
-	void update_gw_drainage(
-			struct patch_object *,
-			struct command_line_object *,
-			struct date);
-
-	long julday( struct date);
-
-	void compute_ground_water_loss(
-			struct	patch_object *,
-			struct 	command_line_object *,
-			struct 	date );
-
 	//--------------------------------------------------------------------------------------------------------------------------
 	//  Local variable definition.
 	//--------------------------------------------------------------------------------------------------------------------------
@@ -255,7 +65,7 @@ void		patch_daily_F(struct 	patch_object *patch,
 	// Zone_daily_F
 	// Daylength, Radiation, Rain_duration
 	//---------------------------------------------------------------------------------------------------------------------------
-	zone_daily_F(patch,command_line,current_date);
+	zone_daily_final(patch,command_line,current_date);
 	
 	//--------------------------------------------------------------------------------------------------------------------------
 	//	Set the patch rain and snow throughfall equivalent to the rain and snow coming down over the zone.

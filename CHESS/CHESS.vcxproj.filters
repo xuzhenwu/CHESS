@@ -287,9 +287,6 @@
     <ClCompile Include="chess\chess_land_daily.cpp">
       <Filter>源文件\chess</Filter>
     </ClCompile>
-    <ClCompile Include="init\assign_neighbours.cpp">
-      <Filter>源文件\init</Filter>
-    </ClCompile>
     <ClCompile Include="init\construct_channel_default.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
@@ -317,9 +314,6 @@
     <ClCompile Include="init\File_IO.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
-    <ClCompile Include="init\Init_patch_object.cpp">
-      <Filter>源文件\init</Filter>
-    </ClCompile>
     <ClCompile Include="init\open_climat_files.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
@@ -333,9 +327,6 @@
       <Filter>源文件\init</Filter>
     </ClCompile>
     <ClCompile Include="init\read_daily_climatedata.cpp">
-      <Filter>源文件\init</Filter>
-    </ClCompile>
-    <ClCompile Include="init\Construct_canopy_strata.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
     <ClCompile Include="clim\compute_atm_pres.cpp">
@@ -356,22 +347,7 @@
     <ClCompile Include="cycle\initialize_phenology_object.cpp">
       <Filter>源文件\cycle</Filter>
     </ClCompile>
-    <ClCompile Include="cycle\patch_daily_F_new.cpp">
-      <Filter>源文件\cycle</Filter>
-    </ClCompile>
-    <ClCompile Include="cycle\patch_daily_I.cpp">
-      <Filter>源文件\cycle</Filter>
-    </ClCompile>
-    <ClCompile Include="cycle\patch_hourly_new.cpp">
-      <Filter>源文件\cycle</Filter>
-    </ClCompile>
     <ClCompile Include="cycle\surface_daily_F.cpp">
-      <Filter>源文件\cycle</Filter>
-    </ClCompile>
-    <ClCompile Include="cycle\zone_daily_F.cpp">
-      <Filter>源文件\cycle</Filter>
-    </ClCompile>
-    <ClCompile Include="cycle\zone_daily_I.cpp">
       <Filter>源文件\cycle</Filter>
     </ClCompile>
     <ClCompile Include="output\close_patch_output_files.cpp">
@@ -470,8 +446,29 @@
     <ClCompile Include="parallel\parallel_basins_pches.cpp">
       <Filter>源文件\parallel</Filter>
     </ClCompile>
-    <ClCompile Include="parallel\parallel_daily.cpp">
+    <ClCompile Include="parallel\parallel_land_daily.cpp">
       <Filter>源文件\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\patch_daily_initial.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\patch_daily_final.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\patch_radiation_daily.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\zone_daily_final.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\zone_daily_initial.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="init\zero_patch_object.cpp">
+      <Filter>源文件\cycle</Filter>
+    </ClCompile>
+    <ClCompile Include="init\construct_canopy_strata.cpp">
+      <Filter>源文件\init</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

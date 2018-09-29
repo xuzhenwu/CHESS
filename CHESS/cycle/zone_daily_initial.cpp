@@ -59,7 +59,7 @@
 using std::cout;
 using std::endl;
 
-void zone_daily_I(struct 	patch_object 	*patch,struct    daily_clim_object daily_clim,
+void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object daily_clim,
 				  struct 	command_line_object *command_line, struct 	date 	current_date)
 {
 	//=====================================================================================================================================

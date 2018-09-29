@@ -14,122 +14,16 @@
 #include <iostream>
 #include <math.h>
 #include "CHESS.h"
+#include "Functions.h"
 #include "Constants.h"
 
 using namespace std;
 
-void		patch_daily_I(struct patch_object *patch,
+void		patch_daily_initial(struct patch_object *patch,
 						  struct daily_clim_object daily_clim,
 						  struct command_line_object *command_line,
 						  struct	date current_date)
 {
-	//---------------------------------------------------------------------------------------------------------------------------
-	//  Local Function Declarations.                                
-	//---------------------------------------------------------------------------------------------------------------------------
-	void   canopy_stratum_daily_I(
-		struct	patch_object *,
-		struct canopy_strata_object *,
-		struct command_line_object *,
-		struct date);
-	
-	double	compute_layer_field_capacity(
-		int,
-		int,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double);
-	
-	
-	double	compute_delta_water(
-		int,
-		double,
-		double,
-		double,
-		double,
-		double);
-
-	double	compute_z_final(
-		int,
-		double,
-		double,
-		double,
-		double,
-		double);
-
-	//int	update_rootzone_moist(
-	//	struct patch_object	*,
-	//	struct	rooting_zone_object	*,
-	//	struct command_line_object *);
-	
-	double	compute_capillary_rise(
-		int,
-		double,
-		double,
-		double,
-		double,
-		double);
-
-
-	double  compute_potential_exfiltration(
-		int,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double);
-	
-	double  compute_soil_water_potential(
-		int,
-		int,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double,
-		double);
-	
-	int  compute_potential_decomp(
-		double,
-		double,
-		double,
-		double,
-		double,
-		struct  soil_c_object   *,
-		struct  soil_n_object   *,
-		struct  litter_c_object *,
-		struct  litter_n_object *,
-		struct  cdayflux_patch_struct *,
-		struct  ndayflux_patch_struct *);
-	
-	void    sort_patch_layers(struct patch_object *);
-	
-	void	zero_patch_daily_flux(
-		struct	patch_object *,
-		struct  cdayflux_patch_struct *,
-		struct  ndayflux_patch_struct *);
-	
-	void	update_litter_interception_capacity(
-		double,
-		struct  litter_c_object *,
-		struct  litter_object *);
-	
-
-   void zone_daily_I(
-				  struct 	patch_object 	*patch,
-				  struct    daily_clim_object daily_clim,
-				  struct 	command_line_object *command_line,
-				  struct 	date 	current_date);
-
 	//---------------------------------------------------------------------------------------------------------------------------
 	//  Local variable definition.                                  
 	//---------------------------------------------------------------------------------------------------------------------------
@@ -151,7 +45,7 @@ void		patch_daily_I(struct patch_object *patch,
 
 
 	//===========================================================================================================================
-	//First calculate  the length of day
+	//First calculate the length of day
 	//---------------------------------------------------------------------------------------------------------------------------
 	//  Compute the solar constant. Total broadband solar flux (W/m2)                           
 	//  Look up table of values based on C version of Rhessys. 
@@ -205,11 +99,8 @@ void		patch_daily_I(struct patch_object *patch,
 	//===========================================================================================================================
 	// Calculate daily meteorological variables, include critical + uncritical
 	//---------------------------------------------------------------------------------------------------------------------------
-	zone_daily_I(patch,daily_clim,command_line,current_date);
+	zone_daily_initial(patch,daily_clim,command_line,current_date);
 	
-
-	//===========================================================================================================================
-	//We put patch_hourly here because it should calculate 
 	//===========================================================================================================================
 	//	initialzie (zero out) daily Carbon and Nitrogen fluxes		
 	//---------------------------------------------------------------------------------------------------------------------------

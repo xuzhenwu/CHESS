@@ -1,8 +1,8 @@
 #include <stdio.h>
-
+#include "Functions.h"
 #include "CHESS.h"
 
-void init_patch_object(struct patch_object *patch){
+void zero_patch_object(struct patch_object *patch){
 
 	
 		
@@ -27,7 +27,7 @@ void init_patch_object(struct patch_object *patch){
 		patch->surface_NO3          = 0.0;
 		patch->surface_NH4          = 0.0;
 		patch->NO3_leached          = 0.0;
-		/* kg/m2/day 	*/\
+		/* kg/m2/day 	*/
 	
 		patch->subsurface_leach_NO3_out=0.;   /* kg/m2/day 	*/
 		patch->surface_leach_NO3_out=0.;      /* kg/m2/day 	*/
@@ -90,6 +90,8 @@ void init_patch_object(struct patch_object *patch){
 		patch->PAR_direct = 0.;
 		patch->Kdown_diffuse = 0.;
 		patch->Kdown_direct = 0.;
+
+	
 	
 	return;
 }

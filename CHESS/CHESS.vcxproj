@@ -73,12 +73,12 @@
     </ClCompile>
     <ClCompile Include="cycle\canopy_stratum_growth.cpp" />
     <ClCompile Include="cycle\initialize_phenology_object.cpp" />
-    <ClCompile Include="cycle\patch_daily_F_new.cpp" />
-    <ClCompile Include="cycle\patch_daily_I.cpp" />
-    <ClCompile Include="cycle\patch_hourly_new.cpp" />
+    <ClCompile Include="cycle\patch_daily_final.cpp" />
+    <ClCompile Include="cycle\patch_daily_initial.cpp" />
+    <ClCompile Include="cycle\patch_radiation_daily.cpp" />
     <ClCompile Include="cycle\surface_daily_F.cpp" />
-    <ClCompile Include="cycle\zone_daily_F.cpp" />
-    <ClCompile Include="cycle\zone_daily_I.cpp" />
+    <ClCompile Include="cycle\zone_daily_final.cpp" />
+    <ClCompile Include="cycle\zone_daily_initial.cpp" />
     <ClCompile Include="hydro\compute_capillary_rise.cpp" />
     <ClCompile Include="hydro\compute_delta_water.cpp" />
     <ClCompile Include="hydro\compute_field_capacity.cpp" />
@@ -114,8 +114,7 @@
     <ClCompile Include="hydro\update_gw_drainage.cpp" />
     <ClCompile Include="hydro\update_litter_interception_capacity.cpp" />
     <ClCompile Include="hydro\zero_patch_daily_flux.cpp" />
-    <ClCompile Include="init\assign_neighbours.cpp" />
-    <ClCompile Include="init\Construct_canopy_strata.cpp" />
+    <ClCompile Include="init\construct_canopy_strata.cpp" />
     <ClCompile Include="init\construct_channel_default.cpp" />
     <ClCompile Include="init\construct_command_line.cpp" />
     <ClCompile Include="init\construct_landuse_defaults.cpp" />
@@ -125,7 +124,7 @@
     <ClCompile Include="init\construct_soil_defaults.cpp" />
     <ClCompile Include="init\construct_stratum_defaults.cpp" />
     <ClCompile Include="init\File_IO.cpp" />
-    <ClCompile Include="init\Init_patch_object.cpp" />
+    <ClCompile Include="init\zero_patch_object.cpp" />
     <ClCompile Include="init\open_climat_files.cpp" />
     <ClCompile Include="init\parse_dyn_flag.cpp" />
     <ClCompile Include="init\parse_phenology_type.cpp" />
@@ -142,7 +141,7 @@
     <ClCompile Include="output\out_basin_level_daily.cpp" />
     <ClCompile Include="output\out_patch_level_daily.cpp" />
     <ClCompile Include="parallel\parallel_basins_pches.cpp" />
-    <ClCompile Include="parallel\parallel_daily.cpp" />
+    <ClCompile Include="parallel\parallel_land_daily.cpp" />
     <ClCompile Include="rad\compute_diffuse_radiative_fluxes.cpp" />
     <ClCompile Include="rad\compute_diffuse_radiative_PAR_fluxes.cpp" />
     <ClCompile Include="rad\compute_direct_radiative_fluxes.cpp" />
