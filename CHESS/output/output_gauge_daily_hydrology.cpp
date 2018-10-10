@@ -158,9 +158,9 @@ void	output_gauge_daily_hydrology(struct	patch_object *patch,
 	fprintf(outfile, "%9.3f", CaInSnow *1000.);
 
 	//xu. m^3/day
-	fprintf(outfile, "%9.3f", (astreamflow)*pow(cellsize, 2) / 1000000); //+ gw_discharge
-	fprintf(outfile, "%9.3f", (abase_flow) *pow(cellsize, 2) / 1000000); //+ gw_discharge
-	fprintf(outfile, "%9.3f", areturn_flow *pow(cellsize, 2) / 1000000);
+	fprintf(outfile, "%9.3f", (astreamflow)*pow(cellsize, 2) / seconds_per_day); //+ gw_discharge
+	fprintf(outfile, "%9.3f", (abase_flow) *pow(cellsize, 2) / seconds_per_day); //+ gw_discharge
+	fprintf(outfile, "%9.3f", areturn_flow *pow(cellsize, 2) / seconds_per_day);
 	fprintf(outfile, "%9.3f", apet *1000.);
 	fprintf(outfile, "%9.3f", aaet *1000.);
 	fprintf(outfile, "%9.3f", atranspiration *1000.);
