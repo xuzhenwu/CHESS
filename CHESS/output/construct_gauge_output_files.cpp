@@ -5,7 +5,7 @@
 using namespace std;
 
 //struct output_hydro_plant construct_output_files(int start_year,int end_year,
-void construct_gauge_output_files(char *outPutPath, struct output_hydro_plant *DM_outfiles,
+void construct_gauge_output_files(struct patch_object *patch,char *outPutPath, struct output_hydro_plant *DM_outfiles,
 	struct command_line_object *command_line,
 	int *gauge_list
 )
@@ -33,7 +33,7 @@ void construct_gauge_output_files(char *outPutPath, struct output_hydro_plant *D
 			strcat(outGDHfile[gauge_inx], "Gauge_daily_hydro_");
 			strcat(outGDGfile[gauge_inx], "Gauge_daily_plant_");
 
-			_itoa(gauge_list[gauge_inx], gauge_name, 10);
+			_itoa(patch[(gauge_list[gauge_inx])].ID, gauge_name, 10);
 
 			strcat(outGDHfile[gauge_inx], gauge_name);
 			strcat(outGDGfile[gauge_inx], gauge_name);

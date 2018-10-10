@@ -17,7 +17,7 @@ void    construct_patch_output_files(struct date, struct out_date_range, char *,
 void    close_patch_output_files(struct output_hydro_plant *);
 
 //xu.
-void	construct_gauge_output_files(char *outPutPath, struct output_hydro_plant *DM_outfiles, struct command_line_object *command_line,
+void	construct_gauge_output_files(struct patch_object *patch, char *outPutPath, struct output_hydro_plant *DM_outfiles, struct command_line_object *command_line,
 		int *gauge_list);
 
 int     end_day_norm_leap(int, int);

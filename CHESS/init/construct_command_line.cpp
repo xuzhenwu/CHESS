@@ -60,7 +60,7 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 	command_line->grow_flag = 0;
 	command_line->road_flag = 1;
 	command_line->verbose_flag = 0;
-	command_line->routing_flag = 0;
+	command_line->routing_flag = 1;
 	command_line->tec_flag = 0;
 	command_line->vmort_flag = 0;
 	command_line->gw_flag = 0;

@@ -81,7 +81,7 @@ struct out_date_range out_date = { 1961, 1961, 1, 12, 1, 31, 1, 24 };
 
 // define the number of spin years required for vegetation and soil carbon to reach the stable state with long-term
 // climatology. Spin interval is the period of input climate data used for spin-up simulations
-const int spin_years = 2, spin_interval = 2;
+const int spin_years = 20, spin_interval = 2;
 bool      spin_flag = true;
 
 // define the input file prefix and paths for model forcing data
@@ -164,7 +164,9 @@ int	main(int main_argc, char **main_argv)
 		if (spin_yrs<spin_years) { //&& command_line->grow_flag>0
 			endyear = start_year + spin_interval - 1;
 			spin_flag = true;
-			command_line->routing_flag = 0;
+
+			//spin_up needs routing_flag now for channel flow
+			command_line->routing_flag = 1;
 		}
 		else {
 			endyear = end_year;
@@ -181,14 +183,10 @@ int	main(int main_argc, char **main_argv)
 			}
 			//xu. gauge-level
 			if (!spin_flag && command_line->gg != NULL) {
-				construct_gauge_output_files(outPutPath, &DM_outfiles, command_line,gauge_list);
+				construct_gauge_output_files(patch,outPutPath, &DM_outfiles, command_line,gauge_list);
 			}
 			out_flag = 1;
 		}
-
-
-
-
 
 		//=======================================================================================================================
 		//xu. STARTING CHESS SIMULATION by YEAR, MON and DAY
