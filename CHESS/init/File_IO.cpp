@@ -179,11 +179,11 @@ void header_help(int maxr, int maxc, char *fnhdr) {
 //        input_prompt() - input root filename, create full filenames
 //===============================================================================================================================
 void	read_images(struct patch_object *patch, int rows, int cols, double cellsize, double xll, double yll,
-	char *filename, char *prefix, int f_flag, int arc_flag, int num_patches) {
+	char *filename, char *prefix, int f_flag, int arc_flag, int num_patches, int*gauge_list) {
 
 	// filenames for each image and file
 	char  fnpatch[MAXS], fndem[MAXS], fnslope[MAXS], fnaspect[MAXS], fneast_horizon[MAXS], fnwest_horizon[MAXS];
-	char  fnsoil[MAXS], fnveg[MAXS], fnstream[MAXS], fnroads[MAXS], fnstreamorder[MAXS], fnbasins[MAXS];
+	char  fnsoil[MAXS], fnveg[MAXS], fnstream[MAXS], fnroads[MAXS], fnstreamorder[MAXS], fnbasins[MAXS],fngauges[MAXS];
 
 
 	//File pointer
@@ -199,12 +199,12 @@ void	read_images(struct patch_object *patch, int rows, int cols, double cellsize
 	//xu.
 	int			*pstreamorder;
 	int			*pbasins;
+	int			*pgauges;
 
 	int          *proads;
 	double       *plon;
 	double       *plat;
 	int i;
-
 	//local functions
 	void    header_help(int, int, char*);
 	void	input_ascii_int(int *, char *, int, int, int);
@@ -229,6 +229,7 @@ void	read_images(struct patch_object *patch, int rows, int cols, double cellsize
 	//xu.
 	strcpy(fnstreamorder, filename);
 	strcpy(fnbasins, filename);
+	strcpy(fngauges, filename);
 
 	// append '.' extensions to each filename (these should be generalized) */
 	strcat(fnpatch, ".patch");
@@ -245,6 +246,7 @@ void	read_images(struct patch_object *patch, int rows, int cols, double cellsize
 	//xu.
 	strcat(fnstreamorder, ".streamorder");
 	strcat(fnbasins, ".basins");
+	strcat(fngauges, ".gauges");
 
 	input_header(rows, cols, fndem, arc_flag);
 
@@ -290,11 +292,15 @@ void	read_images(struct patch_object *patch, int rows, int cols, double cellsize
 	pbasins = (int *)malloc(rows*cols * sizeof(int));
 	input_ascii_int(pbasins, fnbasins, rows, cols, arc_flag);
 
+	pgauges = (int *)malloc(gauge_num * sizeof(int));
+	input_ascii_int(pgauges, fngauges, gauge_num, 1, arc_flag);
+
 	printf("\n");
 	//---------------------------------------------------------------------------------------------------------------------------
-	//xu. MATCH PATHES WITH THEIR GEO IMAGIES
+	//xu. 1.MATCH PATHES WITH THEIR GEO IMAGIES
 	//---------------------------------------------------------------------------------------------------------------------------
 	for (int patch_inx = 0; patch_inx < num_patches; patch_inx++) {
+		
 		for (int imag_inx = 0; imag_inx < cols*rows; imag_inx++) {
 
 			if (patch[patch_inx].ID == ppatch[imag_inx]) {
@@ -317,6 +323,21 @@ void	read_images(struct patch_object *patch, int rows, int cols, double cellsize
 				patch[patch_inx].soiltype = psoil[imag_inx];
 				break;
 			}
+		}
+	}
+	//---------------------------------------------------------------------------------------------------------------------------
+	//xu. 2.MATCH PATHES WITH GAUGE_LISTS
+	//---------------------------------------------------------------------------------------------------------------------------
+	for (int gauge_inx = 0; gauge_inx != gauge_num; gauge_inx++) {
+
+		gauge_list[gauge_inx] = pgauges[gauge_inx];
+
+		for (int patch_inx = 0; patch_inx != patch_num; patch_inx++) {
+		
+			if (patch[patch_inx].ID == gauge_list[gauge_inx]) {	//where the list was replaced with patch_inx
+				gauge_list[gauge_inx] = patch_inx;
+				break;
+			}	
 		}
 	}
 

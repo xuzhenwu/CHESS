@@ -90,7 +90,7 @@ char  inDefFile[120] = { "D://xu//CHESS//Data//dj//defs//" };
 char  inImgFile[120] = { "D://xu//CHESS//Data//dj//flowtable//" };
 char  inFlowFile[120] = { "D://xu//CHESS//Data//dj//flowtable//" };
 char  inClimPath[120] = { "D://xu//CHESS//Data//dj//climate//" };
-char  outPutPath[120] = { "D://xu//CHESS//Data//dj//out//" };
+char  outPutPath[120] = { "D://xu//OUT//CHESS//dj_500//" };
 char  FlowTableName[40] = "dj_flow_table_RMD_inf.dat";
 
 
@@ -118,7 +118,10 @@ int	main(int main_argc, char **main_argv)
 	//xu. parallel
 	int(*patch_pch)[patch_num] = new int[thread_num][patch_num]{};//storage of pch to each thread
 	int *thread_patch_num = new int[thread_num] {};//number of pches in each thread
-
+	
+	//gauge_lists of patchID for output
+	int		gauge_list[gauge_num]{};
+	
 	int     num_patches{}, kk = 0;
 	int     f_flag = 1, arc_flag = 1, CO2_flag = 1, out_flag = 0;
 	int     i = 0, j = 0, endyear = 0, spin_yrs = 0;
@@ -137,8 +140,8 @@ int	main(int main_argc, char **main_argv)
 	//xu. I sugguest should 1\ flow table then  2\construct patch and read images
 	num_patches = construct_routing_topology(patch, inFlowFile, FlowTableName, maxr, maxc);
 
-	//reading GRASS- or ArcInfo-based input images such as DEM,slope,aspect....stream,roads
-	read_images(patch, maxr, maxc, cellsize, xll, yll, inImgFile, prefix, f_flag, arc_flag,num_patches);
+	//reading GRASS- or ArcInfo-based input images such as DEM,slope,aspect....stream,roads, gauge_lists
+	read_images(patch, maxr, maxc, cellsize, xll, yll, inImgFile, prefix, f_flag, arc_flag,num_patches,gauge_list);
 
 	//Initialize the default values of patch fields/members
 	construct_patch(patch, command_line, maxr, maxc, inDefFile, prefix,num_patches);
@@ -169,11 +172,23 @@ int	main(int main_argc, char **main_argv)
 			command_line->routing_flag = 1;
 		}
 
-		//contruct basin-level daily output files
+		//contruct daily output files
 		if (!spin_flag && out_flag == 0){
-			construct_basin_output_files(outPutPath, &DM_outfiles, command_line);
+
+			//basin-level
+			if (!spin_flag && command_line->b != NULL) {
+				construct_basin_output_files(outPutPath, &DM_outfiles, command_line);
+			}
+			//xu. gauge-level
+			if (!spin_flag && command_line->gg != NULL) {
+				construct_gauge_output_files(outPutPath, &DM_outfiles, command_line,gauge_list);
+			}
 			out_flag = 1;
 		}
+
+
+
+
 
 		//=======================================================================================================================
 		//xu. STARTING CHESS SIMULATION by YEAR, MON and DAY
@@ -240,6 +255,8 @@ int	main(int main_argc, char **main_argv)
 							out_basin_level_daily(num_patches, patch, current_date, out_date, &DM_outfiles, command_line);
 						if (command_line->p != NULL)
 							out_patch_level_daily(num_patches, patch, current_date, out_date, &DM_outfiles, command_line);
+						if (command_line->gg != NULL)
+							out_gauge_level_daily(num_patches, patch, current_date, out_date, &DM_outfiles, command_line,gauge_list,cellsize);
 					}
 
 				}

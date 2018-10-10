@@ -470,6 +470,18 @@
     <ClCompile Include="init\construct_canopy_strata.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
+    <ClCompile Include="output\out_gauge_level_daily.cpp">
+      <Filter>源文件\output</Filter>
+    </ClCompile>
+    <ClCompile Include="output\construct_gauge_output_files.cpp">
+      <Filter>源文件\output</Filter>
+    </ClCompile>
+    <ClCompile Include="output\output_gauge_daily_hydrology.cpp">
+      <Filter>源文件\output</Filter>
+    </ClCompile>
+    <ClCompile Include="output\output_gauge_daily_growth.cpp">
+      <Filter>源文件\output</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="tec\R_RHESSys_info.txt">

@@ -9,5 +9,6 @@ void close_patch_output_files(struct output_hydro_plant *DM_outfiles)
 {
 	if(DM_outfiles->fPatchDailyHydro  !=NULL) fclose(DM_outfiles->fPatchDailyHydro);
 	if(DM_outfiles->fPatchDailyPlant  !=NULL) fclose(DM_outfiles->fPatchDailyPlant);
+
   // return (DM_outfiles);
 }

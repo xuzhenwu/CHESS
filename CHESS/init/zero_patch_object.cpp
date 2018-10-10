@@ -11,8 +11,7 @@ void zero_patch_object(struct patch_object *patch){
 		patch->unsat_storage_preday      = patch->unsat_storage; 
 		patch->sat_deficit_preday        = patch->sat_deficit;
 
-		//patch->streamflow           = 0.0;
-		//patch->base_flow            = 0.0;
+
 		patch->subsurface_Qout      = 0.0;
 		patch->subsurface_Qin       = 0.0;
 		patch->surface_Qout         = 0.0;
@@ -35,6 +34,7 @@ void zero_patch_object(struct patch_object *patch){
 		patch->surface_leach_NH4_out=0.;      /* kg/m2/day 	*/
 		patch->DON_loss = 0.0;
 		patch->DOC_loss = 0.0;
+
 		////////////////////////////////////////////
 		patch->canopy_strata->cdf.net_psn = 0.0;
 		patch->canopy_strata->cdf.cpool_deadcroot_gr=0.0;

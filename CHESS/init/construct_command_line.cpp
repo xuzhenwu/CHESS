@@ -66,6 +66,7 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 	command_line->gw_flag = 0;
 	command_line->b = NULL;
 	command_line->p = NULL;
+	command_line->gg = NULL;
 
 	
 	/*-------------------------------------------------*/
@@ -181,6 +182,18 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 				/*--------------------------------------------------------------*/
 				command_line->p = true;
 				i++;
+			} /*end if*/
+			
+			  
+			/*--------------------------------------------------------------*/
+			/*	xu.	Check if the gauge output flag is next.  			*/
+			/*--------------------------------------------------------------*/
+			else if (strcmp(main_argv[i], "-gg") == 0) {
+			/*--------------------------------------------------------------*/
+			/*			Allocate the patch output specifier.				*/
+			/*--------------------------------------------------------------*/
+			command_line->gg = true;
+			i++;
 			} /*end if*/
 			/*--------------------------------------------------------------*/
 			/*		the option must be invalid.								*/

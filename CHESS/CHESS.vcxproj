@@ -133,12 +133,16 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="output\close_patch_output_files.cpp" />
     <ClCompile Include="output\construct_basin_output_files.cpp" />
+    <ClCompile Include="output\construct_gauge_output_files.cpp" />
     <ClCompile Include="output\construct_patch_output_files.cpp" />
     <ClCompile Include="output\output_basin_daily_growth.cpp" />
     <ClCompile Include="output\output_basin_daily_hydrology.cpp" />
+    <ClCompile Include="output\output_gauge_daily_growth.cpp" />
+    <ClCompile Include="output\output_gauge_daily_hydrology.cpp" />
     <ClCompile Include="output\output_patch_daily_growth.cpp" />
     <ClCompile Include="output\output_patch_daily_hydrology.cpp" />
     <ClCompile Include="output\out_basin_level_daily.cpp" />
+    <ClCompile Include="output\out_gauge_level_daily.cpp" />
     <ClCompile Include="output\out_patch_level_daily.cpp" />
     <ClCompile Include="parallel\parallel_basins_pches.cpp" />
     <ClCompile Include="parallel\parallel_land_daily.cpp" />

@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "Constants.h"
 
 //===============================================================================================================================
 //	Define input climate files							
@@ -97,6 +98,8 @@ struct output_hydro_plant
 	FILE *fBasinDailyPlant;
 	FILE *fPatchDailyHydro;
 	FILE *fPatchDailyPlant;
+	FILE *fGaugeDailyHydro[gauge_num];
+	FILE *fGaugeDailyPlant[gauge_num];
 };
 
 
@@ -958,6 +961,10 @@ struct	command_line_object
 {
 	bool    b;
 	bool    p;
+	
+	//xu. gg for gauges' outputs in the gauge patchID list
+	bool	gg;
+
 	int     spin_flag;
 	int		grow_flag;
 	int		routing_flag;
