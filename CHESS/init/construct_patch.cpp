@@ -529,19 +529,14 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 					patch[p].channel_defaults = &channel_default_object_list[j];
 				}
 			}
-			patch[p].channel->surface_storage = {};
-			patch[p].channel->subsurface_storage = {};
-
+			patch[p].channel->storage = {};
 
 			patch[p].channel->channel_width = patch[p].channel_defaults->channel_width;//1 default
 
-
 			patch[p].channel->hydraulic_roughness = patch[p].channel_defaults->hydraulic_roughness;//2
 
-			patch[p].channel->surface_Q_in = {};
-			patch[p].channel->subsurface_Q_in = {};
-			patch[p].channel->surface_Q_out = {};
-			patch[p].channel->subsurface_Q_out = {};
+			patch[p].channel->Q_in = {};
+			patch[p].channel->Q_out = {};
 
 			patch[p].channel->k = {};
 			patch[p].channel->Rr = {};

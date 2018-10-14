@@ -16,7 +16,7 @@ using std::endl;
 #define round(x) ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
 
 void  chess_channel_daily(patch_object *patch, struct reservoir_object reservoir, struct command_line_object *command_line,
-struct	date current_date, int num_patches, double cellsize)
+	struct	date current_date, int num_patches, double cellsize)
 {
 	double  compute_z_final(
 		int,
@@ -36,16 +36,12 @@ struct	date current_date, int num_patches, double cellsize)
 	double surface_Qout = 0., return_flow = 0.;
 
 	//xu.
-	double surface_v1 = 0, surface_v2 = 0, subsurface_v1 = 0, subsurface_v2 = 0;
-	double surface_Q_out_ratio = 0, subsurface_Q_out_ratio = 0;
-
-	double channel_slope = 0., channel_length = 0.;//xu.
+	double V1 = 0, V2 = 0, OUT_all=0,INOUT_ratio=0;
 
 
-
-	if (command_line->routing_flag == 1){
-		for (i = 0; i<num_patches; i++){
-			if (patch[i].drainage_type == STREAM){
+	if (command_line->routing_flag == 1) {
+		for (i = 0; i < num_patches; i++) {
+			if (patch[i].drainage_type == STREAM) {
 
 				//For river channel, soil should be mostly saturated. So, we assume one-tenth of
 				//surface and subsurface flow are used to reduce soil saturation deficit in channel
@@ -53,55 +49,19 @@ struct	date current_date, int num_patches, double cellsize)
 				double partial_surface = patch[i].surface_Qout*1. / 100.; //20
 				double partial_subsurface = patch[i].subsurface_Qout*1. / 100.;//20
 
-				if (patch[i].sat_deficit>0.){
+				if (patch[i].sat_deficit > 0.) {
 					double min_surface = min(partial_surface, patch[i].sat_deficit);
 					patch[i].sat_deficit -= min_surface;
 					patch[i].surface_Qout -= min_surface;
 				}
 
-				if (patch[i].sat_deficit>0.){
+				if (patch[i].sat_deficit > 0.) {
 					double min_subsurface = min(partial_subsurface, patch[i].sat_deficit);
 					patch[i].sat_deficit -= min_subsurface;
 					patch[i].subsurface_Qout -= min_subsurface;
 				}
 
-				/*
-				if (patch[i].surface_Qout > 0.001){
-					cout << "patch[i].surface_Qout" << endl;
-					cout << patch[i].ID << "\t" << patch[i].surface_Qout << endl;
-					cout << endl;
-				}
-				*/
 
-
-				/*
-				patch[i].unsat_storage=0.;
-				patch[i].rz_storage=0.;
-
-				if(patch[i].sat_deficit <= 0.){
-				patch[i].surface_Qout     -= patch[i].sat_deficit;
-				patch[i].sat_deficit=0.;
-				}
-				else{
-				if(patch[i].surface_Qout>=patch[i].sat_deficit) {
-				patch[i].surface_Qout -= patch[i].sat_deficit;
-				patch[i].sat_deficit=0.;
-				}
-				else {
-				patch[i].sat_deficit-=patch[i].surface_Qout;
-				patch[i].surface_Qout=0.;
-
-				//if(patch[i].subsurface_Qout>=patch[i].sat_deficit) {
-				//	patch[i].subsurface_Qout -= patch[i].sat_deficit;
-				//	patch[i].sat_deficit =0.;
-				//}
-				//else{
-				//	patch[i].sat_deficit -= patch[i].subsurface_Qout;
-				//	patch[i].subsurface_Qout=0.;
-				//}
-				}
-				}
-				*/
 				patch[i].sat_deficit_z = compute_z_final(
 					command_line->verbose_flag,
 					patch[i].soil_defaults->porosity_0,
@@ -110,114 +70,130 @@ struct	date current_date, int num_patches, double cellsize)
 					0.0,
 					-1.0 * patch[i].sat_deficit);
 
-				//xu. start main changes
-				//routing the river flow
-				for (j = 0; j<patch[i].num_neighbours; j++){
+
+				//===============================================================================================================================
+				// CHANNEL ROUTING SIMULATIONS		
+				//===============================================================================================================================
+				for (j = 0; j < patch[i].num_neighbours; j++) {
 					neigh = patch[i].neighbours[j].patch;
-					if (neigh->drainage_type == STREAM){
-
-						//xu.
-						//Qin 
-						patch[i].channel->surface_Q_in = patch[i].surface_Qout;
-						patch[i].channel->subsurface_Q_in = patch[i].subsurface_Qout;
-
-						//start of computing dynamic k
-						if (patch[i].channel->surface_Q_in != patch[i].channel->surface_Q_in) { cout << "FATAL ERROR IN: Q_in" << patch[i].channel->surface_Q_in << endl; getchar(); }
-						//compute local parameters
-						if (pow(patch[i].x - neigh->x, 2) < 0.01 || pow(patch[i].y - neigh->y, 2)<0.01)
-							patch[i].channel->channel_length = cellsize;
-						else patch[i].channel->channel_length = cellsize* pow(2, 1 / 2);//a problem with sqrt 2 and 1;
+					if (neigh->drainage_type == STREAM) {
 
 
-						patch[i].channel->channel_slope = (patch[i].z - neigh->z) / patch[i].channel->channel_length;
-						
-						patch[i].channel->channel_slope = max(patch[i].channel->channel_slope, 0.0001);
+						//---------------------------------------------------------------------------------------------------------------------------
+						//1. For large basins, the channel routing used an static k for one gauge
+						//   or using dynamic k for mutiple gauges
+						//---------------------------------------------------------------------------------------------------------------------------
+						if (command_line->cf == TRUE) {
+							
 
+							// 1. initial the parameters for preparing parameters of k
+							
+							//length
+							if (pow(patch[i].x - neigh->x, 2) < 0.01 || pow(patch[i].y - neigh->y, 2) < 0.01)
+								patch[i].channel->channel_length = cellsize;
+							else patch[i].channel->channel_length = cellsize * pow(2, 1 / 2);//a problem with sqrt 2 and 1;
 
-						if (patch[i].channel->channel_slope < 0.0000000001) { cout << "FATAL ERROR IN: slope" << patch[i].channel->channel_slope << endl; getchar(); }
-						if (patch[i].channel->channel_width < 0.0000000001) { cout << "FATAL ERROR IN: width" << patch[i].channel->channel_width << endl; getchar(); }
+							//slope
+							patch[i].channel->channel_slope = (patch[i].z - neigh->z) / patch[i].channel->channel_length;
+							patch[i].channel->channel_slope = max(patch[i].channel->channel_slope, 0.0001);
 
-
-						patch[i].channel->h = patch[i].channel->surface_storage * pow(cellsize, 2) / (patch[i].channel->channel_length * patch[i].channel->channel_width);
-
-						if (patch[i].channel->h >  0.0000000001)
+							//h (in current stage we assume that the channel_width are static)
+							patch[i].channel->h = patch[i].channel->storage * pow(cellsize, 2)
+								/ (patch[i].channel->channel_length * patch[i].channel->channel_width);
+							
+							//Rr
 							patch[i].channel->Rr = patch[i].channel->channel_width*patch[i].channel->h / (patch[i].channel->channel_width + 2 * patch[i].channel->h);
-						else patch[i].channel->Rr = 77.14; // An alternative value
+							
+							//computing dynamic k
+							patch[i].channel->k = pow(patch[i].channel->Rr, 2 / 3)*pow(patch[i].channel->channel_slope, 1 / 2) / patch[i].channel->hydraulic_roughness / patch[i].channel->channel_length;
+							
+							//Static Mode
+							//patch[i].channel->k = 500;
 
-						patch[i].channel->k = pow(patch[i].channel->Rr, 2 / 3)*pow(patch[i].channel->channel_slope, 1 / 2) / patch[i].channel->hydraulic_roughness / patch[i].channel->channel_length;
-						//end of computing dynamic k
-						
-						//Static Mode
-						patch[i].channel->k = 500;
+							
+							// 2.comput in and out (m^3/day)
 
+							//Q_IN
+							patch[i].channel->Q_in = patch[i].surface_Qout + patch[i].subsurface_Qout + patch[i].gw.Qout;
 
-						//Storage has been changed here BY k
-						//surface
-						surface_v1 = patch[i].channel->surface_storage;
-
-						if (surface_v1 + patch[i].channel->surface_Q_in > 0.001){
-							surface_v2 = patch[i].channel->surface_Q_in / patch[i].channel->k + (surface_v1 - patch[i].channel->surface_Q_in / patch[i].channel->k)*exp(-patch[i].channel->k*1.0);//define det t as 1 day
-							if (surface_v2 != surface_v2) {
-								cout << "FATAL ERROR IN: v2: " << surface_v2 << endl; getchar();
-								cout << "FATAL ERROR IN: k: " << surface_v2 << endl; getchar();
-								surface_v2 = 0;
+							if(patch[i].channel->Q_in>0.0){
+							patch[i].channel->surface_ratio= patch[i].surface_Qout/ patch[i].channel->Q_in;
+							patch[i].channel->subsurface_ratio = patch[i].subsurface_Qout / patch[i].channel->Q_in;
+							patch[i].channel->gw_ratio = patch[i].gw.Qout / patch[i].channel->Q_in;
 							}
-							if (surface_v2 >surface_v1 + patch[i].channel->surface_Q_in) surface_v2 = surface_v1 + patch[i].channel->surface_Q_in;
-							if (surface_v2 <  0.0000000001) surface_v2 = 0;
+							else patch[i].channel->surface_ratio = patch[i].channel->subsurface_ratio = patch[i].channel->gw_ratio = 1 / 3;
+
+
+							patch[i].channel->Q_in *= pow(cellsize, 2);
+
+							//V1
+							V1 = patch[i].channel->storage * pow(cellsize,2);
+							
+							//V2 a key function for computing channel storage change
+							V2 = patch[i].channel->Q_in / patch[i].channel->k + (V1 - patch[i].channel->Q_in / patch[i].channel->k)*exp(-patch[i].channel->k*1.0);
+							//check if it's unreal
+							if (V2 < 0.0) V2 = 0;
+							else if (V2 > V1 + patch[i].channel->Q_in) V2 = V1 + patch[i].channel->Q_in;
+							
+							//Q_OUT
+							patch[i].channel->Q_out =  V1 + patch[i].channel->Q_in - V2;
+
+
+							// 3. renew the new state of storage ( m ) and water
+							patch[i].channel->storage = V2 / pow(cellsize, 2);
+
+
+							// 4. allocate water and RATIO
+							//WATER (m)
+							OUT_all = patch[i].channel->Q_out / pow(cellsize, 2);
+							patch[i].surface_Qout = OUT_all * patch[i].channel->surface_ratio;
+							patch[i].subsurface_Qout = OUT_all * patch[i].channel->subsurface_ratio;
+							patch[i].gw.Qout = OUT_all * patch[i].channel->gw_ratio;
+
+							//CN
+							if (patch[i].channel->Q_in > 0.0)
+								INOUT_ratio = patch[i].channel->Q_out / patch[i].channel->Q_in ;
+							else INOUT_ratio = 0;
+
+							patch[i].DON_loss *= INOUT_ratio;
+							patch[i].DOC_loss *= INOUT_ratio;
+							patch[i].surface_leach_NH4_out *= INOUT_ratio; 
+							patch[i].subsurface_leach_NH4_out *= INOUT_ratio;
+							patch[i].surface_leach_NO3_out *= INOUT_ratio;
+							patch[i].subsurface_leach_NO3_out *= INOUT_ratio;
+
+							// 5. deliver water to neighbors
+							// i think gamma are a little bit non-sense
+							neigh->surface_Qout += patch[i].neighbours[j].gamma * patch[i].surface_Qout;
+							neigh->subsurface_Qout += patch[i].neighbours[j].gamma * patch[i].subsurface_Qout;
+							neigh->gw.Qout += patch[i].neighbours[j].gamma * patch[i].gw.Qout;
+							neigh->DON_loss += patch[i].neighbours[j].gamma*patch[i].DON_loss ;
+							neigh->DOC_loss += patch[i].neighbours[j].gamma*patch[i].DOC_loss ;
+							neigh->subsurface_leach_NH4_out += patch[i].neighbours[j].gamma*patch[i].subsurface_leach_NH4_out;
+							neigh->surface_leach_NH4_out += patch[i].neighbours[j].gamma*patch[i].surface_leach_NH4_out;
+							neigh->subsurface_leach_NO3_out += patch[i].neighbours[j].gamma*patch[i].subsurface_leach_NO3_out;
+							neigh->surface_leach_NO3_out += patch[i].neighbours[j].gamma*patch[i].surface_leach_NO3_out;
 						}
-						else surface_v2 = surface_v1 + patch[i].channel->surface_Q_in;
-
-						//subsurface
-						subsurface_v1 = patch[i].channel->subsurface_storage;
-
-						if (subsurface_v1 + patch[i].channel->subsurface_Q_in > 0.001){
-							subsurface_v2 = patch[i].channel->subsurface_Q_in / patch[i].channel->k + (subsurface_v1 - patch[i].channel->subsurface_Q_in / patch[i].channel->k)*exp(-patch[i].channel->k*1.0);//define det t as 1 day
-							if (subsurface_v2 != subsurface_v2) {
-								cout << "FATAL ERROR IN: v2: " << subsurface_v2 << endl; getchar();
-								cout << "FATAL ERROR IN: k: " << subsurface_v2 << endl; getchar();
-								subsurface_v2 = 0;
-							}
-							if (subsurface_v2 >subsurface_v1 + patch[i].channel->subsurface_Q_in) subsurface_v2 = subsurface_v1 + patch[i].channel->subsurface_Q_in;
-							if (subsurface_v2 <  0.0000000001) subsurface_v2 = 0;
-						}
-						else subsurface_v2 = subsurface_v1 + patch[i].channel->subsurface_Q_in;
-
-						//Renew the storage
-						patch[i].channel->surface_storage = surface_v2;
-						patch[i].channel->subsurface_storage = subsurface_v2;
-
-
-
-						//Compute Real Q_out
-						patch[i].channel->surface_Q_out = patch[i].channel->surface_Q_in - (surface_v2 - surface_v1) / 1.0;//define det t as 1 day
-						patch[i].channel->subsurface_Q_out = patch[i].channel->subsurface_Q_in - (subsurface_v2 - subsurface_v1) / 1.0;//define det t as 1 day
+						//---------------------------------------------------------------------------------------------------------------------------
+						//2. For small basins, we force to routed  all water out
+						//---------------------------------------------------------------------------------------------------------------------------
+						else {
 						
-						//Deliver values
-						patch[i].surface_Qout = patch[i].channel->surface_Q_out;
-						patch[i].subsurface_Qout = patch[i].channel->subsurface_Q_out;
+							neigh->surface_Qout += patch[i].neighbours[j].gamma *patch[i].surface_Qout; 
+							neigh->subsurface_Qout += patch[i].neighbours[j].gamma *patch[i].subsurface_Qout; 
+							neigh->gw.Qout += patch[i].neighbours[j].gamma *patch[i].gw.Qout; 
+							neigh->DON_loss += patch[i].neighbours[j].gamma*patch[i].DON_loss;
+							neigh->DOC_loss += patch[i].neighbours[j].gamma*patch[i].DOC_loss;
+							neigh->subsurface_leach_NH4_out += patch[i].neighbours[j].gamma*patch[i].subsurface_leach_NH4_out;
+							neigh->surface_leach_NH4_out += patch[i].neighbours[j].gamma*patch[i].surface_leach_NH4_out;
+							neigh->subsurface_leach_NO3_out += patch[i].neighbours[j].gamma*patch[i].subsurface_leach_NO3_out;
+							neigh->surface_leach_NO3_out += patch[i].neighbours[j].gamma*patch[i].surface_leach_NO3_out;
+						
+						}
 
-						//computing ratio
-						if (patch[i].channel->surface_Q_out > 0. && patch[i].channel->surface_Q_in > 0.) surface_Q_out_ratio = patch[i].channel->surface_Q_out / patch[i].channel->surface_Q_in;
-						else   surface_Q_out_ratio = 0;
-						if (patch[i].channel->subsurface_Q_out > 0. && patch[i].channel->subsurface_Q_in > 0.) subsurface_Q_out_ratio = patch[i].channel->subsurface_Q_out / patch[i].channel->subsurface_Q_in;
-						else   subsurface_Q_out_ratio = 0;
-
-
-						//compute by ratio
-						//surface_Qout for a neibor stream is also been calculated channel flow
-						neigh->surface_Qout += patch[i].neighbours[j].gamma *patch[i].surface_Qout;
-						neigh->subsurface_Qout += patch[i].neighbours[j].gamma *patch[i].subsurface_Qout;
-						neigh->gw.Qout += patch[i].neighbours[j].gamma *patch[i].gw.Qout;//added for ground water
-						neigh->DON_loss += patch[i].neighbours[j].gamma*patch[i].DON_loss * surface_Q_out_ratio;//we only route DOC and DON once
-						neigh->DOC_loss += patch[i].neighbours[j].gamma*patch[i].DOC_loss * surface_Q_out_ratio;
-						neigh->subsurface_leach_NH4_out += patch[i].neighbours[j].gamma*patch[i].subsurface_leach_NH4_out* subsurface_Q_out_ratio;
-						neigh->surface_leach_NH4_out += patch[i].neighbours[j].gamma*patch[i].surface_leach_NH4_out * surface_Q_out_ratio;
-						neigh->subsurface_leach_NO3_out += patch[i].neighbours[j].gamma*patch[i].subsurface_leach_NO3_out* subsurface_Q_out_ratio;
-						neigh->surface_leach_NO3_out += patch[i].neighbours[j].gamma*patch[i].surface_leach_NO3_out * surface_Q_out_ratio;
-
-						//xu. end
 					}
 				}//xu.end of a stream patch
+
 			}//xu.end of all stream patch
 		}
 	}

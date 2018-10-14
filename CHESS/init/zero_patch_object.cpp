@@ -91,6 +91,16 @@ void zero_patch_object(struct patch_object *patch){
 		patch->Kdown_diffuse = 0.;
 		patch->Kdown_direct = 0.;
 
+
+		//=================================================================
+		//channel object
+		if (patch->drainage_type == STREAM)
+		{
+		
+		
+		
+		
+		}
 	
 	
 	return;

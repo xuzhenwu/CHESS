@@ -67,6 +67,7 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 	command_line->b = NULL;
 	command_line->p = NULL;
 	command_line->gg = NULL;
+	command_line->cf = NULL;
 
 	
 	/*-------------------------------------------------*/
@@ -193,6 +194,16 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 			/*			Allocate the patch output specifier.				*/
 			/*--------------------------------------------------------------*/
 			command_line->gg = true;
+			i++;
+			} /*end if*/
+			/*--------------------------------------------------------------*/
+			/*	Channel flow genration flag  			*/
+			/*--------------------------------------------------------------*/
+			else if (strcmp(main_argv[i], "-cf") == 0) {
+			/*--------------------------------------------------------------*/
+			/*			Allocate the patch output specifier.				*/
+			/*--------------------------------------------------------------*/
+			command_line->cf = true;
 			i++;
 			} /*end if*/
 			/*--------------------------------------------------------------*/

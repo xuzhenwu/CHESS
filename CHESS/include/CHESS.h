@@ -891,15 +891,15 @@ struct channel_default{
 //===============================================================================================================================
 struct channel_object{
 	
-	double surface_storage;
-	double subsurface_storage;
-	
+	double storage;
 	double h;
 
-	double surface_Q_in;
-	double subsurface_Q_in;
-	double surface_Q_out;
-	double subsurface_Q_out;
+	double surface_ratio;
+	double subsurface_ratio;
+	double gw_ratio;
+
+	double Q_in;
+	double Q_out;
 
 	double k;
 	double Rr;//hydrualic radius
@@ -964,7 +964,7 @@ struct	command_line_object
 	
 	//xu. gg for gauges' outputs in the gauge patchID list
 	bool	gg;
-
+	bool	cf;
 	int     spin_flag;
 	int		grow_flag;
 	int		routing_flag;
