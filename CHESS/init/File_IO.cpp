@@ -178,7 +178,7 @@ void header_help(int maxr, int maxc, char *fnhdr) {
 //===============================================================================================================================
 //        input_prompt() - input root filename, create full filenames
 //===============================================================================================================================
-void	read_images(struct patch_object *patch, int rows, int cols, double cellsize, double xll, double yll,
+void	read_images(struct patch_object *patch, struct command_line_object *command_line, int rows, int cols, double cellsize, double xll, double yll,
 	char *filename, char *prefix, int f_flag, int arc_flag, int num_patches, int*gauge_list) {
 
 	// filenames for each image and file
@@ -278,22 +278,35 @@ void	read_images(struct patch_object *patch, int rows, int cols, double cellsize
 	psoil = (int *)malloc(rows*cols * sizeof(int));
 	input_ascii_int(psoil, fnsoil, rows, cols, arc_flag);
 
-	pveg = (int *)malloc(rows*cols * sizeof(int));
+	pveg = new int[rows*cols]{};
 	input_ascii_int(pveg, fnveg, rows, cols, arc_flag);
 
-	pstream = (int *)malloc(rows*cols * sizeof(int));
+	pstream = new int[rows*cols]{};
 	input_ascii_int(pstream, fnstream, rows, cols, arc_flag);
-	proads = (int *)malloc(rows*cols * sizeof(int));
+	proads = new int[rows*cols]{};
 	input_ascii_int(proads, fnroads, rows, cols, arc_flag);
 
-	//xu.
-	pstreamorder = (int *)malloc(rows*cols * sizeof(int));
-	input_ascii_int(pstreamorder, fnstreamorder, rows, cols, arc_flag);
-	pbasins = (int *)malloc(rows*cols * sizeof(int));
-	input_ascii_int(pbasins, fnbasins, rows, cols, arc_flag);
 
-	pgauges = (int *)malloc(gauge_num * sizeof(int));
-	input_ascii_int(pgauges, fngauges, gauge_num, 1, arc_flag);
+
+	//xu.
+	//controlled by command_line
+
+	pstreamorder = new int[rows*cols]{};
+	if(command_line->cf == TRUE){
+		input_ascii_int(pstreamorder, fnstreamorder, rows, cols, arc_flag);
+	}
+	
+	pbasins = new int[rows*cols]{};
+	if(command_line->parallel == TRUE){
+		input_ascii_int(pbasins, fnbasins, rows, cols, arc_flag);
+	}
+	
+	pgauges = new int[rows*cols]{};
+	if (command_line->gg == TRUE) {
+		input_ascii_int(pgauges, fngauges, gauge_num, 1, arc_flag);
+	}
+
+
 
 	printf("\n");
 	//---------------------------------------------------------------------------------------------------------------------------
@@ -328,16 +341,19 @@ void	read_images(struct patch_object *patch, int rows, int cols, double cellsize
 	//---------------------------------------------------------------------------------------------------------------------------
 	//xu. 2.MATCH PATHES WITH GAUGE_LISTS
 	//---------------------------------------------------------------------------------------------------------------------------
-	for (int gauge_inx = 0; gauge_inx != gauge_num; gauge_inx++) {
+	
+	if (command_line->gg == TRUE) {
+		for (int gauge_inx = 0; gauge_inx != gauge_num; gauge_inx++) {
 
-		gauge_list[gauge_inx] = pgauges[gauge_inx];
+			gauge_list[gauge_inx] = pgauges[gauge_inx];
 
-		for (int patch_inx = 0; patch_inx != patch_num; patch_inx++) {
-		
-			if (patch[patch_inx].ID == gauge_list[gauge_inx]) {	//where the list was replaced with patch_inx
-				gauge_list[gauge_inx] = patch_inx;
-				break;
-			}	
+			for (int patch_inx = 0; patch_inx != patch_num; patch_inx++) {
+
+				if (patch[patch_inx].ID == gauge_list[gauge_inx]) {	//where the list was replaced with patch_inx
+					gauge_list[gauge_inx] = patch_inx;
+					break;
+				}
+			}
 		}
 	}
 

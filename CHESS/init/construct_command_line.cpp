@@ -68,6 +68,7 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 	command_line->p = NULL;
 	command_line->gg = NULL;
 	command_line->cf = NULL;
+	command_line->parallel = NULL;
 
 	
 	/*-------------------------------------------------*/
@@ -204,6 +205,16 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 			/*			Allocate the patch output specifier.				*/
 			/*--------------------------------------------------------------*/
 			command_line->cf = true;
+			i++;
+			} /*end if*/
+			/*--------------------------------------------------------------*/
+			/*	Channel flow genration flag  			*/
+			/*--------------------------------------------------------------*/
+			else if (strcmp(main_argv[i], "-parallel") == 0) {
+			/*--------------------------------------------------------------*/
+			/*			Allocate the patch output specifier.				*/
+			/*--------------------------------------------------------------*/
+			command_line->parallel = true;
 			i++;
 			} /*end if*/
 			/*--------------------------------------------------------------*/

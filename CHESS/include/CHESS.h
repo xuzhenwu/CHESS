@@ -965,6 +965,9 @@ struct	command_line_object
 	//xu. gg for gauges' outputs in the gauge patchID list
 	bool	gg;
 	bool	cf;
+	bool	parallel;
+
+
 	int     spin_flag;
 	int		grow_flag;
 	int		routing_flag;

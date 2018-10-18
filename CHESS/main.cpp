@@ -141,7 +141,7 @@ int	main(int main_argc, char **main_argv)
 	num_patches = construct_routing_topology(patch, inFlowFile, FlowTableName, maxr, maxc);
 
 	//reading GRASS- or ArcInfo-based input images such as DEM,slope,aspect....stream,roads, gauge_lists
-	read_images(patch, maxr, maxc, cellsize, xll, yll, inImgFile, prefix, f_flag, arc_flag,num_patches,gauge_list);
+	read_images(patch, command_line, maxr, maxc, cellsize, xll, yll, inImgFile, prefix, f_flag, arc_flag,num_patches,gauge_list);
 
 	//Initialize the default values of patch fields/members
 	construct_patch(patch, command_line, maxr, maxc, inDefFile, prefix,num_patches);

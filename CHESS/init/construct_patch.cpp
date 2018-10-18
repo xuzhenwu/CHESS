@@ -181,37 +181,41 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	//===========================================================================================================================
 	// 5. read channel default files
 	//===========================================================================================================================
-	if ((default_file = fopen(fnchanneldef, "r")) == NULL) {
-		fprintf(stderr, "cannot open channel default file %s\n", fnchanneldef);
-		return;
-	}
-	else {
-		fscanf(default_file, "%d ", &channeltypes);
-		read_record(default_file, record);
-		fscanf(default_file, "%d ", &nvars);
-		read_record(default_file, record);
-		printf("\n");
-		printf("The number of channel types are %d \n", channeltypes);
-		printf("The number of channel variables are %d \n", nvars);
-	}
 
-	channel_default_object_list = (struct channel_default *) calloc(channeltypes, sizeof(struct channel_default));
-	if (channel_default_object_list == NULL) {
-		printf("out of memory for assinging landuse default in construct_patch.c 1\n");
-		return;
-	}
+	if (command_line->cf == TRUE) {
 
-	construct_channel_defaults(channeltypes, default_file, command_line, channel_default_object_list);
-	printf("Finishing reading channel_default file  \n");
+		if ((default_file = fopen(fnchanneldef, "r")) == NULL) {
+			fprintf(stderr, "cannot open channel default file %s\n", fnchanneldef);
+			return;
+		}
+		else {
+			fscanf(default_file, "%d ", &channeltypes);
+			read_record(default_file, record);
+			fscanf(default_file, "%d ", &nvars);
+			read_record(default_file, record);
+			printf("\n");
+			printf("The number of channel types are %d \n", channeltypes);
+			printf("The number of channel variables are %d \n", nvars);
+		}
+
+		channel_default_object_list = (struct channel_default *) calloc(channeltypes, sizeof(struct channel_default));
+		if (channel_default_object_list == NULL) {
+			printf("out of memory for assinging landuse default in construct_patch.c 1\n");
+			return;
+		}
+
+		construct_channel_defaults(channeltypes, default_file, command_line, channel_default_object_list);
+		printf("Finishing reading channel_default file  \n");
+	}
 
 
 	//===========================================================================================================================
 	// Starting parameters initialization
 	//===========================================================================================================================
-	
+
 	//xu. I delete the if patch[p].ID>0 
 	//and there's no need to change anything in this part
-	for (p = 0; p<num_patches; p++) {
+	for (p = 0; p < num_patches; p++) {
 
 		//=============================================================================================================================
 		//1.Assign PATCH defaults for this patch						
@@ -339,7 +343,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 
 		//intial other value such as -9999 
 		patch[p].soil_defaults = &soil_default_object_list[0];
-		for (j = 0; j<soiltypes; j++) {
+		for (j = 0; j < soiltypes; j++) {
 			if (patch[p].soiltype == soil_default_object_list[j].ID) {
 				patch[p].soil_defaults = &soil_default_object_list[j];
 			}
@@ -361,7 +365,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		//3.Assign	LANDUSE defaults for this patch						
 		//=============================================================================================================================
 		patch[p].landuse_defaults = &landuse_default_object_list[0];
-		for (j = 0; j<landusetypes; j++) {
+		for (j = 0; j < landusetypes; j++) {
 			if (patch[p].vegtype == landuse_default_object_list[j].ID)
 				patch[p].landuse_defaults = &landuse_default_object_list[j];
 		}
@@ -414,7 +418,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 										//when there is -9999, forcing it use first default
 										//a same procedule is in soil defaults
 		patch[p].canopy_strata->defaults = &stratum_default_object_list[0];
-		for (j = 0; j<vegtypes; j++) {
+		for (j = 0; j < vegtypes; j++) {
 			if (patch[p].vegtype == stratum_default_object_list[j].ID) {
 				patch[p].canopy_strata->defaults = &stratum_default_object_list[j];
 			}
@@ -438,7 +442,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 
 		//patch[p].canopy_strata->defaults->epc.phenology_type=
 
-		for (j = 0; j< patch[p].num_canopy_strata; j++) { //only one strata occurs
+		for (j = 0; j < patch[p].num_canopy_strata; j++) { //only one strata occurs
 														  //patch[p].canopy_strata = construct_canopy_strata(command_line,soil_depth,air_entry,pore_size,
 														  //	canopy_strata,patch[p].canopy_strata->defaults,p);stratum.cover_fraction
 
@@ -505,7 +509,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		patch[p].gw.Qout = 0.;
 
 		patch[p].preyear_litfall_stopday = 300;
-		for (int kk = 0; kk<21; kk++) {
+		for (int kk = 0; kk < 21; kk++) {
 			patch[p].tmin21[kk] = 0.;
 			patch[p].vpd21[kk] = 0.;
 			patch[p].dayl21[kk] = 0.;
@@ -516,37 +520,37 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		//	Assign channel defaults for this patch						
 		//=============================================================================================================================
 
-		
 
-		if (patch[p].streamorder>0) {
+		if (command_line->cf == TRUE) {
+			if (patch[p].streamorder > 0) {
 
-			//xu. assigning size
-			patch[p].channel = new struct channel_object;
+				//xu. assigning size
+				patch[p].channel = new struct channel_object;
 
-			patch[p].channel_defaults = &channel_default_object_list[0];
-			for (j = 0; j < channeltypes; j++) {
-				if (patch[p].streamorder == channel_default_object_list[j].strahler_order) {
-					patch[p].channel_defaults = &channel_default_object_list[j];
+				patch[p].channel_defaults = &channel_default_object_list[0];
+				for (j = 0; j < channeltypes; j++) {
+					if (patch[p].streamorder == channel_default_object_list[j].strahler_order) {
+						patch[p].channel_defaults = &channel_default_object_list[j];
+					}
 				}
-			}
-			patch[p].channel->storage = {};
+				patch[p].channel->storage = {};
 
-			patch[p].channel->channel_width = patch[p].channel_defaults->channel_width;//1 default
+				patch[p].channel->channel_width = patch[p].channel_defaults->channel_width;//1 default
 
-			patch[p].channel->hydraulic_roughness = patch[p].channel_defaults->hydraulic_roughness;//2
+				patch[p].channel->hydraulic_roughness = patch[p].channel_defaults->hydraulic_roughness;//2
 
-			patch[p].channel->Q_in = {};
-			patch[p].channel->Q_out = {};
+				patch[p].channel->Q_in = {};
+				patch[p].channel->Q_out = {};
 
-			patch[p].channel->k = {};
-			patch[p].channel->Rr = {};
-			patch[p].channel->channel_slope = {};
-			patch[p].channel->channel_length = {};
-			patch[p].channel->strahler_order = patch[p].channel_defaults->strahler_order;//3
-		}//end
+				patch[p].channel->k = {};
+				patch[p].channel->Rr = {};
+				patch[p].channel->channel_slope = {};
+				patch[p].channel->channel_length = {};
+				patch[p].channel->strahler_order = patch[p].channel_defaults->strahler_order;//3
+			}//end
+		}
 
 	}
-
 
 	printf("\nFinishing initialization of all parameter in construct_patch.cpp  \n");
 
