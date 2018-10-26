@@ -299,9 +299,6 @@
     <ClCompile Include="init\construct_patch.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
-    <ClCompile Include="init\construct_patch_defaults.cpp">
-      <Filter>源文件\init</Filter>
-    </ClCompile>
     <ClCompile Include="init\construct_routing_topology_new.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
@@ -481,6 +478,9 @@
     </ClCompile>
     <ClCompile Include="output\output_gauge_daily_growth.cpp">
       <Filter>源文件\output</Filter>
+    </ClCompile>
+    <ClCompile Include="init\construct_climate_defaults.cpp">
+      <Filter>源文件\init</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

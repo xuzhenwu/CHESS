@@ -119,7 +119,7 @@
     <ClCompile Include="init\construct_command_line.cpp" />
     <ClCompile Include="init\construct_landuse_defaults.cpp" />
     <ClCompile Include="init\construct_patch.cpp" />
-    <ClCompile Include="init\construct_patch_defaults.cpp" />
+    <ClCompile Include="init\construct_climate_defaults.cpp" />
     <ClCompile Include="init\construct_routing_topology_new.cpp" />
     <ClCompile Include="init\construct_soil_defaults.cpp" />
     <ClCompile Include="init\construct_stratum_defaults.cpp" />

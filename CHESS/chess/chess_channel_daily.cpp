@@ -76,8 +76,8 @@ void  chess_channel_daily(patch_object *patch, struct reservoir_object reservoir
 				//===============================================================================================================================
 				for (j = 0; j < patch[i].num_neighbours; j++) {
 					neigh = patch[i].neighbours[j].patch;
+					
 					if (neigh->drainage_type == STREAM) {
-
 
 						//---------------------------------------------------------------------------------------------------------------------------
 						//1. For large basins, the channel routing used an static k for one gauge

@@ -72,7 +72,7 @@ void		patch_daily_initial(struct patch_object *patch,
 
 	
 	patch->gsurf=1/70.;                          //added by guoping
-	patch->ga=patch->patch_defaults->wind/208;   //added by guoping
+	patch->ga=patch->climate_defaults->wind/208;   //added by guoping
 
 
 

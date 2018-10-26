@@ -16,7 +16,7 @@ void		parallel_land_daily(struct 	patch_object *patch,
 	struct 	command_line_object *command_line,
 	struct	date 			current_date,
 	struct  daily_clim_object *daily_clim,
-	int patch_pch[][patch_num],
+	int patch_pch[][PATCH_NUM],
 	int thread_patch_num[],
 	int thread_inx
 )
@@ -28,7 +28,7 @@ void		parallel_land_daily(struct 	patch_object *patch,
 	
 
 		int pch = patch_pch[thread_inx][patch_inx];
-
+		int climate_inx = patch[pch].climatetype - 1;//since it start from 1
 		//---------------------------------------------------------------------------------------------------------------------------
 		//xu. Initial some parameters as Zero before new computation
 		//---------------------------------------------------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ void		parallel_land_daily(struct 	patch_object *patch,
 		//Computation of Daylength, FieldCapacity, Capillary Rise, Max Exfiltration Rate,
 		//Cycles in Canopy layers, Soil water potential
 		//---------------------------------------------------------------------------------------------------------------------------
-		patch_daily_initial(&patch[pch], daily_clim[thread_inx], command_line, current_date);
+		patch_daily_initial(&patch[pch], daily_clim[climate_inx], command_line, current_date);
 
 		//---------------------------------------------------------------------------------------------------------------------------
 		//Kdirect and Kdiffuse

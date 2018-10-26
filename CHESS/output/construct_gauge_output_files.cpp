@@ -16,15 +16,15 @@ void construct_gauge_output_files(struct patch_object *patch,char *outPutPath, s
 	//define output file
 	//char  outPDHfile[120]; //Patch daily hydrology
 	//char  outPDGfile[120]; //Patch daily growth
-	char  outGDHfile[gauge_num][120]; //Basin daily hydrology
-	char  outGDGfile[gauge_num][120]; //Basin daily growth    
+	char  outGDHfile[GAUGE_NUM][120]; //Basin daily hydrology
+	char  outGDGfile[GAUGE_NUM][120]; //Basin daily growth    
 	char  gauge_name[100];
 	//char  outPMHfile[120]; //Patch monthly hydrology
 	//char  outPMGfile[120]; //Patch monthly growth
 	//char  outBMHfile[120]; //Basin monthly hydrology
 	//char  outBMGfile[120]; //Basin monthly growth 
 
-	for (int gauge_inx = 0; gauge_inx != gauge_num; gauge_inx++) {
+	for (int gauge_inx = 0; gauge_inx != GAUGE_NUM; gauge_inx++) {
 		if (command_line->b != NULL) { //basin level output
 			strcpy(outGDHfile[gauge_inx], outPutPath);
 			strcpy(outGDGfile[gauge_inx], outPutPath);

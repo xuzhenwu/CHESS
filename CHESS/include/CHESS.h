@@ -98,8 +98,8 @@ struct output_hydro_plant
 	FILE *fBasinDailyPlant;
 	FILE *fPatchDailyHydro;
 	FILE *fPatchDailyPlant;
-	FILE *fGaugeDailyHydro[gauge_num];
-	FILE *fGaugeDailyPlant[gauge_num];
+	FILE *fGaugeDailyHydro[GAUGE_NUM];
+	FILE *fGaugeDailyPlant[GAUGE_NUM];
 };
 
 
@@ -567,9 +567,10 @@ struct	snowpack_object
 //===============================================================================================================================
 //Define an patch default object by combing basin, hillslop, zone and land-use default object Edited by guoping
 //===============================================================================================================================
-struct patch_default
+struct climate_default
 {
 	//int		n_routing_timesteps;	            /* number per day */ 
+	int		ID;
 	double  latitude;                           //averaged latitude for the whole watershed
 	double  mean_elev;                          //averaged elevation for the whole watershed
 	double  std;
@@ -624,7 +625,7 @@ struct patch_object
 	//patch related input data
 	float   slope;                              //added by guoping
 	float   aspect;                             // added by guoping
-	int     stream;
+
 	int     vegtype;
 	int     soiltype;
 	int     road;
@@ -632,6 +633,7 @@ struct patch_object
 	//xu.
 	int		streamorder;
 	int		basins;
+	int		climatetype;
 
 	int   gsi_based_leafon_startday;
 	int   gsi_based_litterfall_stopday;
@@ -854,7 +856,7 @@ struct patch_object
 	struct	metvar_struct		metv;              //from zone_object
 	//	struct	dated_input_object	 *dated_input;     //from base_station object
 	struct	daily_clim_object 	 *daily_clim;      //from base_station object
-	struct  patch_default *patch_defaults;         //new definition by guoping
+	struct  climate_default *climate_defaults;         //new definition by guoping
 	//double  expand_flag;
 	//double  litfall_flag;
 
@@ -966,7 +968,7 @@ struct	command_line_object
 	bool	gg;
 	bool	cf;
 	bool	parallel;
-
+	bool	cl;
 
 	int     spin_flag;
 	int		grow_flag;

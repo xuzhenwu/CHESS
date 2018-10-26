@@ -178,12 +178,13 @@ void header_help(int maxr, int maxc, char *fnhdr) {
 //===============================================================================================================================
 //        input_prompt() - input root filename, create full filenames
 //===============================================================================================================================
-void	read_images(struct patch_object *patch, struct command_line_object *command_line, int rows, int cols, double cellsize, double xll, double yll,
+void	read_geo_images(struct patch_object *patch, struct command_line_object *command_line, int rows, int cols, double cellsize, double xll, double yll,
 	char *filename, char *prefix, int f_flag, int arc_flag, int num_patches, int*gauge_list) {
 
 	// filenames for each image and file
 	char  fnpatch[MAXS], fndem[MAXS], fnslope[MAXS], fnaspect[MAXS], fneast_horizon[MAXS], fnwest_horizon[MAXS];
-	char  fnsoil[MAXS], fnveg[MAXS], fnstream[MAXS], fnroads[MAXS], fnstreamorder[MAXS], fnbasins[MAXS],fngauges[MAXS];
+	char  fnsoil[MAXS], fnveg[MAXS],  fnroads[MAXS], fnstreamorder[MAXS], fnbasins[MAXS],fngauges[MAXS];
+	char  fnclimate[MAXS], fnlatitude[MAXS];
 
 
 	//File pointer
@@ -195,15 +196,20 @@ void	read_images(struct patch_object *patch, struct command_line_object *command
 	float        *pwest_horizon;
 	int          *psoil;
 	int          *pveg;
-	int		     *pstream;
 	//xu.
 	int			*pstreamorder;
 	int			*pbasins;
 	int			*pgauges;
+	int			*pclimate;
 
 	int          *proads;
 	double       *plon;
-	double       *plat;
+	double       *plat;//y in cordinate system 
+	
+	//xu. 
+	float		*platitude;//geography latitude
+
+
 	int i;
 	//local functions
 	void    header_help(int, int, char*);
@@ -223,13 +229,14 @@ void	read_images(struct patch_object *patch, struct command_line_object *command
 	strcpy(fnwest_horizon, filename);
 	strcpy(fnsoil, filename);
 	strcpy(fnveg, filename);
-	strcpy(fnstream, filename);
 	strcpy(fnroads, filename);
 	
 	//xu.
 	strcpy(fnstreamorder, filename);
 	strcpy(fnbasins, filename);
 	strcpy(fngauges, filename);
+	strcpy(fnclimate, filename);
+	strcpy(fnlatitude, filename);
 
 	// append '.' extensions to each filename (these should be generalized) */
 	strcat(fnpatch, ".patch");
@@ -240,13 +247,14 @@ void	read_images(struct patch_object *patch, struct command_line_object *command
 	strcat(fnwest_horizon, ".west");
 	strcat(fnsoil, ".soil");
 	strcat(fnveg, ".veg");
-	strcat(fnstream, ".stream");
 	strcat(fnroads, ".road");
 	
 	//xu.
 	strcat(fnstreamorder, ".streamorder");
-	strcat(fnbasins, ".basins");
-	strcat(fngauges, ".gauges");
+	strcat(fnbasins, ".basin");
+	strcat(fngauges, ".gauge");
+	strcat(fngauges, ".climate");
+	strcpy(fnlatitude, ".latitude");
 
 	input_header(rows, cols, fndem, arc_flag);
 
@@ -281,11 +289,11 @@ void	read_images(struct patch_object *patch, struct command_line_object *command
 	pveg = new int[rows*cols]{};
 	input_ascii_int(pveg, fnveg, rows, cols, arc_flag);
 
-	pstream = new int[rows*cols]{};
-	input_ascii_int(pstream, fnstream, rows, cols, arc_flag);
 	proads = new int[rows*cols]{};
 	input_ascii_int(proads, fnroads, rows, cols, arc_flag);
 
+	platitude = new float[rows*cols]{};
+	input_ascii_float(platitude, fnlatitude, rows, cols, arc_flag);
 
 
 	//xu.
@@ -303,7 +311,12 @@ void	read_images(struct patch_object *patch, struct command_line_object *command
 	
 	pgauges = new int[rows*cols]{};
 	if (command_line->gg == TRUE) {
-		input_ascii_int(pgauges, fngauges, gauge_num, 1, arc_flag);
+		input_ascii_int(pgauges, fngauges, GAUGE_NUM, 1, arc_flag);
+	}
+
+	pclimate = new int[rows*cols]{};
+	if (command_line->cl == TRUE) {
+		input_ascii_int(pclimate, fnclimate, rows, cols,  arc_flag);
 	}
 
 
@@ -325,11 +338,27 @@ void	read_images(struct patch_object *patch, struct command_line_object *command
 				patch[patch_inx].aspect = paspect[imag_inx];
 				patch[patch_inx].e_horizon = peast_horizon[imag_inx];
 				patch[patch_inx].w_horizon = pwest_horizon[imag_inx];
-				patch[patch_inx].stream = pstream[imag_inx];
 
 				//xu.
 				patch[patch_inx].streamorder = pstreamorder[imag_inx];
 				patch[patch_inx].basins = pbasins[imag_inx];
+				if (fabs(pbasins[imag_inx] + 9999) < 0.0000001) {
+					cout << "Unmatched basins with patch file" << endl;
+					getchar();
+				}
+
+				patch[patch_inx].climatetype = pclimate[imag_inx];
+				if (fabs(pclimate[imag_inx] + 9999) < 0.0000001) {
+					cout << "Unmatched climate with patch file" << endl;
+					getchar();
+				}
+
+				patch[patch_inx].latitude = platitude[imag_inx];
+				//just check 
+				if (fabs(platitude[imag_inx] + 9999) < 0.0000001){
+					cout << "Unmatched latitude with patch file" << endl;
+					getchar();
+				}
 
 				patch[patch_inx].road = proads[imag_inx];
 				patch[patch_inx].vegtype = pveg[imag_inx];
@@ -338,16 +367,17 @@ void	read_images(struct patch_object *patch, struct command_line_object *command
 			}
 		}
 	}
+	
+
 	//---------------------------------------------------------------------------------------------------------------------------
 	//xu. 2.MATCH PATHES WITH GAUGE_LISTS
 	//---------------------------------------------------------------------------------------------------------------------------
-	
 	if (command_line->gg == TRUE) {
-		for (int gauge_inx = 0; gauge_inx != gauge_num; gauge_inx++) {
+		for (int gauge_inx = 0; gauge_inx != GAUGE_NUM; gauge_inx++) {
 
 			gauge_list[gauge_inx] = pgauges[gauge_inx];
 
-			for (int patch_inx = 0; patch_inx != patch_num; patch_inx++) {
+			for (int patch_inx = 0; patch_inx != PATCH_NUM; patch_inx++) {
 
 				if (patch[patch_inx].ID == gauge_list[gauge_inx]) {	//where the list was replaced with patch_inx
 					gauge_list[gauge_inx] = patch_inx;
@@ -365,11 +395,14 @@ void	read_images(struct patch_object *patch, struct command_line_object *command
 	free(pwest_horizon);
 	free(psoil);
 	free(pveg);
-	free(pstream);
+	
 	
 	//xu.
 	free(pstreamorder);
 	free(pbasins);
+	free(pgauges);
+	free(pclimate);
+	free(platitude);
 
 	free(proads);
 	free(plon);

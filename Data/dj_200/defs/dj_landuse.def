@@ -1,0 +1,11 @@
+1          how_many_landuse_types
+7          how_many_varaibles
+####################################################################################################################################################   
+1    landuse_default_ID     Identifier used by land use objects to indicate their land use default files:: unique value for each default file
+0    irrigation             Irrigation application rate::  (m/m2/year) 
+0    fertilizer_NO3         Fertilizer input rate as NO3:: (kg/m2/year)
+0    fertilizer_NH4         Fertilizer input rate as NH4:: (kg/m2/year)
+0    septic_NO3_load        Septic tank NO3 load:: (kg/m2/year)
+0    septic_water_load      Septic tank water load:: (m/m2/year)
+0    detention_store_size   Detention pond storage size (m)
+####################################################################################################################################################

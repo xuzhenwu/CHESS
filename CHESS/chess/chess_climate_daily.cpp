@@ -63,36 +63,39 @@ void chess_climate_daily(struct input_Clim_Files inClimFiles,
 	//---------------------------------------------------------------------------------------------------------------------------
 
 	fscanf(inClimFiles.pPrec,"%d %d %d",&yr,&mo,&dy);
-	for (int basin_inx = 0; basin_inx != basin_num; basin_inx++) {
-		fscanf(inClimFiles.pPrec, "%lf", &daily_clim[basin_inx].rain);
+	for (int  clim_inx = 0;  clim_inx != CLIMATE_NUM;  clim_inx++) {
+		fscanf(inClimFiles.pPrec, "%lf", &daily_clim[clim_inx].rain);
 	}
 	if(current_date.year !=yr || current_date.month!=mo ||current_date.day!=dy){
 		printf("precipitation data don't match \n");
 		printf("year,month,day %d %d %d \n",current_date.year,current_date.month,current_date.day);
 		printf("yr,mo,dy %d %d %d \n",yr,mo,dy);
+		getchar();
 		exit (0);
 	}
 
 	//reading maximum temperature data
 	fscanf(inClimFiles.pTmax, "%d %d %d", &yr, &mo, &dy);
-	for (int basin_inx = 0; basin_inx != basin_num; basin_inx++) {
+	for (int basin_inx = 0; basin_inx != CLIMATE_NUM; basin_inx++) {
 		fscanf(inClimFiles.pTmax, "%lf", &daily_clim[basin_inx].tmax);
 	}
 	if(current_date.year !=yr || current_date.month!=mo ||current_date.day!=dy){
 		printf("Maximum temperature data don't match \n");
 		printf("year,month,day %d %d %d \n",current_date.year,current_date.month,current_date.day);
 		printf("yr,mo,dy %d %d %d \n",yr,mo,dy);
+		getchar();
 		exit (0);
 	}
     //reading minimum temperature data
 	fscanf(inClimFiles.pTmin, "%d %d %d", &yr, &mo, &dy);
-	for (int basin_inx = 0; basin_inx != basin_num; basin_inx++) {
-		fscanf(inClimFiles.pTmin, "%lf", &daily_clim[basin_inx].tmin);
+	for (int  clim_inx = 0;  clim_inx != CLIMATE_NUM;  clim_inx++) {
+		fscanf(inClimFiles.pTmin, "%lf", &daily_clim[clim_inx].tmin);
 	}
 	if(current_date.year !=yr || current_date.month!=mo ||current_date.day!=dy){
 		printf("minimum temperature data don't match \n");
 		printf("year,month,day %d %d %d \n",current_date.year,current_date.month,current_date.day);
 		printf("yr,mo,dy %d %d %d \n",yr,mo,dy);
+		getchar();
 		exit (0);
 	}
 
@@ -100,14 +103,15 @@ void chess_climate_daily(struct input_Clim_Files inClimFiles,
 		//reading annual atmospheric CO2 data
 		//xu. for CO2, we assume all basins has a same annual CO2 input
 		fscanf(inClimFiles.pCO2,"%d %lf ",&yr,&(daily_clim->CO2));
-		for (int basin_inx = 0; basin_inx != basin_num; basin_inx++) {
-			daily_clim[basin_inx].CO2 = daily_clim->CO2;
+		for (int  clim_inx = 0;  clim_inx != CLIMATE_NUM;  clim_inx++) {
+			daily_clim[clim_inx].CO2 = daily_clim->CO2;
 		}
 		*CO2_flag=0;
 		if(current_date.year !=yr ){
 			printf("CO2 data do not match \n");
 			printf("year %d \n",current_date.year);
 			printf("yr,mo,dy %d \n",yr);
+			getchar();
 			exit (0);
 		}
 		//printf("co2 is %d %d %12.8f \n",yr,current_date.year,CO2_PPM);
@@ -118,7 +122,8 @@ void chess_climate_daily(struct input_Clim_Files inClimFiles,
 	//2. INITIAL REST OF CLIM SECQUENCES WITH NULL DATA
 	//xu. in current part of simulation the subbasins will own a separated climate data
 	//---------------------------------------------------------------------------------------------------------------------------
-	for (int basin_inx = 0; basin_inx != basin_num; basin_inx++) {
+	for (int basin_inx = 0; basin_inx != CLIMATE_NUM; basin_inx++) {
+
 		daily_clim[basin_inx].snow = -999.;
 		daily_clim[basin_inx].daytime_rain_duration = -999.;
 		daily_clim[basin_inx].cloud_fraction = -999.;

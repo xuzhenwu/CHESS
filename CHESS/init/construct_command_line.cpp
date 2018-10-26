@@ -69,6 +69,7 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 	command_line->gg = NULL;
 	command_line->cf = NULL;
 	command_line->parallel = NULL;
+	command_line->cl = NULL;
 
 	
 	/*-------------------------------------------------*/
@@ -215,6 +216,13 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 			/*			Allocate the patch output specifier.				*/
 			/*--------------------------------------------------------------*/
 			command_line->parallel = true;
+			i++;
+			} /*end if*/
+			else if (strcmp(main_argv[i], "-cl") == 0) {
+			/*--------------------------------------------------------------*/
+			/*			Allocate the patch output specifier.				*/
+			/*--------------------------------------------------------------*/
+			command_line->cl = true;
 			i++;
 			} /*end if*/
 			/*--------------------------------------------------------------*/

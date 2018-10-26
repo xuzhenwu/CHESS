@@ -72,6 +72,8 @@ struct landuse_default *construct_landuse_defaults(
 	/*--------------------------------------------------------------*/
 	/*	Loop through the default files list.						*/
 	/*--------------------------------------------------------------*/
+	
+	//xu. it will be trouble if there are two or more landuse defined 
 	for (i=0 ; i<nytpes; i++){
 		/*--------------------------------------------------------------*/
 		/*		Try to open the ith default file.						*/

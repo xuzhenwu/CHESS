@@ -5,7 +5,7 @@ struct  command_line_object	*construct_command_line(int main_argc, char **, stru
 void    read_R_RHESSys_File(char *, struct Input_Grid_Data *, struct In_File_Path  *, struct Input_Data_Range  *, struct out_date_range  *, struct Spin_Up *);
 //void    read_R_RHESSys_File(char *);
 
-void	read_images(struct patch_object *, struct command_line_object *, int, int, double, double, double, char *, char *, int, int, int ,int *);
+void	read_geo_images(struct patch_object *, struct command_line_object *, int, int, double, double, double, char *, char *, int, int, int ,int *);
 void    construct_patch(struct patch_object *, struct command_line_object *, int, int, char *, char *, int);
 int     construct_routing_topology(struct patch_object *, char *, char *, int, int);
 struct  input_Clim_Files open_Clim_Files(char *, char *);
@@ -56,8 +56,8 @@ void init_phenology_object(patch_object *, int);
 
 //xu. parallel
 void	parallel_land_daily(struct patch_object *patch, struct command_line_object *command_line, struct	date current_date, struct  daily_clim_object *daily_clim,
-	int patch_pch[][patch_num], int thread_patch_num[], int thread_inx);
-void	parallel_basins_pches(struct 	patch_object *patch, int patch_pch[][patch_num], int thread_patch_num[]);
+	int patch_pch[][PATCH_NUM], int thread_patch_num[], int thread_inx);
+void	parallel_basins_pches(struct 	patch_object *patch, int patch_pch[][PATCH_NUM], int thread_patch_num[]);
 
 //CLIMATE
 void    chess_climate_daily(struct input_Clim_Files, struct date, struct  daily_clim_object *daily_clim, int, int, int, int *); //windows
@@ -65,7 +65,7 @@ void    chess_climate_daily(struct input_Clim_Files, struct date, struct  daily_
 
 //LAND
 void	chess_land_daily(struct 	patch_object *patch, struct 	command_line_object *command_line, struct date current_date,
-	struct  daily_clim_object *daily_clim, int num_patches, int patch_pch[][patch_num], int thread_patch_num[]);
+	struct  daily_clim_object *daily_clim, int num_patches, int patch_pch[][PATCH_NUM], int thread_patch_num[]);
 
 //CHANNEL
 void    chess_channel_daily(struct patch_object *, struct reservoir_object, struct command_line_object *, struct	date, int, double);

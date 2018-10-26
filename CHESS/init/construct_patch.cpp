@@ -14,16 +14,15 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	//defaults filename
 
 	//xu.
-	char fnpatchdef[MAXS], fnsoildef[MAXS], fnlandusedef[MAXS], fnvegdef[MAXS], fnchanneldef[MAXS];
+	char fnclimatedef[MAXS], fnsoildef[MAXS], fnlandusedef[MAXS], fnvegdef[MAXS], fnchanneldef[MAXS];
 	//char fcanopytemp[MAXS],fpatchtemp[MAXS];
 
 	//local parameters
 	FILE  *default_file;
-	int    soiltypes, landusetypes, vegtypes, patchtypes, channeltypes;
+	int    soiltypes, landusetypes, vegtypes, climatetypes, channeltypes;
 	int    nvars, p, j;
 
 	//7 local functions to read four defaults and two template files 
-	struct soil_default *soil_defaults{};
 	struct soil_default *soil_default_object_list{};
 	struct soil_default *construct_soil_defaults(int, FILE *, struct command_line_object *, struct soil_default *);
 
@@ -33,11 +32,10 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	struct landuse_default *landuse_default_object_list{};
 	struct landuse_default *construct_landuse_defaults(int, FILE	*, struct command_line_object *, struct landuse_default *);
 
-	struct patch_default *patch_default_object_list{};
-	struct patch_default *construct_patch_defaults(int, FILE	*, struct command_line_object *, struct patch_default *);
+	struct climate_default *climate_default_object_list{};
+	struct climate_default *construct_climate_defaults(int, FILE	*, struct command_line_object *, struct climate_default *);
 
 	//xu.
-	struct channel_object **channel{};
 	struct channel_default *channel_default_object_list{};
 	struct channel_default *construct_channel_defaults(int, FILE *, struct command_line_object *, struct channel_default *);
 
@@ -58,7 +56,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	double soil_depth, air_entry, pore_size;
 
 	strcat(filename, prefix);
-	strcpy(fnpatchdef, filename);
+	strcpy(fnclimatedef, filename);
 	strcpy(fnsoildef, filename);
 	strcpy(fnvegdef, filename);
 	strcpy(fnlandusedef, filename);
@@ -67,7 +65,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	// append '.' extensions to each filename (these should be generalized) 
 	strcat(fnsoildef, "_soil.def");
 	strcat(fnvegdef, "_veg.def");
-	strcat(fnpatchdef, "_patch.def");
+	strcat(fnclimatedef, "_climate.def");
 	strcat(fnlandusedef, "_landuse.def");
 	strcat(fnchanneldef, "_channel.def");
 
@@ -75,7 +73,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	// 1. reading soil default files
 	//===========================================================================================================================
 	if ((default_file = fopen(fnsoildef, "r")) == NULL) {
-		fprintf(stderr, "cannot open soild default file %s\n", fnsoildef);
+		fprintf(stderr, "cannot open soil default file %s\n", fnsoildef);
 		return;
 	}
 	else {
@@ -96,17 +94,12 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	construct_soil_defaults(soiltypes, default_file, command_line, soil_default_object_list);
 	printf("Finishing reading soil default file  \n");
 
-	soil_defaults = (struct soil_default *) malloc(sizeof(struct soil_default));
-	if (soil_defaults == NULL) {
-		printf("out of memory for assinging soil defaults in construct_patch.c 1\n");
-		return;
-	}
 
 	//===========================================================================================================================
 	// 2. reading vegetation default files
 	//===========================================================================================================================
 	if ((default_file = fopen(fnvegdef, "r")) == NULL) {
-		fprintf(stderr, "cannot open soild default file %s\n", fnvegdef);
+		fprintf(stderr, "cannot open vegetation default file %s\n", fnvegdef);
 		return;
 	}
 	else {
@@ -121,18 +114,18 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 
 	stratum_default_object_list = (struct stratum_default *) calloc(vegtypes, sizeof(struct stratum_default));
 	if (stratum_default_object_list == NULL) {
-		printf("out of memory for assinging stratum default in construct_patch.c 1\n");
+		printf("out of memory for assinging vegetation default in construct_patch.c 1\n");
 		return;
 	}
 	construct_stratum_defaults(vegtypes, default_file, command_line, stratum_default_object_list);
-	printf("Finishing reading stratum_default file  \n");
+	printf("Finishing reading vegetation_default file  \n");
 
 
 	//===========================================================================================================================
 	// 3. reading landuse default files
 	//===========================================================================================================================
 	if ((default_file = fopen(fnlandusedef, "r")) == NULL) {
-		fprintf(stderr, "cannot open soild default file %s\n", fnlandusedef);
+		fprintf(stderr, "cannot open soil default file %s\n", fnlandusedef);
 		return;
 	}
 	else {
@@ -154,34 +147,34 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	printf("Finishing reading landuse_default file  \n");
 
 	//===========================================================================================================================
-	// 4. reading patch default files
+	// 4. reading climate default files
 	//===========================================================================================================================
-	if ((default_file = fopen(fnpatchdef, "r")) == NULL) {
-		fprintf(stderr, "cannot open patch default file %s\n", fnpatchdef);
+	if ((default_file = fopen(fnclimatedef, "r")) == NULL) {
+		fprintf(stderr, "cannot open climate default file %s\n", fnclimatedef);
 		return;
 	}
 	else {
-		fscanf(default_file, "%d ", &patchtypes);
+		fscanf(default_file, "%d ", &climatetypes);
 		read_record(default_file, record);
 		fscanf(default_file, "%d ", &nvars);
 		read_record(default_file, record);
-		printf("\n", patchtypes);
-		printf("The number of patch types are %d \n", patchtypes);
-		printf("The number of patch-default variables are %d \n", nvars);
+		printf("\n", climatetypes);
+		printf("The number of climate types are %d \n", climatetypes);
+		printf("The number of climate-default variables are %d \n", nvars);
 	}
 
-	patch_default_object_list = (struct patch_default *) calloc(patchtypes, sizeof(struct patch_default));
-	if (patch_default_object_list == NULL) {
-		printf("out of memory for assinging patch default in construct_patch.c 1\n");
+	climate_default_object_list = (struct climate_default *) calloc(climatetypes, sizeof(struct climate_default));
+	if (climate_default_object_list == NULL) {
+		printf("out of memory for assinging climate default in construct_patch.c 1\n");
 		return;
 	}
-	construct_patch_defaults(patchtypes, default_file, command_line, patch_default_object_list);
-	printf("Finishing reading patch_default file  \n");
+	construct_climate_defaults(climatetypes, default_file, command_line, climate_default_object_list);
+	printf("Finishing reading climate_default file  \n");
+
 
 	//===========================================================================================================================
 	// 5. read channel default files
 	//===========================================================================================================================
-
 	if (command_line->cf == TRUE) {
 
 		if ((default_file = fopen(fnchanneldef, "r")) == NULL) {
@@ -220,12 +213,17 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		//=============================================================================================================================
 		//1.Assign PATCH defaults for this patch						
 		//=============================================================================================================================
-		patch[p].patch_defaults = &patch_default_object_list[0];
-
+		patch[p].climate_defaults = &climate_default_object_list[0];
+		for (j = 0; j < climatetypes; j++) {
+			if (patch[p].climatetype == climate_default_object_list[j].ID) {
+				patch[p].climate_defaults = &climate_default_object_list[j];
+			}
+		}
 		//--------------------------------------------------------------
 		//	Create cosine of latitude to save future computations.		
 		//--------------------------------------------------------------
-		patch[p].latitude = patch[p].patch_defaults->latitude;  //averaged latitude for the whole watershed
+		//xu. latitude is an geo image input in read_geo_image.cpp 
+		//patch[p].latitude = patch[p].climate_defaults->latitude;  //averaged latitude for the whole watershed
 		patch[p].cos_latitude = cos(patch[p].latitude*DtoR);
 		patch[p].sin_latitude = sin(patch[p].latitude*DtoR);
 
@@ -260,10 +258,10 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		//=============================================================================================================================
 		//Initialize watershed defaults variables
 		//=============================================================================================================================
-		patch[p].mean_z = patch[p].patch_defaults->mean_elev;
-		patch[p].screen_height = patch[p].patch_defaults->screen_height;
+		patch[p].mean_z = patch[p].climate_defaults->mean_elev;
+		patch[p].screen_height = patch[p].climate_defaults->screen_height;
 
-		patch[p].std = patch[p].patch_defaults->std;
+		patch[p].std = patch[p].climate_defaults->std;
 
 		patch[p].Ksat_vertical = 0.95;
 		patch[p].rz_storage = 0.0;
@@ -273,9 +271,9 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		patch[p].sat_deficit = 0.0;
 		patch[p].snowpack.water_equivalent_depth = 0.0;
 		patch[p].snowpack.water_depth = 0.0;
-		patch[p].snowpack.T = patch[p].patch_defaults->snowpack.T;
+		patch[p].snowpack.T = patch[p].climate_defaults->snowpack.T;
 		patch[p].snowpack.surface_age = 0.0;
-		patch[p].snowpack.energy_deficit = patch[p].patch_defaults->snowpack.energy_deficit;
+		patch[p].snowpack.energy_deficit = patch[p].climate_defaults->snowpack.energy_deficit;
 		patch[p].snow_redist_scale = 0.0;
 
 		patch[p].gw_drainage = 0.0;
@@ -284,7 +282,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		patch[p].detention_store = 0.0;
 
 		//canopy related parameter
-		patch[p].rootzone.depth = patch[p].patch_defaults->root_depth;
+		patch[p].rootzone.depth = patch[p].climate_defaults->root_depth;
 
 		//patch[p].surface_Tday   = -999.9;
 		//patch[p].surface_Tnight = -999.9;
@@ -432,8 +430,8 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		air_entry = patch[p].soil_defaults->psi_air_entry;
 		pore_size = patch[p].soil_defaults->pore_size_index;
 
-		patch[p].canopy_strata->cover_fraction = patch[p].patch_defaults->cover_fraction;
-		patch[p].canopy_strata->gap_fraction = patch[p].patch_defaults->gap_fraction;
+		patch[p].canopy_strata->cover_fraction = patch[p].climate_defaults->cover_fraction;
+		patch[p].canopy_strata->gap_fraction = patch[p].climate_defaults->gap_fraction;
 
 		patch[p].canopy_strata->dC13 = 10.; //initialization added by guoping
 

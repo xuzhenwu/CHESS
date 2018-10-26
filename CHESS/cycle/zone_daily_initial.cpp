@@ -75,19 +75,19 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 	z_delta = patch->z - patch->mean_z;
 
 	if (patch->daily_clim->rain>0)
-		patch->rain = max(0, patch->daily_clim->rain + z_delta*patch->patch_defaults->lapse_rate_prec);
+		patch->rain = max(0, patch->daily_clim->rain + z_delta*patch->climate_defaults->lapse_rate_prec);
 	else
 		patch->rain = 0.;
 
 	if (patch->rain > ZERO)
-		patch->metv.tmin = patch->daily_clim->tmin - z_delta * patch->patch_defaults->wet_lapse_rate;
+		patch->metv.tmin = patch->daily_clim->tmin - z_delta * patch->climate_defaults->wet_lapse_rate;
 	else
-		patch->metv.tmin = patch->daily_clim->tmin - z_delta * patch->patch_defaults->lapse_rate_tmin;
+		patch->metv.tmin = patch->daily_clim->tmin - z_delta * patch->climate_defaults->lapse_rate_tmin;
 
 	if (patch->rain > ZERO)
-		patch->metv.tmax = patch->daily_clim->tmax - z_delta * patch->patch_defaults->wet_lapse_rate;
+		patch->metv.tmax = patch->daily_clim->tmax - z_delta * patch->climate_defaults->wet_lapse_rate;
 	else
-		patch->metv.tmax = patch->daily_clim->tmax - z_delta * patch->patch_defaults->lapse_rate_tmax;
+		patch->metv.tmax = patch->daily_clim->tmax - z_delta * patch->climate_defaults->lapse_rate_tmax;
 
 	//=====================================================================================================================================
 	//	CO2 -ppm - atmospheric CO2  concentration time series	
@@ -114,7 +114,7 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 	//	Mean recorded temperature over the entire 24 hrs OR	Arithmetic mean of daily tmax and tmin.
 	//=====================================================================================================================================
 	if (patch->daily_clim->tavg != -999.){
-		patch->metv.tavg = patch->daily_clim->tavg - (patch->z - patch->mean_z)	* patch->patch_defaults->lapse_rate;
+		patch->metv.tavg = patch->daily_clim->tavg - (patch->z - patch->mean_z)	* patch->climate_defaults->lapse_rate;
 	}
 	else{
 		patch->metv.tavg = (patch->metv.tmin + patch->metv.tmax) / 2.0;
@@ -128,10 +128,10 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 	//	via Equation 1 and Appendix B "MTCLIM"; in this case note that all temperatures are already adjusted for lapse	rate.										
 	//=====================================================================================================================================
 	if (patch->daily_clim->tday != -999.){
-		patch->metv.tday = patch->daily_clim->tday - (patch->z - patch->mean_z) * patch->patch_defaults->lapse_rate;
+		patch->metv.tday = patch->daily_clim->tday - (patch->z - patch->mean_z) * patch->climate_defaults->lapse_rate;
 	}
 	else{
-		patch->metv.tday = patch->patch_defaults->temcf	* (patch->metv.tmax - patch->metv.tavg) + patch->metv.tavg;
+		patch->metv.tday = patch->climate_defaults->temcf	* (patch->metv.tmax - patch->metv.tavg) + patch->metv.tavg;
 	}
 
 
@@ -142,7 +142,7 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 	//	OR	if tday is not given we wait until it is computed
 	//=====================================================================================================================================
 	if (patch->daily_clim->tnight != -999.){
-		patch->metv.tnight = patch->daily_clim->tnight - (patch->z - patch->mean_z) *patch->patch_defaults->lapse_rate;
+		patch->metv.tnight = patch->daily_clim->tnight - (patch->z - patch->mean_z) *patch->climate_defaults->lapse_rate;
 	}
 	else {
 		patch->metv.tnight = (patch->metv.tday + patch->metv.tmin) / 2.0;
@@ -153,7 +153,7 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 	//	minimum nighttime temp and essential turn off heat flux.
 	//=====================================================================================================================================
 	if (patch->daily_clim->tnightmax != -999.){
-		patch->metv.tnightmax = patch->daily_clim->tnightmax - (patch->z - patch->mean_z) * patch->patch_defaults->lapse_rate;
+		patch->metv.tnightmax = patch->daily_clim->tnightmax - (patch->z - patch->mean_z) * patch->climate_defaults->lapse_rate;
 	}
 	else{
 		patch->metv.tnightmax = patch->metv.tmin;
@@ -164,7 +164,7 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 	//=====================================================================================================================================
 
 		if (patch->daily_clim->snow != -999.){
-			patch->snow = patch->daily_clim->snow + z_delta* patch->patch_defaults->lapse_rate_prec;
+			patch->snow = patch->daily_clim->snow + z_delta* patch->climate_defaults->lapse_rate_prec;
 		}
 		else{
 			//=================================================================================================================================
@@ -172,21 +172,21 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 			//
 			//	Based on U.S Army Corps of ENgineers (1956) Snow Hydrology use a min/max to get range in which there 
 			// is a mix of snow/rain
-			if (patch->metv.tavg < patch->patch_defaults->max_snow_temp){ //
+			if (patch->metv.tavg < patch->climate_defaults->max_snow_temp){ //
 
-				if (patch->metv.tavg <= patch->patch_defaults->min_rain_temp){
+				if (patch->metv.tavg <= patch->climate_defaults->min_rain_temp){
 					patch->snow = patch->rain;
 					patch->rain = 0.0;
 				}
 				else{
-					double snow_rain_range = patch->patch_defaults->max_snow_temp
-						- patch->patch_defaults->min_rain_temp;
+					double snow_rain_range = patch->climate_defaults->max_snow_temp
+						- patch->climate_defaults->min_rain_temp;
 					if (snow_rain_range < 0.001){
 						patch->snow = patch->rain;
 						patch->rain = 0.0;
 					}
 					else{
-						patch->snow = min((patch->patch_defaults->max_snow_temp
+						patch->snow = min((patch->climate_defaults->max_snow_temp
 							- patch->metv.tavg) * patch->rain / snow_rain_range, patch->rain);
 						patch->rain = patch->rain - patch->snow;
 					}
@@ -246,7 +246,7 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 		//
 		//		If we dont have cloud fraction data we assume 4.0oktas of full cloudyness if it is a rainy day or a rain or
 		//		snow day.
-		if ((patch->snow + patch->rain) > patch->patch_defaults->pptmin){
+		if ((patch->snow + patch->rain) > patch->climate_defaults->pptmin){
 			patch->cloud = 4.0;
 			patch->cloud_fraction = 1.0;
 		}
@@ -293,7 +293,7 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 		//=================================================================================================================================
 		//		We only make rainy day tranmissivity corrections if	there is a substantial amoun of rain (>1inch)
 		//=================================================================================================================================
-		if ((patch->rain + max(0.0, patch->snow)) > patch->patch_defaults->pptmin){
+		if ((patch->rain + max(0.0, patch->snow)) > patch->climate_defaults->pptmin){
 			patch->Delta_T = patch->Delta_T * 0.75;
 		}
 	}
@@ -321,8 +321,8 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 		//			Appendix D Eq. 1 "MTCLIM"								
 		//			Bristow and Campbell 1984.								
 		//=================================================================================================================================
-		patch->atm_trans = patch->patch_defaults->sea_level_clear_sky_trans
-			+ (patch->z - patch->mean_z) * patch->patch_defaults->atm_trans_lapse_rate;
+		patch->atm_trans = patch->climate_defaults->sea_level_clear_sky_trans
+			+ (patch->z - patch->mean_z) * patch->climate_defaults->atm_trans_lapse_rate;
 		//=================================================================================================================================
 		//			convert clear sky transmissivity to bulk transmissivity	
 		//																
@@ -347,7 +347,7 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 			//=============================================================================================================================
 
 			trans_coeff1 = 0.036 * exp(-0.152 * patch->Delta_T);
-			patch->atm_trans = patch->atm_trans	*(1.0 - exp(-1 * trans_coeff1*pow(patch->Delta_T, patch->patch_defaults->trans_coeff2)));
+			patch->atm_trans = patch->atm_trans	*(1.0 - exp(-1 * trans_coeff1*pow(patch->Delta_T, patch->climate_defaults->trans_coeff2)));
 			patch->Kdown_direct_adjustment = 1.0;
 			patch->Kdown_diffuse_adjustment = 1.0;
 		}
@@ -411,7 +411,7 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 	if (patch->daily_clim->wind != -999.)
 		patch->wind = patch->daily_clim->wind;
 	else
-		patch->wind = patch->patch_defaults->wind;
+		patch->wind = patch->climate_defaults->wind;
 
 
 	//=====================================================================================================================================
@@ -420,7 +420,7 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 	if (patch->daily_clim->ndep_NO3 != -999.)
 		patch->ndep_NO3 = patch->daily_clim->ndep_NO3;
 	else
-		patch->ndep_NO3 = patch->patch_defaults->ndep_NO3;
+		patch->ndep_NO3 = patch->climate_defaults->ndep_NO3;
 
 
 	if (patch->daily_clim->ndep_NH4 != -999.)
@@ -436,7 +436,7 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 	//	"MTNCLIM"; otherwise we use Tmin_air for dewpoint.
 	//=====================================================================================================================================
 	if (patch->daily_clim->tdewpoint != -999.)
-		patch->tdewpoint = patch->daily_clim->tdewpoint - z_delta	* patch->patch_defaults->dewpoint_lapse_rate;
+		patch->tdewpoint = patch->daily_clim->tdewpoint - z_delta	* patch->climate_defaults->dewpoint_lapse_rate;
 	else
 		patch->tdewpoint = patch->metv.tmin;
 
@@ -522,7 +522,7 @@ void zone_daily_initial(struct 	patch_object 	*patch,struct    daily_clim_object
 	printf("patch is %f %f\n", patch->metv.tsoil, patch->metv.tsoil_sum);
 	printf("patch is %f \n", patch->snow);
 	printf("patch is %f %f\n", patch->daytime_rain_duration, patch->daylength);
-	printf("patch is %f %f\n", patch->patch_defaults->pptmin, patch->cloud_fraction);
+	printf("patch is %f %f\n", patch->climate_defaults->pptmin, patch->cloud_fraction);
 	printf("patch is %f %f\n", patch->cloud_opacity, patch->Delta_T);
 	printf("patch is %f %f\n", patch->atm_trans, patch->metv.tsoil);
 	printf("patch is %f %f\n", patch->wind, patch->ndep_NO3);

@@ -26,7 +26,7 @@ void out_gauge_level_daily(int num_patches,
 
 	if (out_flag == 1 && command_line->gg != NULL) {
 
-		for (int gauge_inx = 0; gauge_inx != gauge_num; gauge_inx++) {
+		for (int gauge_inx = 0; gauge_inx != GAUGE_NUM; gauge_inx++) {
 			output_gauge_daily_hydrology(&patch[(gauge_list[gauge_inx])], current_date, DM_outfiles->fGaugeDailyHydro[gauge_inx], command_line,cellsize);
 			output_gauge_daily_growth(&patch[(gauge_list[gauge_inx])], current_date, DM_outfiles->fGaugeDailyPlant[gauge_inx], command_line, cellsize);
 		}

@@ -64,10 +64,10 @@ using namespace std;
 //=======================================================================================================================
 
 //spatial geographic information for the study region
-const int       maxr = 602, maxc = 680;
-const double    xll = 419115.19009;
-const double    yll = 2472406.72893;
-const double    cellsize = 500;
+const int       maxr = 1700, maxc = 1505;
+const double    xll = 419115.190090;
+const double    yll = 2472355.017050;
+const double    cellsize = 200;
 const float     NODATA_value = -9999;
 
 // define the simulation year, month and day
@@ -81,17 +81,19 @@ struct out_date_range out_date = { 1961, 1961, 1, 12, 1, 31, 1, 24 };
 
 // define the number of spin years required for vegetation and soil carbon to reach the stable state with long-term
 // climatology. Spin interval is the period of input climate data used for spin-up simulations
-const int spin_years = 20, spin_interval = 2;
+const int spin_years = 6, spin_interval = 2;
 bool      spin_flag = true;
 
 // define the input file prefix and paths for model forcing data
 char  prefix[20] = "dj";
-char  inDefFile[120] = { "D://xu//CHESS//Data//dj//defs//" };
-char  inImgFile[120] = { "D://xu//CHESS//Data//dj//flowtable//" };
-char  inFlowFile[120] = { "D://xu//CHESS//Data//dj//flowtable//" };
-char  inClimPath[120] = { "D://xu//CHESS//Data//dj//climate//" };
-char  outPutPath[120] = { "D://xu//OUT//CHESS//dj_500//" };
-char  FlowTableName[40] = "dj_flow_table_RMD_inf.dat";
+char  inDefFile[120] = { "D://xu//CHESS//Data//dj_200//defs//" };
+char  inImgFile[120] = { "D://xu//CHESS//Data//dj_200//geo//" };
+char  inFlowFile[120] = { "D://xu//CHESS//Data//dj_200//geo//" };
+char  inClimPath[120] = { "D://xu//CHESS//Data//dj_200//clim//" };
+char  outPutPath[120] = { "D://xu//OUT//CHESS//dj_200//" };
+
+// multiple choice of routing algorithms
+char  FlowTableName[40] = "dj_flow_table_D8.dat";
 
 
 //=======================================================================================================================
@@ -112,15 +114,15 @@ int	main(int main_argc, char **main_argv)
 
 	//xu. for lower use memory we use patch_num instead of cols*rows
 	//only 1/4 memory are needed now
-	struct patch_object *patch = new struct patch_object[patch_num]{};
-	struct  daily_clim_object *daily_clim = new struct daily_clim_object[basin_num]{};//change it as a pointer
+	struct patch_object *patch = new struct patch_object[PATCH_NUM]{};
+	struct  daily_clim_object *daily_clim = new struct daily_clim_object[CLIMATE_NUM]{};//change it as a pointer
 
 	//xu. parallel
-	int(*patch_pch)[patch_num] = new int[thread_num][patch_num]{};//storage of pch to each thread
-	int *thread_patch_num = new int[thread_num] {};//number of pches in each thread
+	int(*patch_pch)[PATCH_NUM] = new int[BASIN_NUM][PATCH_NUM]{};//storage of pch to each thread
+	int *thread_patch_num = new int[BASIN_NUM] {};//number of pches in each thread
 	
 	//gauge_lists of patchID for output
-	int		gauge_list[gauge_num]{};
+	int		gauge_list[GAUGE_NUM]{};
 	
 	int     num_patches{}, kk = 0;
 	int     f_flag = 1, arc_flag = 1, CO2_flag = 1, out_flag = 0;
@@ -141,7 +143,7 @@ int	main(int main_argc, char **main_argv)
 	num_patches = construct_routing_topology(patch, inFlowFile, FlowTableName, maxr, maxc);
 
 	//reading GRASS- or ArcInfo-based input images such as DEM,slope,aspect....stream,roads, gauge_lists
-	read_images(patch, command_line, maxr, maxc, cellsize, xll, yll, inImgFile, prefix, f_flag, arc_flag,num_patches,gauge_list);
+	read_geo_images(patch, command_line, maxr, maxc, cellsize, xll, yll, inImgFile, prefix, f_flag, arc_flag,num_patches,gauge_list);
 
 	//Initialize the default values of patch fields/members
 	construct_patch(patch, command_line, maxr, maxc, inDefFile, prefix,num_patches);

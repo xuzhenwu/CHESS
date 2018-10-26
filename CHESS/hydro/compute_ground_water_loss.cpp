@@ -13,7 +13,7 @@ void		compute_ground_water_loss(
 	/*	compute groundwater losses					*/
 	/*----------------------------------------------------------------------*/
 	if ((command_line->gw_flag > 0) && (patch->gw.storage > ZERO)) {
-		patch->gw.Qout = patch->gw.storage * patch->slope / 1.571 *patch->patch_defaults->gw_loss_coeff;
+		patch->gw.Qout = patch->gw.storage * patch->slope / 1.571 *patch->climate_defaults->gw_loss_coeff;
 		patch->gw.Nout = patch->gw.Qout * patch->gw.NO3 / patch->gw.storage;
 	}
 	else{

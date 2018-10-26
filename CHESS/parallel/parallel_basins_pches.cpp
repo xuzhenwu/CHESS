@@ -13,13 +13,13 @@ using namespace std;
 
 
 void		parallel_basins_pches(struct 	patch_object *patch,
-	int patch_pch[][patch_num],
+	int patch_pch[][PATCH_NUM],
 	int thread_patch_num[]
 )
 {
 	int thread_inx=0;
 
-	for (int inx = 0; inx < patch_num; inx++) {
+	for (int inx = 0; inx < PATCH_NUM; inx++) {
 		
 		//start from 0
 		thread_inx = patch[inx].basins-1;

@@ -180,10 +180,10 @@ void	patch_daily_final (struct 	patch_object *patch,
 			&patch->Kdown_diffuse,
 			&patch->PAR_direct,
 			&patch->PAR_diffuse,
-			patch->patch_defaults->maximum_snow_energy_deficit,
-			patch->patch_defaults->snow_water_capacity,
-			patch->patch_defaults->snow_light_ext_coef,
-			patch->patch_defaults->snow_melt_Tcoef,
+			patch->climate_defaults->maximum_snow_energy_deficit,
+			patch->climate_defaults->snow_water_capacity,
+			patch->climate_defaults->snow_light_ext_coef,
+			patch->climate_defaults->snow_melt_Tcoef,
 			patch->Lstar_snow);
 
 		patch->rain_throughfall += patch->snow_melt;

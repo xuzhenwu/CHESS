@@ -14,10 +14,10 @@
 //in most cases, the thread_num and basin_num should be the same
 //otherwise input or simulation module should be updated.
 //---------------------------------------------------------------------------------------------------------------------------
-#define thread_num 11
-#define basin_num  11
-#define patch_num  131240
-#define gauge_num  1
+#define BASIN_NUM	6
+#define CLIMATE_NUM	11
+#define PATCH_NUM	790304
+#define GAUGE_NUM	1
 
 //=======================================================================================================================
 
