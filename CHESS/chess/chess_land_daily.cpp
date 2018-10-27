@@ -34,11 +34,33 @@ void  chess_land_daily(struct patch_object *patch,
 	thread pd4(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
 	thread pd5(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
 	thread pd6(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd7(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd8(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd9(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd10(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd11(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd12(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd13(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd14(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd15(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd16(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd17(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd18(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd19(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd20(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd21(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd22(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd23(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
+	thread pd24(parallel_land_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx); thread_inx++;
 
 
 	//Join all threads
 	pd1.join();	pd2.join();	pd3.join(); pd4.join();
-	pd5.join();	pd6.join();	
+	pd5.join();	pd6.join();	pd7.join();	pd8.join();
+	pd9.join();	pd10.join();pd11.join();pd12.join();
+	pd13.join();	pd14.join();	pd15.join();	pd16.join();
+	pd17.join();	pd18.join();	pd19.join();	pd20.join();
+	pd21.join();	pd22.join();	pd23.join();	pd24.join();
 
 	//---------------------------------------------------------------------------------------------------------------------------
 	//END OF LAND COMPUTATION

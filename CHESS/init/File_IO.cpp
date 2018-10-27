@@ -253,8 +253,8 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	strcat(fnstreamorder, ".streamorder");
 	strcat(fnbasins, ".basin");
 	strcat(fngauges, ".gauge");
-	strcat(fngauges, ".climate");
-	strcpy(fnlatitude, ".latitude");
+	strcat(fnclimate, ".climate");
+	strcat(fnlatitude, ".latitude");
 
 	input_header(rows, cols, fndem, arc_flag);
 
@@ -315,9 +315,8 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	}
 
 	pclimate = new int[rows*cols]{};
-	if (command_line->cl == TRUE) {
-		input_ascii_int(pclimate, fnclimate, rows, cols,  arc_flag);
-	}
+	input_ascii_int(pclimate, fnclimate, rows, cols,  arc_flag);
+
 
 
 

@@ -50,6 +50,7 @@ void zero_patch_daily_flux(
 	//patch->preday_subsurface_out     = patch->subsurface_out;
 	patch->canopy_strata->preday_rain_stored = patch->canopy_strata->rain_stored;
 	patch->canopy_strata->preday_snow_stored = patch->canopy_strata->snow_stored;
+	
 	patch->canopy_strata->rain_stored = 0;
 	patch->canopy_strata->snow_stored = 0;
 

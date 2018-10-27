@@ -258,7 +258,9 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		//=============================================================================================================================
 		//Initialize watershed defaults variables
 		//=============================================================================================================================
-		patch[p].mean_z = patch[p].climate_defaults->mean_elev;
+
+		patch[p].z_delta = patch[p].z - patch[p].climate_defaults->gauge_elev;
+
 		patch[p].screen_height = patch[p].climate_defaults->screen_height;
 
 		patch[p].std = patch[p].climate_defaults->std;

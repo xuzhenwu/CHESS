@@ -571,8 +571,7 @@ struct climate_default
 {
 	//int		n_routing_timesteps;	            /* number per day */ 
 	int		ID;
-	double  latitude;                           //averaged latitude for the whole watershed
-	double  mean_elev;                          //averaged elevation for the whole watershed
+	double  gauge_elev;                          //elevation of the weather gauge
 	double  std;
 	double  cover_fraction;
 	double  gap_fraction;
@@ -616,7 +615,9 @@ struct patch_object
 	double	y;									/* meters	*/
 	double	z;									/* meters	*/
 	double  acc_area;                             /*accumulated area*/
-	double  mean_z;
+	
+	double z_delta;								//xu. relative z between z and mean_z 
+
 	double  critical_depth;		                /* m */
 	double	gamma;
 	int	    num_neighbours;
@@ -968,7 +969,6 @@ struct	command_line_object
 	bool	gg;
 	bool	cf;
 	bool	parallel;
-	bool	cl;
 
 	int     spin_flag;
 	int		grow_flag;

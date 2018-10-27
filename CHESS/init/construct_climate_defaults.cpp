@@ -35,7 +35,7 @@ struct climate_default *construct_climate_defaults(
 	read_record(default_file, record);
 
 	for (int i = 0; i < nytpes; i++) {
-		fscanf(default_file, "%lf", &(climate_default_object_list[i].mean_elev));
+		fscanf(default_file, "%lf", &(climate_default_object_list[i].gauge_elev));
 	}
 	read_record(default_file, record);
 

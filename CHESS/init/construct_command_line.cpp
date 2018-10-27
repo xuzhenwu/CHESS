@@ -69,7 +69,6 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 	command_line->gg = NULL;
 	command_line->cf = NULL;
 	command_line->parallel = NULL;
-	command_line->cl = NULL;
 
 	
 	/*-------------------------------------------------*/
@@ -218,16 +217,6 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 			command_line->parallel = true;
 			i++;
 			} /*end if*/
-			else if (strcmp(main_argv[i], "-cl") == 0) {
-			/*--------------------------------------------------------------*/
-			/*			Allocate the patch output specifier.				*/
-			/*--------------------------------------------------------------*/
-			command_line->cl = true;
-			i++;
-			} /*end if*/
-			/*--------------------------------------------------------------*/
-			/*		the option must be invalid.								*/
-			/*--------------------------------------------------------------*/
 			else{
 				fprintf(stderr,
 					"FATAL ERROR: in construct_command_line option #%d is invalid.\n",i);
