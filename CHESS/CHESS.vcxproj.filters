@@ -46,6 +46,9 @@
     <Filter Include="源文件\parallel">
       <UniqueIdentifier>{149db567-9d20-4f1b-81dc-48f675a8f5d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\patch">
+      <UniqueIdentifier>{0bf7d831-b893-4b37-986e-fe88416ff804}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CHESS.h">
@@ -233,9 +236,6 @@
     <ClCompile Include="hydro\compute_soil_water_potential.cpp">
       <Filter>源文件\hydro</Filter>
     </ClCompile>
-    <ClCompile Include="hydro\compute_subsurface_routing_new.cpp">
-      <Filter>源文件\hydro</Filter>
-    </ClCompile>
     <ClCompile Include="hydro\compute_transmissivity_curve.cpp">
       <Filter>源文件\hydro</Filter>
     </ClCompile>
@@ -263,28 +263,16 @@
     <ClCompile Include="hydro\snowpack_daily_F.cpp">
       <Filter>源文件\hydro</Filter>
     </ClCompile>
-    <ClCompile Include="hydro\update_drainage_land_new.cpp">
-      <Filter>源文件\hydro</Filter>
-    </ClCompile>
-    <ClCompile Include="hydro\update_drainage_stream_new.cpp">
-      <Filter>源文件\hydro</Filter>
-    </ClCompile>
     <ClCompile Include="hydro\update_gw_drainage.cpp">
       <Filter>源文件\hydro</Filter>
     </ClCompile>
     <ClCompile Include="hydro\update_litter_interception_capacity.cpp">
       <Filter>源文件\hydro</Filter>
     </ClCompile>
-    <ClCompile Include="hydro\zero_patch_daily_flux.cpp">
-      <Filter>源文件\hydro</Filter>
-    </ClCompile>
     <ClCompile Include="chess\chess_channel_daily.cpp">
       <Filter>源文件\chess</Filter>
     </ClCompile>
     <ClCompile Include="chess\chess_climate_daily.cpp">
-      <Filter>源文件\chess</Filter>
-    </ClCompile>
-    <ClCompile Include="chess\chess_land_daily.cpp">
       <Filter>源文件\chess</Filter>
     </ClCompile>
     <ClCompile Include="init\construct_channel_default.cpp">
@@ -443,25 +431,7 @@
     <ClCompile Include="parallel\parallel_basins_pches.cpp">
       <Filter>源文件\parallel</Filter>
     </ClCompile>
-    <ClCompile Include="parallel\parallel_land_daily.cpp">
-      <Filter>源文件\parallel</Filter>
-    </ClCompile>
-    <ClCompile Include="cycle\patch_daily_initial.cpp">
-      <Filter>源文件\cycle</Filter>
-    </ClCompile>
-    <ClCompile Include="cycle\patch_daily_final.cpp">
-      <Filter>源文件\cycle</Filter>
-    </ClCompile>
-    <ClCompile Include="cycle\patch_radiation_daily.cpp">
-      <Filter>源文件\cycle</Filter>
-    </ClCompile>
     <ClCompile Include="cycle\zone_daily_final.cpp">
-      <Filter>源文件\cycle</Filter>
-    </ClCompile>
-    <ClCompile Include="cycle\zone_daily_initial.cpp">
-      <Filter>源文件\cycle</Filter>
-    </ClCompile>
-    <ClCompile Include="init\zero_patch_object.cpp">
       <Filter>源文件\cycle</Filter>
     </ClCompile>
     <ClCompile Include="init\construct_canopy_strata.cpp">
@@ -481,6 +451,36 @@
     </ClCompile>
     <ClCompile Include="init\construct_climate_defaults.cpp">
       <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="parallel\parallel_patch_daily.cpp">
+      <Filter>源文件\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="chess\chess_patch_daily.cpp">
+      <Filter>源文件\chess</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\update_drainage_stream.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\update_drainage_land.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="init\zero_patch_object.cpp">
+      <Filter>源文件\patch</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\patch_lateral_flow.cpp">
+      <Filter>源文件\patch</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\patch_daily_final.cpp">
+      <Filter>源文件\patch</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\patch_radiation_daily.cpp">
+      <Filter>源文件\patch</Filter>
+    </ClCompile>
+    <ClCompile Include="patch\patch_land_initial.cpp">
+      <Filter>源文件\patch</Filter>
+    </ClCompile>
+    <ClCompile Include="cycle\patch_climate_initial.cpp">
+      <Filter>源文件\patch</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

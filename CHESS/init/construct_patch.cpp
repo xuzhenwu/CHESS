@@ -45,9 +45,6 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 
 	void    *print(struct command_line_object *);
 	char    record[MAXSTR];
-	double	compute_z_final(int, double, double, double, double, double);
-	void    sort_patch_layers(struct patch_object *);
-	void	update_litter_interception_capacity(double, struct litter_c_object *, struct litter_object *);
 	void	*alloc(size_t size, const char *array_name, const char *calling_function);
 	double  atm_pres(double);
 	float   spaveg(float, float);

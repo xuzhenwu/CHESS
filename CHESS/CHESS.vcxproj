@@ -26,7 +26,7 @@
   <ItemGroup>
     <ClCompile Include="chess\chess_channel_daily.cpp" />
     <ClCompile Include="chess\chess_climate_daily.cpp" />
-    <ClCompile Include="chess\chess_land_daily.cpp" />
+    <ClCompile Include="chess\chess_patch_daily.cpp" />
     <ClCompile Include="clim\compute_atm_pres.cpp" />
     <ClCompile Include="clim\compute_toc_wind.cpp" />
     <ClCompile Include="cn\allocate_annual_growth.cpp" />
@@ -74,11 +74,10 @@
     <ClCompile Include="cycle\canopy_stratum_growth.cpp" />
     <ClCompile Include="cycle\initialize_phenology_object.cpp" />
     <ClCompile Include="cycle\patch_daily_final.cpp" />
-    <ClCompile Include="cycle\patch_daily_initial.cpp" />
     <ClCompile Include="cycle\patch_radiation_daily.cpp" />
     <ClCompile Include="cycle\surface_daily_F.cpp" />
     <ClCompile Include="cycle\zone_daily_final.cpp" />
-    <ClCompile Include="cycle\zone_daily_initial.cpp" />
+    <ClCompile Include="cycle\patch_climate_initial.cpp" />
     <ClCompile Include="hydro\compute_capillary_rise.cpp" />
     <ClCompile Include="hydro\compute_delta_water.cpp" />
     <ClCompile Include="hydro\compute_field_capacity.cpp" />
@@ -99,7 +98,7 @@
     <ClCompile Include="hydro\compute_snow_stored.cpp" />
     <ClCompile Include="hydro\compute_snow_sublimation.cpp" />
     <ClCompile Include="hydro\compute_soil_water_potential.cpp" />
-    <ClCompile Include="hydro\compute_subsurface_routing_new.cpp" />
+    <ClCompile Include="hydro\patch_lateral_flow.cpp" />
     <ClCompile Include="hydro\compute_transmissivity_curve.cpp" />
     <ClCompile Include="hydro\compute_unsat_zone_drainage.cpp" />
     <ClCompile Include="hydro\compute_varbased_flow.cpp" />
@@ -109,11 +108,10 @@
     <ClCompile Include="hydro\penman_monteith.cpp" />
     <ClCompile Include="hydro\recompute_gamma.cpp" />
     <ClCompile Include="hydro\snowpack_daily_F.cpp" />
-    <ClCompile Include="hydro\update_drainage_land_new.cpp" />
-    <ClCompile Include="hydro\update_drainage_stream_new.cpp" />
+    <ClCompile Include="hydro\update_drainage_land.cpp" />
+    <ClCompile Include="hydro\update_drainage_stream.cpp" />
     <ClCompile Include="hydro\update_gw_drainage.cpp" />
     <ClCompile Include="hydro\update_litter_interception_capacity.cpp" />
-    <ClCompile Include="hydro\zero_patch_daily_flux.cpp" />
     <ClCompile Include="init\construct_canopy_strata.cpp" />
     <ClCompile Include="init\construct_channel_default.cpp" />
     <ClCompile Include="init\construct_command_line.cpp" />
@@ -145,7 +143,8 @@
     <ClCompile Include="output\out_gauge_level_daily.cpp" />
     <ClCompile Include="output\out_patch_level_daily.cpp" />
     <ClCompile Include="parallel\parallel_basins_pches.cpp" />
-    <ClCompile Include="parallel\parallel_land_daily.cpp" />
+    <ClCompile Include="parallel\parallel_patch_daily.cpp" />
+    <ClCompile Include="patch\patch_land_initial.cpp" />
     <ClCompile Include="rad\compute_diffuse_radiative_fluxes.cpp" />
     <ClCompile Include="rad\compute_diffuse_radiative_PAR_fluxes.cpp" />
     <ClCompile Include="rad\compute_direct_radiative_fluxes.cpp" />

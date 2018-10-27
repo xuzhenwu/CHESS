@@ -58,10 +58,10 @@
 
 using namespace std;
 
-
 //=======================================================================================================================
 //GLOBAL VARS TO BE DEFINED
 //=======================================================================================================================
+
 
 //spatial geographic information for the study region
 const int       maxr = 1700, maxc = 1505;
@@ -240,9 +240,9 @@ int	main(int main_argc, char **main_argv)
 					chess_climate_daily(inClimFiles, current_date, daily_clim, start_year, start_month, start_day, &CO2_flag);
 
 					//---------------------------------------------------------------------------------------------------------------------------
-					//xu. LAND.. Initial and run parallel CHESS daily Ecohydrological process and Transport of water and nutrients
+					//xu. PATCH.. Initial and run parallel CHESS daily Ecohydrological process and Transport of water and nutrients
 					//---------------------------------------------------------------------------------------------------------------------------
-					chess_land_daily(patch, command_line, current_date, daily_clim, num_patches, patch_pch, thread_patch_num);//daily_clim is a pointer now, the changes through out chess land daily 
+					chess_patch_daily(patch, command_line, current_date, daily_clim, num_patches, patch_pch, thread_patch_num);//daily_clim is a pointer now, the changes through out chess land daily 
 
 					//---------------------------------------------------------------------------------------------------------------------------
 					//xu. CHANNEL.. Channel flow routing process the route out the water

@@ -10,10 +10,6 @@
 #include "CHESS.h"
 #include "Constants.h"
 
-using std::cout;
-using std::endl;
-
-#define round(x) ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
 
 void  chess_channel_daily(patch_object *patch, struct reservoir_object reservoir, struct command_line_object *command_line,
 	struct	date current_date, int num_patches, double cellsize)
@@ -27,20 +23,22 @@ void  chess_channel_daily(patch_object *patch, struct reservoir_object reservoir
 		double);
 
 	struct patch_object	*neigh;
+	
+	/*
 	int i, j, k = 0, kk = 0;
 	static double route_to_streamflow = 0, route_to_baseflow = 0;
 	double sumstreamflow = 0, sumbaseflow = 0;
 	static double volume = 0;
 	static bool startDischarge = false;
 	double Qout = 0., water = 0.;
-	double surface_Qout = 0., return_flow = 0.;
+	double surface_Qout = 0., return_flow = 0.;*/
 
 	//xu.
 	double V1 = 0, V2 = 0, OUT_all=0,INOUT_ratio=0;
 
 
 	if (command_line->routing_flag == 1) {
-		for (i = 0; i < num_patches; i++) {
+		for (int i = 0; i < num_patches; i++) {
 			if (patch[i].drainage_type == STREAM) {
 
 				//For river channel, soil should be mostly saturated. So, we assume one-tenth of
@@ -74,7 +72,7 @@ void  chess_channel_daily(patch_object *patch, struct reservoir_object reservoir
 				//===============================================================================================================================
 				// CHANNEL ROUTING SIMULATIONS		
 				//===============================================================================================================================
-				for (j = 0; j < patch[i].num_neighbours; j++) {
+				for (int j = 0; j < patch[i].num_neighbours; j++) {
 					neigh = patch[i].neighbours[j].patch;
 					
 					if (neigh->drainage_type == STREAM) {
