@@ -17,7 +17,7 @@
 #define BASIN_NUM	24
 #define CLIMATE_NUM	11
 #define PATCH_NUM	790304
-#define GAUGE_NUM	1
+#define GAUGE_NUM	8
 
 //=======================================================================================================================
 

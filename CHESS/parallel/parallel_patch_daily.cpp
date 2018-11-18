@@ -49,9 +49,7 @@ void		parallel_patch_daily(struct 	patch_object *patch,
 		//=======================================================================================================================
 		patch_lateral_flow(&patch[pch], command_line,  current_date);
 	
-	
 	}
-	
 	
 	return;
 	//END OF THIS THREAD

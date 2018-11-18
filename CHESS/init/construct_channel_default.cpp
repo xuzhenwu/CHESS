@@ -28,12 +28,17 @@ struct channel_default * channel_default_object_list)
 
 
 	for (int i = 0; i<nytpes; i++) {
-		fscanf(default_file, "%d", &(channel_default_object_list[i].strahler_order));
+		fscanf(default_file, "%d", &(channel_default_object_list[i].stream_order));
 	} 
 	read_record(default_file, record);
 
 	for (int i = 0; i<nytpes; i++) {
-		fscanf(default_file, "%lf", &(channel_default_object_list[i].channel_width));
+		fscanf(default_file, "%lf", &(channel_default_object_list[i].channel_bottom_width));
+	}
+	read_record(default_file, record);
+
+	for (int i = 0; i < nytpes; i++) {
+		fscanf(default_file, "%lf", &(channel_default_object_list[i].inverse_side_slope));
 	}
 	read_record(default_file, record);
 

@@ -885,8 +885,9 @@ struct patch_object
 //	Define an channel default	 									
 //===============================================================================================================================
 struct channel_default{
-	int strahler_order;
-	double channel_width;
+	int stream_order;
+	double channel_bottom_width;
+	double inverse_side_slope;
 	double hydraulic_roughness;
 };
 //===============================================================================================================================
@@ -894,8 +895,11 @@ struct channel_default{
 //===============================================================================================================================
 struct channel_object{
 	
-	double storage;
+	double storage;//m
 	double h;
+	double inverse_side_slope;
+	double crosssectional_area;//m2
+	double wetted_parameter;
 
 	double surface_ratio;
 	double subsurface_ratio;
@@ -910,7 +914,7 @@ struct channel_object{
 	double channel_length;
 	double hydraulic_roughness;
 	double channel_width;
-	int strahler_order;
+	int stream_order;
 };
 //xu. end
 
@@ -965,10 +969,8 @@ struct	command_line_object
 	bool    b;
 	bool    p;
 	
-	//xu. gg for gauges' outputs in the gauge patchID list
-	bool	gg;
-	bool	cf;
-	bool	parallel;
+	bool	gg;	//gauges' outputs in the gauge patchID list
+	bool	cf; //enable channel flow outputs 
 
 	int     spin_flag;
 	int		grow_flag;

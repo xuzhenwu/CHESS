@@ -526,24 +526,27 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 
 				patch[p].channel_defaults = &channel_default_object_list[0];
 				for (j = 0; j < channeltypes; j++) {
-					if (patch[p].streamorder == channel_default_object_list[j].strahler_order) {
+					if (patch[p].streamorder == channel_default_object_list[j].stream_order) {
 						patch[p].channel_defaults = &channel_default_object_list[j];
 					}
 				}
-				patch[p].channel->storage = {};
+				patch[p].channel->storage = 0;
 
-				patch[p].channel->channel_width = patch[p].channel_defaults->channel_width;//1 default
+				patch[p].channel->channel_width = patch[p].channel_defaults->channel_bottom_width;//1 default
 
 				patch[p].channel->hydraulic_roughness = patch[p].channel_defaults->hydraulic_roughness;//2
 
-				patch[p].channel->Q_in = {};
-				patch[p].channel->Q_out = {};
+				patch[p].channel->Q_in = 0;
+				patch[p].channel->Q_out = 0;
 
-				patch[p].channel->k = {};
-				patch[p].channel->Rr = {};
-				patch[p].channel->channel_slope = {};
-				patch[p].channel->channel_length = {};
-				patch[p].channel->strahler_order = patch[p].channel_defaults->strahler_order;//3
+				patch[p].channel->k = 0;
+				patch[p].channel->Rr = 0;
+				patch[p].channel->channel_slope = 0;
+				patch[p].channel->channel_length = 0;
+				patch[p].channel->stream_order = patch[p].channel_defaults->stream_order;//3
+				patch[p].channel->inverse_side_slope = patch[p].channel_defaults->inverse_side_slope;//4
+				patch[p].channel->crosssectional_area = 0;
+				patch[p].channel->wetted_parameter = 0;
 			}//end
 		}
 

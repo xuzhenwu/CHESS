@@ -305,9 +305,8 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	}
 	
 	pbasins = new int[rows*cols]{};
-	if(command_line->parallel == TRUE){
-		input_ascii_int(pbasins, fnbasins, rows, cols, arc_flag);
-	}
+	input_ascii_int(pbasins, fnbasins, rows, cols, arc_flag);
+
 	
 	pgauges = new int[rows*cols]{};
 	if (command_line->gg == TRUE) {

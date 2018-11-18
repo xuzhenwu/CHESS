@@ -17,7 +17,7 @@ TREE		TREE		TREE 		GRASS	 	TREE		TREE		TREE		TREE		epc.veg.type
 2.0	   	2.0	   	2.0	  	2.0	 	2.0		2.0	   	2.0	   	2.0	   	mrc.q10
 0.01	   	0.01	   	0.01	  	0.01	 	0.01		0.01	   	0.01	   	0.01	   	mrc.per_N
 0.20	   	0.20	   	0.20	  	0.20	 	0.20		0.20	   	0.20	   	0.20	   	epc.gr_perc
-0.12	   	0.12	   	0.12	  	0.12	 	0.12		0.12	   	0.12	   	0.12	   	lai_stomatal_fraction
+0.60	   	0.60	   	0.60	  	0.60	 	0.60		0.60	   	0.60	   	0.60	   	lai_stomatal_fraction
 0.188	   	0.188	   	0.188	  	0.188	 	0.188		0.188	   	0.188	   	0.188	   	epc.flnr*
 0.113	   	0.113	   	0.113	  	0.113	 	0.113		0.113	   	0.113	   	0.113	   	epc.ppfd_coef*
 28.0	   	28.0	   	28.0	  	28.0	 	28.0		28.0	   	28.0	   	28.0	   	epc.topt*
@@ -32,8 +32,8 @@ TREE		TREE		TREE 		GRASS	 	TREE		TREE		TREE		TREE		epc.veg.type
 0.0	   	0.0	   	0.0	  	0.0	 	0.0		0.0	   	0.0	   	0.0	   	gsurf_slope
 1000000	   	1000000	   	1000000	  	1000000	 	1000000		1000000	   	1000000	   	1000000	   	gsurf_intercept
 evergreen 	decidious 	evergreen    	evergreen   	evergreen  	evergreen 	evergreen 	evergreen 	epc.phenology.type
-5	   	4	   	2.5	  	1.2	 	2.5		0	   	0	   	0	   	epc.max_lai 
-4.4	   	4.4	   	4.4	  	4.4	 	4.4		4.4	   	4.4	   	4.4	   	epc.proj_sla*
+7	   	6	   	3.5	  	2	 	3.5		1.0	   	0	   	1.0	   	epc.max_lai 
+5.4	   	5.4	   	5.4	  	5.4	 	5.4		5.4	   	5.4	   	5.4	   	epc.proj_sla*
 2.0	   	2.0	   	2.0	  	2.0	 	2.0		2.0	   	2.0	   	2.0	   	epc.lai_ratio
 1.4	   	1.4	   	1.4	  	1.4	 	1.4		1.4	   	1.4	   	1.4	   	epc.proj_swa
 15.0	   	15.0	   	25.0	  	25.0	 	25.0		15.0	   	15.0	   	15.0	   	epc.leaf_cn

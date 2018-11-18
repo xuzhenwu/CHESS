@@ -63,9 +63,9 @@ void construct_gauge_output_files(struct patch_object *patch,char *outPutPath, s
 			fprintf(DM_outfiles->fGaugeDailyHydro[gauge_inx], "%9s", "CaIntTot");
 			fprintf(DM_outfiles->fGaugeDailyHydro[gauge_inx], "%9s", "CrainInt");
 			fprintf(DM_outfiles->fGaugeDailyHydro[gauge_inx], "%9s", "CsnowInt");
-			fprintf(DM_outfiles->fGaugeDailyHydro[gauge_inx], "%9s", "StreamF");
-			fprintf(DM_outfiles->fGaugeDailyHydro[gauge_inx], "%9s", "Baseflow");
-			fprintf(DM_outfiles->fGaugeDailyHydro[gauge_inx], "%9s", "ReturnF");
+			fprintf(DM_outfiles->fGaugeDailyHydro[gauge_inx], "%12s", "StreamF");
+			fprintf(DM_outfiles->fGaugeDailyHydro[gauge_inx], "%12s", "Baseflow");
+			fprintf(DM_outfiles->fGaugeDailyHydro[gauge_inx], "%12s", "ReturnF");
 			fprintf(DM_outfiles->fGaugeDailyHydro[gauge_inx], "%9s", "PET");
 			fprintf(DM_outfiles->fGaugeDailyHydro[gauge_inx], "%9s", "AET");
 			fprintf(DM_outfiles->fGaugeDailyHydro[gauge_inx], "%9s", "Trans");
