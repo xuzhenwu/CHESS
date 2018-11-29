@@ -68,6 +68,7 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 	command_line->p = NULL;
 	command_line->gg = NULL;
 	command_line->cf = NULL;
+	command_line->re = NULL;
 	
 	/*-------------------------------------------------*/
 	/*	Loop through each arguement in the command line.*/
@@ -186,7 +187,7 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 			
 			  
 			/*--------------------------------------------------------------*/
-			/*	xu.	Check if the gauge output flag is next.  			*/
+			/*	GAUGUE OUTPUT  			*/
 			/*--------------------------------------------------------------*/
 			else if (strcmp(main_argv[i], "-gg") == 0) {
 			/*--------------------------------------------------------------*/
@@ -196,13 +197,23 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 			i++;
 			} /*end if*/
 			/*--------------------------------------------------------------*/
-			/*	Channel flow genration flag  			*/
+			/*	CHANNEL FLOW flag  			*/
 			/*--------------------------------------------------------------*/
 			else if (strcmp(main_argv[i], "-cf") == 0) {
 			/*--------------------------------------------------------------*/
 			/*			Allocate the patch output specifier.				*/
 			/*--------------------------------------------------------------*/
 			command_line->cf = true;
+			i++;
+			} /*end if*/
+			/*--------------------------------------------------------------*/
+			/*	RESERVOIR flag  			*/
+			/*--------------------------------------------------------------*/
+			else if (strcmp(main_argv[i], "-re") == 0) {
+			/*--------------------------------------------------------------*/
+			/*			Allocate the patch output specifier.				*/
+			/*--------------------------------------------------------------*/
+			command_line->re = true;
 			i++;
 			} /*end if*/
 			else{

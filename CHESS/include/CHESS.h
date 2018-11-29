@@ -635,6 +635,7 @@ struct patch_object
 	int		streamorder;
 	int		basins;
 	int		climatetype;
+	int		downslope_reservoir_ID;
 
 	int   gsi_based_leafon_startday;
 	int   gsi_based_litterfall_stopday;
@@ -895,6 +896,11 @@ struct channel_default{
 //===============================================================================================================================
 struct channel_object{
 	
+	//===============================================================================================================================
+	//	Principle Chanel points			
+	//===============================================================================================================================
+	int ID;//1, channel; 2, reservoirs
+
 	double storage;//m
 	double h;
 	double inverse_side_slope;
@@ -915,9 +921,49 @@ struct channel_object{
 	double hydraulic_roughness;
 	double channel_width;
 	int stream_order;
+
+	//===============================================================================================================================
+	//	RESERVOIR			
+	//===============================================================================================================================
+	struct reservoir_object *reservoir;
+
+
 };
 //xu. end
 
+
+//===============================================================================================================================
+//	Reservoirs			
+//===============================================================================================================================
+struct reservoir_default {
+	
+	int ID;//PATCH ID ONLY FOR MATCHING 
+	int Fld_beg;
+	int Fld_end;
+	double Vpr;
+	double Vem;
+	double NDtarget;
+	double Qout_max;
+	double Qout_min;
+};
+
+struct reservoir_object {
+
+	//STATIC
+	double Vtarget;//Target Release of a given month
+
+	//DYNAMIC
+	int Fld_beg;
+	int Fld_end;
+	double Vpr;
+	double Vem;
+	double SW;//average basin soil water content
+	double FC;//average basin field capacity
+	double Qout_max;//m^3/s
+	double Qout_min;//m^3/s
+	double NDtarget;
+
+};
 
 //===============================================================================================================================
 //	Define the layer object structure.			
@@ -970,7 +1016,8 @@ struct	command_line_object
 	bool    p;
 	
 	bool	gg;	//gauges' outputs in the gauge patchID list
-	bool	cf; //enable channel flow outputs 
+	bool	cf; //enable dynamic channel flow simulation
+	bool	re;	//enable reservoir simulation
 
 	int     spin_flag;
 	int		grow_flag;
@@ -1522,16 +1569,3 @@ struct out_basin_daily_hydrology
 	double adC13;
 };
 
-
-struct reservoir_object{
-	int    ID;
-	double DEM;
-	double min_height;
-	double min_volume;
-	double max_height;
-	double max_volume;
-	double acc_area;
-	double volume;
-	double discharge;
-	bool   start_discharge;
-};

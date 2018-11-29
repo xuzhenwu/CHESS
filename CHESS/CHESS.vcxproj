@@ -121,6 +121,7 @@
     <ClCompile Include="init\construct_routing_topology_new.cpp" />
     <ClCompile Include="init\construct_soil_defaults.cpp" />
     <ClCompile Include="init\construct_stratum_defaults.cpp" />
+    <ClCompile Include="init\contruct_reservoir_default.cpp" />
     <ClCompile Include="init\File_IO.cpp" />
     <ClCompile Include="init\zero_patch_object.cpp" />
     <ClCompile Include="init\open_climat_files.cpp" />

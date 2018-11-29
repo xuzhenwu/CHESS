@@ -80,46 +80,13 @@ void  chess_channel_daily(patch_object *patch, struct reservoir_object reservoir
 					if (neigh->drainage_type == STREAM) {
 
 						//---------------------------------------------------------------------------------------------------------------------------
-						//1. For large basins, the channel routing 
+						//S1. For large basins, the channel routing and reservoirs
 						//---------------------------------------------------------------------------------------------------------------------------
 						if (command_line->cf == TRUE) {
 
-		
-							// 1. initial the parameters for preparing parameters of k
-
-							//length
-							if (pow(patch[i].x - neigh->x, 2) < 0.01 || pow(patch[i].y - neigh->y, 2) < 0.01)
-								patch[i].channel->channel_length = cellsize;
-							else patch[i].channel->channel_length = cellsize * pow(2, 1 / 2.0);//a problem with sqrt 2 and 1;
-
-							//slope
-							patch[i].channel->channel_slope = (patch[i].z - neigh->z) / patch[i].channel->channel_length;
-							patch[i].channel->channel_slope = max(patch[i].channel->channel_slope, 0.0001);
-
-							//h (in current stage we assume that the channel_width are static)
-							patch[i].channel->crosssectional_area = patch[i].channel->storage * pow(cellsize, 2) / patch[i].channel->channel_length ;
-
-							//(B*B-4AC)^1/2 -B/2A
-							patch[i].channel->h=(pow(patch[i].channel->channel_width*patch[i].channel->channel_width+ 4 * patch[i].channel->crosssectional_area*patch[i].channel->inverse_side_slope, 1 / 2.0)
-								- patch[i].channel->channel_width )
-								/(2.0*patch[i].channel->inverse_side_slope);
-
-							patch[i].channel->wetted_parameter= patch[i].channel->channel_width + 2 * patch[i].channel->h*pow(1 + pow(patch[i].channel->inverse_side_slope, 2), 1.0 / 2);
-
-							//Rr
-							patch[i].channel->Rr = patch[i].channel->crosssectional_area / patch[i].channel->wetted_parameter;
-
-
-							//---------------------------------------------------------------------------------------------------------------------------
-							// Alternative Method 1:Linear Storage Algorithm (Based on Manning's Equation)
-							//---------------------------------------------------------------------------------------------------------------------------
-							patch[i].channel->k = pow(patch[i].channel->Rr, 2.0 / 3)*pow(patch[i].channel->channel_slope, 1 / 2.0) 
-												/ (patch[i].channel->hydraulic_roughness * patch[i].channel->channel_length);
-
-							// 2.comput in and out (m^3/day)
 
 							//Q_IN
-							patch[i].channel->Q_in = patch[i].surface_Qout + patch[i].subsurface_Qout + patch[i].gw.Qout;
+							patch[i].channel->Q_in = patch[i].surface_Qout + patch[i].subsurface_Qout + patch[i].gw.Qout;// m/day
 
 							if (patch[i].channel->Q_in > 0.0) {
 								patch[i].channel->surface_ratio = patch[i].surface_Qout / patch[i].channel->Q_in;
@@ -128,35 +95,115 @@ void  chess_channel_daily(patch_object *patch, struct reservoir_object reservoir
 							}
 							else patch[i].channel->surface_ratio = patch[i].channel->subsurface_ratio = patch[i].channel->gw_ratio = 1 / 3.0;
 
-
-							patch[i].channel->Q_in *= pow(cellsize, 2);
-
-							//V1
-							V1 = patch[i].channel->storage * pow(cellsize, 2);
-
-							//V2 a key function for computing channel storage change
-
-							if (patch[i].channel->k > 0.0)
-								V2 = patch[i].channel->Q_in / (seconds_per_day * patch[i].channel->k) +
-								(V1 - patch[i].channel->Q_in / (patch[i].channel->k*seconds_per_day)) * exp(-patch[i].channel->k*seconds_per_day);
-							else V2 = V1 + patch[i].channel->Q_in;
+							//CHANGE UNIT
+							patch[i].channel->Q_in *= pow(cellsize, 2);//QOUT m^3/day
 
 
-							//check if it's unreal
-							if (V2 < 0.0) V2 = 0;
-							else if (V2 > V1 + patch[i].channel->Q_in) V2 = V1 + patch[i].channel->Q_in;
+							//---------------------------------------------------------------------------------------------------------------------------
+							//1. For Reservoirs (Target Release)
+							//---------------------------------------------------------------------------------------------------------------------------
+							if (command_line->re == TRUE && patch[i].channel->ID == RESERVOIR)
+							{
+								//STORAGE
+								patch[i].channel->storage+= patch[i].channel->Q_in;
 
-							//Q_OUT
-							patch[i].channel->Q_out = V1 + patch[i].channel->Q_in - V2;
+								//Vtarget
+								if (current_date.month > patch[i].channel->reservoir->Fld_beg && current_date.month < patch[i].channel->reservoir->Fld_end) {
+									patch[i].channel->reservoir->Vtarget = patch[i].channel->reservoir->Vem;
+								}
+								else {
+									
+									//SW && FC``
+									patch[i].channel->reservoir->FC = patch[i].channel->reservoir->SW = 0;
+									for (int inx = 0; inx < num_patches; inx++) {
+
+										//SUM UP IT'S ABOVE BASIN INDEX
+										if (patch[inx].downslope_reservoir_ID == patch[i].ID) {
+											patch[i].channel->reservoir->FC += patch[inx].field_capacity;
+											patch[i].channel->reservoir->SW += patch[inx].field_capacity - patch[inx].sat_deficit_z;//soil w c
+										}
+									}
+									patch[i].channel->reservoir->FC /= patch[i].acc_area;
+									patch[i].channel->reservoir->SW /= patch[i].acc_area;
+
+									patch[i].channel->reservoir->Vtarget = patch[i].channel->reservoir->Vpr + (1 - min(patch[i].channel->reservoir->SW / patch[i].channel->reservoir->FC,1.0))
+										*(patch[i].channel->reservoir->Vem - patch[i].channel->reservoir->Vpr) / 2.0;
+
+								}
+
+								//QOUT m^3/day
+								patch[i].channel->Q_out = (patch[i].channel->storage - patch[i].channel->reservoir->Vtarget) / (patch[i].channel->reservoir->NDtarget);
+
+								//LIMITATIONS
+								patch[i].channel->Q_out = min(patch[i].channel->Q_out, patch[i].channel->reservoir->Qout_max);
+								patch[i].channel->Q_out = max(patch[i].channel->Q_out, patch[i].channel->reservoir->Qout_min);
+								patch[i].channel->Q_out = min(patch[i].channel->Q_out, patch[i].channel->storage);
+
+								//RENEW STORAGE
+								patch[i].channel->storage -= patch[i].channel->Q_out;
+
+							}
+							//---------------------------------------------------------------------------------------------------------------------------
+							//2. For principal channel patch
+							//---------------------------------------------------------------------------------------------------------------------------
+							else {
+								
+								//---------------------------------------------------------------------------------------------------------------------------
+								// Alternative Method 1:Linear Storage Algorithm (Based on Manning's Equation)
+								//---------------------------------------------------------------------------------------------------------------------------
+								// initial the parameters for preparing parameters of k
+								// length
+								if (pow(patch[i].x - neigh->x, 2) < 0.01 || pow(patch[i].y - neigh->y, 2) < 0.01)
+									patch[i].channel->channel_length = cellsize;
+								else patch[i].channel->channel_length = cellsize * pow(2, 1 / 2.0);//a problem with sqrt 2 and 1;
+
+								//slope
+								patch[i].channel->channel_slope = (patch[i].z - neigh->z) / patch[i].channel->channel_length;
+								patch[i].channel->channel_slope = max(patch[i].channel->channel_slope, 0.0001);
+
+								//h (in current stage we assume that the channel_width are static)
+								patch[i].channel->crosssectional_area = patch[i].channel->storage / patch[i].channel->channel_length;
+
+								//(B*B-4AC)^1/2 -B/2A
+								patch[i].channel->h = (pow(patch[i].channel->channel_width*patch[i].channel->channel_width + 4 * patch[i].channel->crosssectional_area*patch[i].channel->inverse_side_slope, 1 / 2.0)
+									- patch[i].channel->channel_width)
+									/ (2.0*patch[i].channel->inverse_side_slope);
+
+								patch[i].channel->wetted_parameter = patch[i].channel->channel_width + 2 * patch[i].channel->h*pow(1 + pow(patch[i].channel->inverse_side_slope, 2), 1.0 / 2);
+
+								//Rr
+								patch[i].channel->Rr = patch[i].channel->crosssectional_area / patch[i].channel->wetted_parameter;
+
+								//k
+								patch[i].channel->k = pow(patch[i].channel->Rr, 2.0 / 3)*pow(patch[i].channel->channel_slope, 1 / 2.0)
+									/ (patch[i].channel->hydraulic_roughness * patch[i].channel->channel_length);
+
+								//V1
+								V1 = patch[i].channel->storage ;
+
+								//V2 a key function for computing channel storage change
+								if (patch[i].channel->k > 0.0)
+									V2 = patch[i].channel->Q_in / (seconds_per_day * patch[i].channel->k) +
+									(V1 - patch[i].channel->Q_in / (patch[i].channel->k*seconds_per_day)) * exp(-patch[i].channel->k*seconds_per_day);
+								else V2 = V1 + patch[i].channel->Q_in;
 
 
-							// 3. renew the new state of storage ( m ) and water
-							patch[i].channel->storage = V2 / pow(cellsize, 2);
+								//CHECK BALANCE
+								if (V2 < 0.0) V2 = 0;
+								else if (V2 > V1 + patch[i].channel->Q_in) V2 = V1 + patch[i].channel->Q_in;
+
+								//Q_OUT
+								patch[i].channel->Q_out = V1 + patch[i].channel->Q_in - V2;
 
 
-							// 4. allocate water and RATIO
-							//WATER (m)
-							OUT_all = patch[i].channel->Q_out / pow(cellsize, 2);
+								//RENEW STORAGE
+								patch[i].channel->storage = V2 ;
+
+							}//END OF PRICIPLE CHANNEL
+
+
+							//CHANGE UNIT AND DILIVER
+							OUT_all = patch[i].channel->Q_out / pow(cellsize, 2);// m/day
 							patch[i].surface_Qout = OUT_all * patch[i].channel->surface_ratio;
 							patch[i].subsurface_Qout = OUT_all * patch[i].channel->subsurface_ratio;
 							patch[i].gw.Qout = OUT_all * patch[i].channel->gw_ratio;
@@ -165,7 +212,6 @@ void  chess_channel_daily(patch_object *patch, struct reservoir_object reservoir
 							if (patch[i].channel->Q_in > 0.0)
 								INOUT_ratio = patch[i].channel->Q_out / patch[i].channel->Q_in;
 							else INOUT_ratio = 0;
-
 							patch[i].DON_loss *= INOUT_ratio;
 							patch[i].DOC_loss *= INOUT_ratio;
 							patch[i].surface_leach_NH4_out *= INOUT_ratio;
@@ -175,12 +221,8 @@ void  chess_channel_daily(patch_object *patch, struct reservoir_object reservoir
 
 
 							//---------------------------------------------------------------------------------------------------------------------------
-							// Alternative Method 2: Muskingum Method(remained, which contains the input k & x)
+							//DELIVER WATER AND NUTRIENT TO NEIGHBORS
 							//---------------------------------------------------------------------------------------------------------------------------
-
-
-							// 5. deliver water to neighbors
-							// i think gamma are a little bit non-sense
 							neigh->surface_Qout += patch[i].neighbours[j].gamma * patch[i].surface_Qout;
 							neigh->subsurface_Qout += patch[i].neighbours[j].gamma * patch[i].subsurface_Qout;
 							neigh->gw.Qout += patch[i].neighbours[j].gamma * patch[i].gw.Qout;
@@ -190,9 +232,10 @@ void  chess_channel_daily(patch_object *patch, struct reservoir_object reservoir
 							neigh->surface_leach_NH4_out += patch[i].neighbours[j].gamma*patch[i].surface_leach_NH4_out;
 							neigh->subsurface_leach_NO3_out += patch[i].neighbours[j].gamma*patch[i].subsurface_leach_NO3_out;
 							neigh->surface_leach_NO3_out += patch[i].neighbours[j].gamma*patch[i].surface_leach_NO3_out;
-						}
+						}//END OF CHANNEL FLOW 
+						
 						//---------------------------------------------------------------------------------------------------------------------------
-						//2. For small basins, we force to routed  all water out
+						//S2. For small basins, we force to routed  all water out
 						//---------------------------------------------------------------------------------------------------------------------------
 						else {
 

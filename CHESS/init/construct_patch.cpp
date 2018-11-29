@@ -14,12 +14,12 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	//defaults filename
 
 	//xu.
-	char fnclimatedef[MAXS], fnsoildef[MAXS], fnlandusedef[MAXS], fnvegdef[MAXS], fnchanneldef[MAXS];
+	char fnclimatedef[MAXS], fnsoildef[MAXS], fnlandusedef[MAXS], fnvegdef[MAXS], fnchanneldef[MAXS], fnreservoirdef[MAXS];
 	//char fcanopytemp[MAXS],fpatchtemp[MAXS];
 
 	//local parameters
 	FILE  *default_file;
-	int    soiltypes, landusetypes, vegtypes, climatetypes, channeltypes;
+	int    soiltypes, landusetypes, vegtypes, climatetypes, channeltypes,reservoirtypes;
 	int    nvars, p, j;
 
 	//7 local functions to read four defaults and two template files 
@@ -38,6 +38,9 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	//xu.
 	struct channel_default *channel_default_object_list{};
 	struct channel_default *construct_channel_defaults(int, FILE *, struct command_line_object *, struct channel_default *);
+
+	struct reservoir_default *reservoir_default_object_list{};
+	struct reservoir_default *construct_reservoir_defaults(int, FILE *, struct command_line_object *, struct reservoir_default *);
 
 
 	struct canopy_strata_object *canopy_strata{};
@@ -58,6 +61,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	strcpy(fnvegdef, filename);
 	strcpy(fnlandusedef, filename);
 	strcpy(fnchanneldef, filename);
+	strcpy(fnreservoirdef, filename);
 
 	// append '.' extensions to each filename (these should be generalized) 
 	strcat(fnsoildef, "_soil.def");
@@ -65,6 +69,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	strcat(fnclimatedef, "_climate.def");
 	strcat(fnlandusedef, "_landuse.def");
 	strcat(fnchanneldef, "_channel.def");
+	strcat(fnreservoirdef, "_reservoir.def");
 
 	//===========================================================================================================================
 	// 1. reading soil default files
@@ -197,6 +202,39 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		construct_channel_defaults(channeltypes, default_file, command_line, channel_default_object_list);
 		printf("Finishing reading channel_default file  \n");
 	}
+
+
+	//===========================================================================================================================
+	// 6. read reservoir default files
+	//===========================================================================================================================
+	if (command_line->cf == TRUE) {
+
+		if ((default_file = fopen(fnreservoirdef, "r")) == NULL) {
+			fprintf(stderr, "cannot open reservoir default file %s\n", fnreservoirdef);
+			return;
+		}
+		else {
+			fscanf(default_file, "%d ", &reservoirtypes);
+			read_record(default_file, record);
+			fscanf(default_file, "%d ", &nvars);
+			read_record(default_file, record);
+			printf("\n");
+			printf("The number of reservoir types are %d \n", reservoirtypes);
+			printf("The number of reservoir variables are %d \n", nvars);
+		}
+
+		reservoir_default_object_list = (struct reservoir_default *) calloc(reservoirtypes, sizeof(struct reservoir_default));
+		if (reservoir_default_object_list == NULL) {
+			printf("out of memory for assinging reservoir default in construct_patch.c 1\n");
+			return;
+		}
+
+		construct_reservoir_defaults(reservoirtypes, default_file, command_line, reservoir_default_object_list);
+		printf("Finishing reading reservoir_default file  \n");
+	}
+
+
+
 
 
 	//===========================================================================================================================
@@ -531,14 +569,10 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 					}
 				}
 				patch[p].channel->storage = 0;
-
 				patch[p].channel->channel_width = patch[p].channel_defaults->channel_bottom_width;//1 default
-
 				patch[p].channel->hydraulic_roughness = patch[p].channel_defaults->hydraulic_roughness;//2
-
 				patch[p].channel->Q_in = 0;
 				patch[p].channel->Q_out = 0;
-
 				patch[p].channel->k = 0;
 				patch[p].channel->Rr = 0;
 				patch[p].channel->channel_slope = 0;
@@ -547,6 +581,31 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 				patch[p].channel->inverse_side_slope = patch[p].channel_defaults->inverse_side_slope;//4
 				patch[p].channel->crosssectional_area = 0;
 				patch[p].channel->wetted_parameter = 0;
+				patch[p].channel->ID = 1;//PRINCIPAL CHANNEL
+
+
+				//xu.
+				//IF ITS ALSO A RESERVOIR POINT
+				if (command_line->re == TRUE) {
+					
+					for (j = 0; j < reservoirtypes; j++) {
+
+						//INIT THE RESERVOIR POINT
+						if (patch[p].ID == reservoir_default_object_list[j].ID) {
+							patch[p].channel->reservoir = new struct reservoir_object;
+							patch[p].channel->reservoir->Vpr= reservoir_default_object_list[j].Vpr;
+							patch[p].channel->reservoir->Vem = reservoir_default_object_list[j].Vem;
+							patch[p].channel->reservoir->Fld_beg = reservoir_default_object_list[j].Fld_beg;
+							patch[p].channel->reservoir->Fld_end = reservoir_default_object_list[j].Fld_end;
+							patch[p].channel->reservoir->Qout_max = reservoir_default_object_list[j].Qout_max;
+							patch[p].channel->reservoir->Qout_min = reservoir_default_object_list[j].Qout_min;
+							patch[p].channel->reservoir->NDtarget = reservoir_default_object_list[j].NDtarget;
+							patch[p].channel->ID = 2;//RESERVOIR ID
+						}
+					}
+				}
+
+
 			}//end
 		}
 

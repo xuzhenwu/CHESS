@@ -184,7 +184,7 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	// filenames for each image and file
 	char  fnpatch[MAXS], fndem[MAXS], fnslope[MAXS], fnaspect[MAXS], fneast_horizon[MAXS], fnwest_horizon[MAXS];
 	char  fnsoil[MAXS], fnveg[MAXS],  fnroads[MAXS], fnstreamorder[MAXS], fnbasins[MAXS],fngauges[MAXS];
-	char  fnclimate[MAXS], fnlatitude[MAXS];
+	char  fnclimate[MAXS], fnlatitude[MAXS], fnreservoir[MAXS];
 
 
 	//File pointer
@@ -201,6 +201,7 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	int			*pbasins;
 	int			*pgauges;
 	int			*pclimate;
+	int			*preservoir;
 
 	int          *proads;
 	double       *plon;
@@ -237,6 +238,7 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	strcpy(fngauges, filename);
 	strcpy(fnclimate, filename);
 	strcpy(fnlatitude, filename);
+	strcpy(fnreservoir, filename);
 
 	// append '.' extensions to each filename (these should be generalized) */
 	strcat(fnpatch, ".patch");
@@ -249,12 +251,14 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	strcat(fnveg, ".veg");
 	strcat(fnroads, ".road");
 	
+	
 	//xu.
 	strcat(fnstreamorder, ".streamorder");
 	strcat(fnbasins, ".basin");
 	strcat(fngauges, ".gauge");
 	strcat(fnclimate, ".climate");
 	strcat(fnlatitude, ".latitude");
+	strcat(fnreservoir, ".reservoir");
 
 	input_header(rows, cols, fndem, arc_flag);
 
@@ -316,6 +320,11 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	pclimate = new int[rows*cols]{};
 	input_ascii_int(pclimate, fnclimate, rows, cols,  arc_flag);
 
+	preservoir = new int[rows*cols]{};
+	if (command_line->re == TRUE) {
+		input_ascii_int(preservoir, fnreservoir, rows, cols, arc_flag);
+	}
+
 
 
 
@@ -337,26 +346,20 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 				patch[patch_inx].e_horizon = peast_horizon[imag_inx];
 				patch[patch_inx].w_horizon = pwest_horizon[imag_inx];
 
-				//xu.
+				//STREAM ORDER (accociated with _channel.def)
 				patch[patch_inx].streamorder = pstreamorder[imag_inx];
+
+				//BASIN(THREAD)
 				patch[patch_inx].basins = pbasins[imag_inx];
-				if (fabs(pbasins[imag_inx] + 9999) < 0.0000001) {
-					cout << "Unmatched basins with patch file" << endl;
-					getchar();
-				}
 
+				//CLIMATE ZONE(accociated with _climate.def)
 				patch[patch_inx].climatetype = pclimate[imag_inx];
-				if (fabs(pclimate[imag_inx] + 9999) < 0.0000001) {
-					cout << "Unmatched climate with patch file" << endl;
-					getchar();
-				}
 
+				//LATITUDE
 				patch[patch_inx].latitude = platitude[imag_inx];
-				//just check 
-				if (fabs(platitude[imag_inx] + 9999) < 0.0000001){
-					cout << "Unmatched latitude with patch file" << endl;
-					getchar();
-				}
+
+				//DOWNSTREAM RESERVOIR ID (accociated with _reservoir.def)
+				patch[patch_inx].downslope_reservoir_ID = preservoir[imag_inx];
 
 				patch[patch_inx].road = proads[imag_inx];
 				patch[patch_inx].vegtype = pveg[imag_inx];

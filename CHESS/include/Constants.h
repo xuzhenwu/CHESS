@@ -76,6 +76,8 @@
 #define STREAM 1
 #define ROAD 2
 
+#define RESERVOIR 2
+
 #define NON_VEG 20
 #define TREE 1
 #define GRASS 2
