@@ -69,7 +69,9 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 	command_line->gg = NULL;
 	command_line->cf = NULL;
 	command_line->re = NULL;
-	
+	command_line->pmon = NULL;
+	command_line->pday = NULL;
+
 	/*-------------------------------------------------*/
 	/*	Loop through each arguement in the command line.*/
 	/*-------------------------------------------------*/
@@ -182,9 +184,20 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 				/*			Allocate the patch output specifier.				*/
 				/*--------------------------------------------------------------*/
 				command_line->p = true;
+				command_line->pday = true;
 				i++;
 			} /*end if*/
-			
+			/*--------------------------------------------------------------*/
+			/*		Check if the patch output flag is next.  			*/
+			/*--------------------------------------------------------------*/
+			else if (strcmp(main_argv[i], "-pmon") == 0) {
+			/*--------------------------------------------------------------*/
+			/*			Allocate the patch output specifier.				*/
+			/*--------------------------------------------------------------*/
+			command_line->p = true;//both will be activate
+			command_line->pmon = true;
+			i++;
+			} /*end if*/
 			  
 			/*--------------------------------------------------------------*/
 			/*	GAUGUE OUTPUT  			*/

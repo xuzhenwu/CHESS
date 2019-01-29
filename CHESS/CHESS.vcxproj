@@ -129,7 +129,7 @@
     <ClCompile Include="init\parse_phenology_type.cpp" />
     <ClCompile Include="init\parse_veg_type.cpp" />
     <ClCompile Include="init\read_daily_climatedata.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="main_30.cpp" />
     <ClCompile Include="output\close_patch_output_files.cpp" />
     <ClCompile Include="output\construct_basin_output_files.cpp" />
     <ClCompile Include="output\construct_gauge_output_files.cpp" />

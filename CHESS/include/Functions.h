@@ -23,8 +23,8 @@ void    chess_channel_daily(struct patch_object *, struct reservoir_object, stru
 // CHESS OUTPUT .function	                                                
 //---------------------------------------------------------------------------------------------------------------------------
 void    construct_basin_output_files(char *, struct output_hydro_plant *, struct command_line_object *);
-void    construct_patch_output_files(struct date, struct out_date_range, char *, struct output_hydro_plant *, struct command_line_object *);
-void    close_patch_output_files(struct output_hydro_plant *);
+void    construct_patch_output_files(struct date, struct out_date_range, char *, struct output_hydro_plant *, struct OutArray_object *OutArray, struct command_line_object *);
+void    close_patch_output_files(struct output_hydro_plant *, struct OutArray_object *OutArray);
 
 //xu.
 void	construct_gauge_output_files(struct patch_object *patch, char *outPutPath, struct output_hydro_plant *DM_outfiles, struct command_line_object *command_line,
@@ -64,8 +64,11 @@ void	update_drainage_land(struct patch_object *, int, double, int, int);
 
 void    out_daily(int, struct patch_object *, struct date, struct out_date_range, struct output_hydro_plant *, struct command_line_object *);
 void    out_basin_level_daily(int, struct patch_object *, struct date, struct out_date_range, struct output_hydro_plant *, struct command_line_object *);
-void    out_patch_level_daily(int, struct patch_object *, struct date, struct out_date_range, struct output_hydro_plant *, struct command_line_object *);
-
+void    out_patch_level_daily(int, struct patch_object *, struct date, struct out_date_range, struct output_hydro_plant *, struct OutArray_object *OutArray, struct command_line_object *);
+void    output_patch_daily_hydrology(struct patch_object *patch, int pch,double(*HydroMon)[HYDRO_NUM],struct	date current_date,FILE *outfile,
+		struct command_line_object *command_line);
+void	output_patch_daily_growth(struct patch_object *patch, int pch,double(*PlantMon)[PLANT_NUM],struct	date current_date,FILE *outfile,
+		struct command_line_object *command_line);
 //xu.
 void	out_gauge_level_daily(int num_patches, struct patch_object *patch, struct date current_date, struct out_date_range outdate,
 		struct output_hydro_plant *DM_outfiles, struct command_line_object *command_line,int *gauge_list, int cellsize);

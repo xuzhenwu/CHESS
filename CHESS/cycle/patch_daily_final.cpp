@@ -750,7 +750,7 @@ void	patch_daily_final (struct 	patch_object *patch,
 					current_date );
 			}
 			else {
-				if ( strata->phen.annual_allocation == 1){
+				 if ( strata->phen.annual_allocation == 1){
 					strata->cdf.leafc_store_to_leafc_transfer =	strata->cs.leafc_store;
 					strata->cs.leafc_transfer                += strata->cdf.leafc_store_to_leafc_transfer;
 					strata->cs.leafc_store                   -= strata->cdf.leafc_store_to_leafc_transfer;

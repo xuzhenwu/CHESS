@@ -425,9 +425,6 @@
     <ClCompile Include="util\yearday.cpp">
       <Filter>源文件\util</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="parallel\parallel_basins_pches.cpp">
       <Filter>源文件\parallel</Filter>
     </ClCompile>
@@ -484,6 +481,9 @@
     </ClCompile>
     <ClCompile Include="init\contruct_reservoir_default.cpp">
       <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="main_30.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

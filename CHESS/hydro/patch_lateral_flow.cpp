@@ -19,7 +19,7 @@ void  patch_lateral_flow(patch_object *patch,struct command_line_object *command
 	//	Local variable definition.				
 	//-----------------------------------------------------------------------------------------------------------------
 	double time_int=24;
-	double water_balance;
+	double water_balance=0;
 	
 	//-----------------------------------------------------------------------------------------------------------------
 	//	1. for roads, saturated throughflow beneath road cut is routed to downslope patches; saturated     
@@ -63,7 +63,7 @@ void  patch_lateral_flow(patch_object *patch,struct command_line_object *command
 			- patch->subsurface_Qout - patch->surface_Qout
 			+ patch->subsurface_Qin  + patch->surface_Qin;   
 	}
-
+	/*
 	if ((water_balance > 0.00000001)|| (water_balance < -0.00000001)){
 		printf("water_balance in patch_daily_f_new.cpp is NOT ZERO %12.8f\n",water_balance);
 		printf("patch->rain %12.8f \n",patch->rain);
@@ -86,6 +86,8 @@ void  patch_lateral_flow(patch_object *patch,struct command_line_object *command
 		printf("time and id is %d %d %d %d \n",current_date.year,current_date.month,current_date.day,patch->ID);
 		getchar();
 	}
+	*/
+	
 	
 
 return;

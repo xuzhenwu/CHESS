@@ -139,7 +139,8 @@ void	canopy_stratum_daily_I(
 
 		//printf(" wilting point is %f  %f\n",wilting_point,stratum->defaults->epc.psi_close);
 		//getchar();
-		if (stratum->rootzone.S < wilting_point) stratum->epv.psi = stratum->defaults->epc.psi_close;
+		if (stratum->rootzone.S < wilting_point) 
+			stratum->epv.psi = stratum->defaults->epc.psi_close;
 
 		//-----------------------------------------------------------------------------------------------
 		//	keep track of water stress days for annual allocation   

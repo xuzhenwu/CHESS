@@ -100,6 +100,7 @@ struct output_hydro_plant
 	FILE *fPatchDailyPlant;
 	FILE *fGaugeDailyHydro[GAUGE_NUM];
 	FILE *fGaugeDailyPlant[GAUGE_NUM];
+
 };
 
 
@@ -1014,7 +1015,12 @@ struct	command_line_object
 {
 	bool    b;
 	bool    p;
-	
+
+	//monthly patch out, when it activates the -p command line is also activate
+	//shared a same output fuction 
+	bool	pmon;
+	bool	pday;
+
 	bool	gg;	//gauges' outputs in the gauge patchID list
 	bool	cf; //enable dynamic channel flow simulation
 	bool	re;	//enable reservoir simulation
@@ -1569,3 +1575,9 @@ struct out_basin_daily_hydrology
 	double adC13;
 };
 
+struct OutArray_object {
+
+	double(*HydroMon)[HYDRO_NUM];
+	double(*PlantMon)[PLANT_NUM];
+
+};

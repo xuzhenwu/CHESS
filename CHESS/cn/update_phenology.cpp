@@ -161,6 +161,7 @@ struct date current_date,
 	/*-------------------------------------------------------------------------------------------*/
 	phen->gsi = compute_growingseason_index(patch, epc);
 
+	/*
     if (phen->gsi > 0.5 && current_date.month<=6 && patch->leaf_expand_flag==-999) {
 		phen->expand_startday = day;
 		patch->leaf_expand_flag = 1;
@@ -168,9 +169,18 @@ struct date current_date,
 	if (phen->gsi < 0.5 && current_date.month >= 8 && patch->litfall_stop_flag ==-999) {
 		phen->litfall_stopday = day;
 		patch->litfall_stop_flag = 1;
-	}
+	}*/
 	
+
+	phen->expand_startday = 100;
+	phen->litfall_stopday = 300;
+	if(fabs(phen->expand_startday-day)<0.01) patch->leaf_expand_flag = 1;
+	if (fabs(phen->litfall_stopday - day) < 0.01) patch->litfall_stop_flag = 1;
+
+
 	
+	//===============================================================================================
+	// leaf on flag  for compute_maintain respiration
 	//===============================================================================================
 	patch->leaf_on_flag = -999;
 	if (epc.phenology_type == DECID){
@@ -179,6 +189,7 @@ struct date current_date,
 
 		else
 			patch->leaf_on_flag = -999;
+
 	}
 	else if (epc.phenology_type == EVERGREEN){
 		patch->leaf_on_flag = 1;
@@ -192,20 +203,20 @@ struct date current_date,
 	if (epc.phenology_type == DECID && day >= phen->expand_startday && day <= patch->preyear_litfall_stopday) { //phen->litfall_stopday
 		remdays_transfer = max(patch->preyear_litfall_stopday - phen->expand_startday, 1); //phen->litfall_stopday
 
-		cdf->leafc_transfer_to_leafc = 2 * cs->leafc_transfer / remdays_transfer;
-		ndf->leafn_transfer_to_leafn = 2 * ns->leafn_transfer / remdays_transfer;
-		cdf->frootc_transfer_to_frootc = 2 * cs->frootc_transfer / remdays_transfer;
-		ndf->frootn_transfer_to_frootn = 2 * ns->frootn_transfer / remdays_transfer;
+		cdf->leafc_transfer_to_leafc = 2.0 * cs->leafc_transfer / remdays_transfer;
+		ndf->leafn_transfer_to_leafn = 2.0 * ns->leafn_transfer / remdays_transfer;
+		cdf->frootc_transfer_to_frootc = 2.0 * cs->frootc_transfer / remdays_transfer;
+		ndf->frootn_transfer_to_frootn = 2.0 * ns->frootn_transfer / remdays_transfer;
 
 		if (epc.veg_type == TREE) {
-			cdf->livestemc_transfer_to_livestemc = 2 * cs->livestemc_transfer / remdays_transfer;
-			ndf->livestemn_transfer_to_livestemn = 2 * ns->livestemn_transfer / remdays_transfer;
-			cdf->deadstemc_transfer_to_deadstemc = 2 * cs->deadstemc_transfer / remdays_transfer;
-			ndf->deadstemn_transfer_to_deadstemn = 2 * ns->deadstemn_transfer / remdays_transfer;
-			cdf->livecrootc_transfer_to_livecrootc = 2 * cs->livecrootc_transfer / remdays_transfer;
-			ndf->livecrootn_transfer_to_livecrootn = 2 * ns->livecrootn_transfer / remdays_transfer;
-			cdf->deadcrootc_transfer_to_deadcrootc = 2 * cs->deadcrootc_transfer / remdays_transfer;
-			ndf->deadcrootn_transfer_to_deadcrootn = 2 * ns->deadcrootn_transfer / remdays_transfer;
+			cdf->livestemc_transfer_to_livestemc = 2.0 * cs->livestemc_transfer / remdays_transfer;
+			ndf->livestemn_transfer_to_livestemn = 2.0 * ns->livestemn_transfer / remdays_transfer;
+			cdf->deadstemc_transfer_to_deadstemc = 2.0 * cs->deadstemc_transfer / remdays_transfer;
+			ndf->deadstemn_transfer_to_deadstemn = 2.0 * ns->deadstemn_transfer / remdays_transfer;
+			cdf->livecrootc_transfer_to_livecrootc = 2.0 * cs->livecrootc_transfer / remdays_transfer;
+			ndf->livecrootn_transfer_to_livecrootn = 2.0 * ns->livecrootn_transfer / remdays_transfer;
+			cdf->deadcrootc_transfer_to_deadcrootc = 2.0 * cs->deadcrootc_transfer / remdays_transfer;
+			ndf->deadcrootn_transfer_to_deadcrootn = 2.0 * ns->deadcrootn_transfer / remdays_transfer;
 		}
 	}
 	else if (epc.phenology_type == EVERGREEN){
@@ -237,6 +248,9 @@ struct date current_date,
 	/*-------------------------------------------------------------------------------------------*/
 	/* at beginning of litter fall figure out how much to drop                                   */
 	/*-------------------------------------------------------------------------------------------*/
+	/*if (phen->expand_startday == -999)
+		phen->litfall_startday = int(DaysOfYear / 2);
+	else*/
 	phen->litfall_startday = int((patch->preyear_litfall_stopday + phen->expand_startday) / 2);
 
 	litfall_flag = 0.0;

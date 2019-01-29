@@ -284,7 +284,8 @@ void	output_basin_daily_growth(int num_patches,struct patch_object *patch,
 	fprintf(outfile, "%4.0d", current_date.year);		
 	fprintf(outfile, "%4.0d", current_date.month);
 	fprintf(outfile, "%4.0d", current_date.day);
-	fprintf(outfile, "%9.3f", alai / num_patches);                        // average LAI
+	fprintf(outfile, "%9.3f", alai / num_patches); // average LAI
+
 	fprintf(outfile, "%9.3f", apai / num_patches);                        // average PAI
 	fprintf(outfile, "%9.3f", agpp / num_patches * 1000);                   // GPP converted from kgC/m2 to gc/m2
 	fprintf(outfile, "%9.3f", anpp / num_patches * 1000);                   // NPP converted from kgC/m2 to gc/m2
