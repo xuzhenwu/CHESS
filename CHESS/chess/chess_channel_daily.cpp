@@ -9,6 +9,7 @@
 #include <math.h>
 #include "CHESS.h"
 #include "Constants.h"
+#include "Functions.h"
 
 using std::cout;
 using std::endl;
@@ -107,37 +108,64 @@ void  chess_channel_daily(patch_object *patch, struct reservoir_object reservoir
 								//STORAGE
 								patch[i].channel->storage+= patch[i].channel->Q_in;
 
-								//Vtarget
-								if (current_date.month > patch[i].channel->reservoir->Fld_beg && current_date.month < patch[i].channel->reservoir->Fld_end) {
-									patch[i].channel->reservoir->Vtarget = patch[i].channel->reservoir->Vem;
+								//i30 input
+								if(patch[i].channel->reservoir->i30_days<30){
+									patch[i].channel->reservoir->i30[patch[i].channel->reservoir->i30_days] = patch[i].channel->Q_in;
+									patch[i].channel->reservoir->i30_days += 1;
 								}
-								else {
-									
-									//SW && FC``
-									patch[i].channel->reservoir->FC = patch[i].channel->reservoir->SW = 0;
-									for (int inx = 0; inx < num_patches; inx++) {
+								else {	
+									patch[i].channel->reservoir->i30[29]= patch[i].channel->Q_in;//add to the last one 
+								}
+								
+								//i30 mean
+								patch[i].channel->reservoir->i30_all = 0;
+								for (int inx = 0; inx != patch[i].channel->reservoir->i30_days; inx++) {
+									patch[i].channel->reservoir->i30_all+= patch[i].channel->reservoir->i30[inx];
+								}
+								patch[i].channel->reservoir->i30_mean = patch[i].channel->reservoir->i30_all / patch[i].channel->reservoir->i30_days;
+								//i30 std
+								patch[i].channel->reservoir->i30_std = 0;
+								if (patch[i].channel->reservoir->i30_days == 1) {
+									patch[i].channel->reservoir->i30_std = 2000000;// not sure how to set this value
+								}
+								else
+								for (int inx = 0; inx != patch[i].channel->reservoir->i30_days; inx++) {
+									patch[i].channel->reservoir->i30_std += pow(patch[i].channel->reservoir->i30[inx]- patch[i].channel->reservoir->i30_mean,2);		
+								}
+								patch[i].channel->reservoir->i30_std /= patch[i].channel->reservoir->i30_days;
+								patch[i].channel->reservoir->i30_std = pow(patch[i].channel->reservoir->i30_std,1/2.0);
 
-										//SUM UP IT'S ABOVE BASIN INDEX
-										if (patch[inx].downslope_reservoir_ID == patch[i].ID) {
-											patch[i].channel->reservoir->FC += patch[inx].field_capacity;
-											patch[i].channel->reservoir->SW += patch[inx].field_capacity - patch[inx].sat_deficit_z;//soil w c
-										}
-									}
-									patch[i].channel->reservoir->FC /= patch[i].acc_area;
-									patch[i].channel->reservoir->SW /= patch[i].acc_area;
-
-									patch[i].channel->reservoir->Vtarget = patch[i].channel->reservoir->Vpr + (1 - min(patch[i].channel->reservoir->SW / patch[i].channel->reservoir->FC,1.0))
-										*(patch[i].channel->reservoir->Vem - patch[i].channel->reservoir->Vpr) / 2.0;
-
+								//move i30 to next
+								if(patch[i].channel->reservoir->i30_days == 30)
+								for (int inx = 0; inx != 29; inx++){//0-28 , 29 in total days to be reserved
+									patch[i].channel->reservoir->i30[inx] = patch[i].channel->reservoir->i30[inx + 1];
 								}
 
-								//QOUT m^3/day
-								patch[i].channel->Q_out = (patch[i].channel->storage - patch[i].channel->reservoir->Vtarget) / (patch[i].channel->reservoir->NDtarget);
 
-								//LIMITATIONS
-								patch[i].channel->Q_out = min(patch[i].channel->Q_out, patch[i].channel->reservoir->Qout_max);
-								patch[i].channel->Q_out = max(patch[i].channel->Q_out, patch[i].channel->reservoir->Qout_min);
-								patch[i].channel->Q_out = min(patch[i].channel->Q_out, patch[i].channel->storage);
+								//modificaion of power、supply、impound
+								patch[i].channel->reservoir->npow = (patch[i].channel->storage - patch[i].channel->reservoir->Vc[current_date.month - 1]) /
+											max(patch[i].channel->reservoir->Vp[current_date.month - 1] - patch[i].channel->reservoir->Vc[current_date.month - 1],
+											patch[i].channel->reservoir->Vc[current_date.month - 1] - patch[i].channel->reservoir->Vd);
+
+								int year_day = yearday(current_date)-1;
+								patch[i].channel->reservoir->nsup = (patch[i].channel->reservoir->longterm_i30[year_day] - patch[i].channel->reservoir->i30_mean)*
+									(patch[i].channel->storage - patch[i].channel->reservoir->Vd) /
+									(patch[i].channel->reservoir->Vp[current_date.month - 1] - patch[i].channel->reservoir->Vd) /
+									patch[i].channel->reservoir->i30_std;
+
+								patch[i].channel->reservoir->nimp = -(patch[i].channel->reservoir->Vp[current_date.month - 1] - patch[i].channel->storage) /
+									(patch[i].channel->reservoir->Vp[current_date.month - 1] - patch[i].channel->reservoir->Vd);
+
+
+								//final eqation
+								int year_inx = current_date.year- patch[i].channel->reservoir->StartYear;
+								patch[i].channel->Q_out = (1 +
+									(patch[i].channel->reservoir->npow*patch[i].channel->reservoir->alpha[year_inx] +
+										patch[i].channel->reservoir->nsup*patch[i].channel->reservoir->beta[year_inx] +
+										patch[i].channel->reservoir->nimp*patch[i].channel->reservoir->gamma[year_inx]
+										)*patch[i].channel->reservoir->kmon[current_date.month])*
+									patch[i].channel->reservoir->longterm_qout[year_day];
+
 
 								//RENEW STORAGE
 								patch[i].channel->storage -= patch[i].channel->Q_out;

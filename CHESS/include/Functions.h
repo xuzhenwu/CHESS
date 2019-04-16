@@ -194,3 +194,9 @@ double  compute_infiltration(int, double, double, double, double, double, double
 //---------------------------------------------------------------------------------------------------------------------------
 // CN .function	                                                
 //---------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+void construct_resvoir_correponding_data(char *filename, int patchID, struct patch_object *patch);
+long 	yearday(struct date current_date);

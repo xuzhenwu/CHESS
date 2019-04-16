@@ -939,6 +939,8 @@ struct channel_object{
 struct reservoir_default {
 	
 	int ID;//patchID
+	int	StartYear;//start operation
+	int EndYear;
 
 	double Vp[12];//monthly principle volumn
 	double Vc[12];//monthly critical volumn
@@ -955,7 +957,8 @@ struct reservoir_default {
 struct reservoir_object {
 
 	int ID;//patchID
-
+	int	StartYear;//start operation
+	int EndYear;
 	double Vp[12];//monthly principle volumn
 	double Vc[12];//monthly critical volumn
 
@@ -964,8 +967,33 @@ struct reservoir_object {
 
 	double kmon[12];// standard deviation of longterm outflow
 
+	double longterm_i30[366];
+	double longterm_qout[366];
+
+
+	double *alpha;//unkonwn length
+	double *beta;
+	double *gamma;
+
+
 	double Qout_max;
 	double Qout_min;
+
+
+	//CHANGING LOCAL VARS FOR RESERVOIR OPERATION
+
+	double i30[30];//flow input in 30 days
+	int	   i30_days = 0;//length of input 
+
+	double i30_all;
+	double i30_mean;
+	double i30_std;
+
+	//modificaion of power¡¢supply¡¢impound
+	double npow;
+	double nsup;
+	double nimp;
+
 
 };
 

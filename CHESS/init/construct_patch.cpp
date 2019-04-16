@@ -54,7 +54,8 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 
 	//local variable
 	double soil_depth, air_entry, pore_size;
-
+	char filename_re[120]{};
+	strcpy(filename_re, filename);
 	strcat(filename, prefix);
 	strcpy(fnclimatedef, filename);
 	strcpy(fnsoildef, filename);
@@ -588,21 +589,35 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 				//IF ITS ALSO A RESERVOIR POINT
 				if (command_line->re == TRUE) {
 					
+					//DELIVER RESERVOIR DEFAULT
 					for (j = 0; j < reservoirtypes; j++) {
 
 						//INIT THE RESERVOIR POINT
 						if (patch[p].ID == reservoir_default_object_list[j].ID) {
 							patch[p].channel->reservoir = new struct reservoir_object;
-							patch[p].channel->reservoir->Vpr= reservoir_default_object_list[j].Vpr;
-							patch[p].channel->reservoir->Vem = reservoir_default_object_list[j].Vem;
-							patch[p].channel->reservoir->Fld_beg = reservoir_default_object_list[j].Fld_beg;
-							patch[p].channel->reservoir->Fld_end = reservoir_default_object_list[j].Fld_end;
-							patch[p].channel->reservoir->Qout_max = reservoir_default_object_list[j].Qout_max;
-							patch[p].channel->reservoir->Qout_min = reservoir_default_object_list[j].Qout_min;
-							patch[p].channel->reservoir->NDtarget = reservoir_default_object_list[j].NDtarget;
+							patch[p].channel->reservoir->ID= reservoir_default_object_list[j].ID;
+							patch[p].channel->reservoir->StartYear = reservoir_default_object_list[j].StartYear;
+							patch[p].channel->reservoir->EndYear = reservoir_default_object_list[j].EndYear;
+							patch[p].channel->reservoir->Ve = reservoir_default_object_list[j].Ve;
+							patch[p].channel->reservoir->Vd = reservoir_default_object_list[j].Vd;
+							for (int mon_inx = 1; mon_inx <= 12; mon_inx++) {
+								patch[p].channel->reservoir->Vc[mon_inx] = reservoir_default_object_list[j].Vc[mon_inx];
+								patch[p].channel->reservoir->Vp[mon_inx] = reservoir_default_object_list[j].Vp[mon_inx];
+								patch[p].channel->reservoir->kmon[mon_inx] = reservoir_default_object_list[j].kmon[mon_inx];
+							}
 							patch[p].channel->ID = 2;//RESERVOIR ID
+						
+							patch[p].channel->storage = patch[p].channel->reservoir->Vc[1];
+
+
+							//READ CORRESPONDING DATA in /re file list
+							construct_resvoir_correponding_data(filename_re, reservoir_default_object_list[j].ID, &patch[p]);
 						}
-					}
+
+
+					}//END OF ALL RESERVOIRS
+
+
 				}
 
 

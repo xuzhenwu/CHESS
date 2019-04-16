@@ -485,6 +485,9 @@
     <ClCompile Include="main_dj.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="init\construct_reservoir_correponding_data.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="tec\R_RHESSys_info.txt">
