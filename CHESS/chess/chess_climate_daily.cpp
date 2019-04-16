@@ -48,6 +48,7 @@
 void chess_climate_daily(struct input_Clim_Files inClimFiles,
 	struct	date	current_date,
 	struct  daily_clim_object *daily_clim,
+	int climate_num,
 	int start_year,
 	int start_month,
 	int start_day, int *CO2_flag
@@ -63,7 +64,7 @@ void chess_climate_daily(struct input_Clim_Files inClimFiles,
 	//---------------------------------------------------------------------------------------------------------------------------
 
 	fscanf(inClimFiles.pPrec,"%d %d %d",&yr,&mo,&dy);
-	for (int  clim_inx = 0;  clim_inx != CLIMATE_NUM;  clim_inx++) {
+	for (int  clim_inx = 0;  clim_inx != climate_num;  clim_inx++) {
 		fscanf(inClimFiles.pPrec, "%lf", &daily_clim[clim_inx].rain);
 	}
 	if(current_date.year !=yr || current_date.month!=mo ||current_date.day!=dy){
@@ -76,7 +77,7 @@ void chess_climate_daily(struct input_Clim_Files inClimFiles,
 
 	//reading maximum temperature data
 	fscanf(inClimFiles.pTmax, "%d %d %d", &yr, &mo, &dy);
-	for (int basin_inx = 0; basin_inx != CLIMATE_NUM; basin_inx++) {
+	for (int basin_inx = 0; basin_inx != climate_num; basin_inx++) {
 		fscanf(inClimFiles.pTmax, "%lf", &daily_clim[basin_inx].tmax);
 	}
 	if(current_date.year !=yr || current_date.month!=mo ||current_date.day!=dy){
@@ -88,7 +89,7 @@ void chess_climate_daily(struct input_Clim_Files inClimFiles,
 	}
     //reading minimum temperature data
 	fscanf(inClimFiles.pTmin, "%d %d %d", &yr, &mo, &dy);
-	for (int  clim_inx = 0;  clim_inx != CLIMATE_NUM;  clim_inx++) {
+	for (int  clim_inx = 0;  clim_inx != climate_num;  clim_inx++) {
 		fscanf(inClimFiles.pTmin, "%lf", &daily_clim[clim_inx].tmin);
 	}
 	if(current_date.year !=yr || current_date.month!=mo ||current_date.day!=dy){
@@ -103,7 +104,7 @@ void chess_climate_daily(struct input_Clim_Files inClimFiles,
 		//reading annual atmospheric CO2 data
 		//xu. for CO2, we assume all basins has a same annual CO2 input
 		fscanf(inClimFiles.pCO2,"%d %lf ",&yr,&(daily_clim->CO2));
-		for (int  clim_inx = 0;  clim_inx != CLIMATE_NUM;  clim_inx++) {
+		for (int  clim_inx = 0;  clim_inx != climate_num;  clim_inx++) {
 			daily_clim[clim_inx].CO2 = daily_clim->CO2;
 		}
 		*CO2_flag=0;
@@ -122,7 +123,7 @@ void chess_climate_daily(struct input_Clim_Files inClimFiles,
 	//2. INITIAL REST OF CLIM SECQUENCES WITH NULL DATA
 	//xu. in current part of simulation the subbasins will own a separated climate data
 	//---------------------------------------------------------------------------------------------------------------------------
-	for (int basin_inx = 0; basin_inx != CLIMATE_NUM; basin_inx++) {
+	for (int basin_inx = 0; basin_inx != climate_num; basin_inx++) {
 
 		daily_clim[basin_inx].snow = -999.;
 		daily_clim[basin_inx].daytime_rain_duration = -999.;

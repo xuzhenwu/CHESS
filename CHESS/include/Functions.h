@@ -5,16 +5,16 @@
 
 struct  command_line_object	*construct_command_line(int main_argc, char **, struct command_line_object *);
 int     construct_routing_topology(struct patch_object *, char *, char *, int, int);
-void	read_geo_images(struct patch_object *, struct command_line_object *, int, int, double, double, double, char *, char *, int, int, int ,int *);
+void	read_geo_images(struct patch_object *, struct command_line_object *, int, int, double, double, double, char *, char *, int, int, int ,int *,int);
 void    construct_patch(struct patch_object *, struct command_line_object *, int, int, char *, char *, int);
 struct  input_Clim_Files open_Clim_Files(char *, char *);
 
 //---------------------------------------------------------------------------------------------------------------------------
 // CHESS SIMULATION .function	                                                
 //---------------------------------------------------------------------------------------------------------------------------
-void    chess_climate_daily(struct input_Clim_Files, struct date, struct  daily_clim_object *daily_clim, int, int, int, int *);
+void    chess_climate_daily(struct input_Clim_Files,  struct date, struct  daily_clim_object *daily_clim, int climate_num, int, int, int, int *);
 void	chess_patch_daily(struct 	patch_object *patch, struct 	command_line_object *command_line, struct date current_date,
-	struct  daily_clim_object *daily_clim, int num_patches, int patch_pch[][PATCH_NUM], int thread_patch_num[]);
+	struct  daily_clim_object *daily_clim, int num_patches, int **patch_pch,int thread_num, int thread_patch_num[]);
 void    chess_channel_daily(struct patch_object *, struct reservoir_object, struct command_line_object *, struct	date, int, double);
 
 
@@ -23,7 +23,7 @@ void    chess_channel_daily(struct patch_object *, struct reservoir_object, stru
 // CHESS OUTPUT .function	                                                
 //---------------------------------------------------------------------------------------------------------------------------
 void    construct_basin_output_files(char *, struct output_hydro_plant *, struct command_line_object *);
-void    construct_patch_output_files(struct date, struct out_date_range, char *, struct output_hydro_plant *, struct OutArray_object *OutArray, struct command_line_object *);
+void    construct_patch_output_files(struct date, struct out_date_range, char *, int patch_num, struct output_hydro_plant *, struct OutArray_object *OutArray, struct command_line_object *);
 void    close_patch_output_files(struct output_hydro_plant *, struct OutArray_object *OutArray);
 
 //xu.
@@ -87,8 +87,8 @@ void init_phenology_object(patch_object *, int);
 // Parallel .function	                                                
 //---------------------------------------------------------------------------------------------------------------------------
 void	parallel_patch_daily(struct patch_object *patch, struct command_line_object *command_line, struct	date current_date, struct  daily_clim_object *daily_clim,
-	int patch_pch[][PATCH_NUM], int thread_patch_num[], int thread_inx);
-void	parallel_basins_pches(struct 	patch_object *patch, int patch_pch[][PATCH_NUM], int thread_patch_num[]);
+	int **patch_pch, int thread_patch_num[], int thread_inx);
+void	parallel_basins_pches(struct 	patch_object *patch, int **patch_pch, int patch_num, int thread_patch_num[]);
 
 
 

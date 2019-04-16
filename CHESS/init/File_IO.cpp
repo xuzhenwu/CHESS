@@ -179,7 +179,7 @@ void header_help(int maxr, int maxc, char *fnhdr) {
 //        input_prompt() - input root filename, create full filenames
 //===============================================================================================================================
 void	read_geo_images(struct patch_object *patch, struct command_line_object *command_line, int rows, int cols, double cellsize, double xll, double yll,
-	char *filename, char *prefix, int f_flag, int arc_flag, int num_patches, int*gauge_list) {
+	char *filename, char *prefix, int f_flag, int arc_flag, int num_patches, int*gauge_list,int thread_num) {
 
 	// filenames for each image and file
 	char  fnpatch[MAXS], fndem[MAXS], fnslope[MAXS], fnaspect[MAXS], fneast_horizon[MAXS], fnwest_horizon[MAXS];
@@ -255,6 +255,12 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	//xu.
 	strcat(fnstreamorder, ".streamorder");
 	strcat(fnbasins, ".basin");
+	
+	char char_thread[10];
+	_itoa(thread_num, char_thread, 10);
+	strcat(fnbasins, char_thread);
+	cout << fnbasins << endl;
+
 	strcat(fngauges, ".gauge");
 	strcat(fnclimate, ".climate");
 	strcat(fnlatitude, ".latitude");
@@ -378,7 +384,7 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 
 			gauge_list[gauge_inx] = pgauges[gauge_inx];
 
-			for (int patch_inx = 0; patch_inx != PATCH_NUM; patch_inx++) {
+			for (int patch_inx = 0; patch_inx != num_patches; patch_inx++) {
 
 				if (patch[patch_inx].ID == gauge_list[gauge_inx]) {	//where the list was replaced with patch_inx
 					gauge_list[gauge_inx] = patch_inx;

@@ -7,7 +7,9 @@ using namespace std;
 
 //struct output_hydro_plant construct_output_files(int start_year,int end_year,
 void construct_patch_output_files(struct date current_date, struct out_date_range outdate,
-	char *outPutPath, struct output_hydro_plant *DM_outfiles,
+	char *outPutPath,
+	int patch_num,
+	struct output_hydro_plant *DM_outfiles,
 	struct OutArray_object *OutArray,
 struct command_line_object *command_line
 	)
@@ -31,8 +33,8 @@ struct command_line_object *command_line
 
 	//xu. allocate the pmon array and it is used in out_patch_level_daily
 	if(command_line->pmon== true){
-		OutArray->HydroMon = new double[PATCH_NUM][HYDRO_NUM]{};
-		OutArray->PlantMon = new double[PATCH_NUM][PLANT_NUM]{};
+		OutArray->HydroMon = new double[patch_num][HYDRO_NUM]{};
+		OutArray->PlantMon = new double[patch_num][PLANT_NUM]{};
 	}
 
 

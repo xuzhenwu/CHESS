@@ -482,7 +482,7 @@
     <ClCompile Include="init\contruct_reservoir_default.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
-    <ClCompile Include="main_30.cpp">
+    <ClCompile Include="main_dj.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

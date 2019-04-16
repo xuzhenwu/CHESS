@@ -70,7 +70,7 @@ char  FlowTableNamePrefix[40] = "cleve_120_flow_table_";
 const int parameter_start = 0;
 const int parameter_end = 0;
 const int algo_start = 1;
-const int algo_end = 4;
+const int algo_end = 2;
 
 const char algorithm[5][10] = { "F","D8","MD8", "MFD_md" ,"MD_inf" };// 1 2 3 4
 char  ParameterPrefix[10][40] = { "T//", "M1//", "M2//", "M3//" , "M4//","M5//","M6//" ,"M7//" ,"M8//" ,"M9//" };// 1-9
@@ -133,11 +133,11 @@ int	main(int main_argc, char **main_argv)
 			strcpy(outPutPath, outPutPathPrefix);
 			strcat(outPutPath, algorithm[algorithm_inx]);
 			strcat(outPutPath, "//");
-			strcat(outPutPath, ParameterPrefix[parameter_inx]);
+			//strcat(outPutPath, ParameterPrefix[parameter_inx]);
 			cout << outPutPath << endl;
 
 			strcpy(inDefFile, inDefFilePrefix);
-			strcat(inDefFile, ParameterPrefix[parameter_inx]);
+			//strcat(inDefFile, ParameterPrefix[parameter_inx]);
 			cout << inDefFile << endl;
 
 			//=======================================================================================================================

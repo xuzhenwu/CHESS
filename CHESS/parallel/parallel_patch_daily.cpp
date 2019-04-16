@@ -14,7 +14,7 @@ void		parallel_patch_daily(struct 	patch_object *patch,
 	struct 	command_line_object *command_line,
 	struct	date 			current_date,
 	struct  daily_clim_object *daily_clim,
-	int patch_pch[][PATCH_NUM],
+	int **patch_pch,
 	int thread_patch_num[],
 	int thread_inx
 )

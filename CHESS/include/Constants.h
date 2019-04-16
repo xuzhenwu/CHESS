@@ -21,17 +21,8 @@
 #define GAUGE_NUM	8=
 */
 
-
-#define BASIN_NUM	14
-#define CLIMATE_NUM	1
-//#define PATCH_NUM	91790
-//#define PATCH_NUM	23064
-#define PATCH_NUM	5781
-
-#define GAUGE_NUM	1
-
-
-
+//waiting tobe totally removed 
+#define GAUGE_NUM	12
 
 #define HYDRO_NUM	42
 #define PLANT_NUM	42

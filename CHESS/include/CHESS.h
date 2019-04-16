@@ -938,31 +938,34 @@ struct channel_object{
 //===============================================================================================================================
 struct reservoir_default {
 	
-	int ID;//PATCH ID ONLY FOR MATCHING 
-	int Fld_beg;
-	int Fld_end;
-	double Vpr;
-	double Vem;
-	double NDtarget;
+	int ID;//patchID
+
+	double Vp[12];//monthly principle volumn
+	double Vc[12];//monthly critical volumn
+
+	double Ve;//emergency volumn
+	double Vd;//dead volumn
+
+	double kmon[12];// standard deviation of longterm outflow
+
 	double Qout_max;
 	double Qout_min;
 };
 
 struct reservoir_object {
 
-	//STATIC
-	double Vtarget;//Target Release of a given month
+	int ID;//patchID
 
-	//DYNAMIC
-	int Fld_beg;
-	int Fld_end;
-	double Vpr;
-	double Vem;
-	double SW;//average basin soil water content
-	double FC;//average basin field capacity
-	double Qout_max;//m^3/s
-	double Qout_min;//m^3/s
-	double NDtarget;
+	double Vp[12];//monthly principle volumn
+	double Vc[12];//monthly critical volumn
+
+	double Ve;//emergency volumn
+	double Vd;//dead volumn
+
+	double kmon[12];// standard deviation of longterm outflow
+
+	double Qout_max;
+	double Qout_min;
 
 };
 

@@ -33,41 +33,38 @@ struct reservoir_default *construct_reservoir_defaults(
 	read_record(default_file, record);
 
 	for (int i = 0; i < nytpes; i++) {
-		fscanf(default_file, "%lf", &(reservoir_default_object_list[i].Vpr));
+		fscanf(default_file, "%lf", &(reservoir_default_object_list[i].Ve));
 	}
 	read_record(default_file, record);
 
 	for (int i = 0; i < nytpes; i++) {
-		fscanf(default_file, "%lf", &(reservoir_default_object_list[i].Vem));
+		fscanf(default_file, "%lf", &(reservoir_default_object_list[i].Vd));
 	}
 	read_record(default_file, record);
 
-	for (int i = 0; i < nytpes; i++) {
-		fscanf(default_file, "%d", &(reservoir_default_object_list[i].Fld_beg));
-	}
+	for (int mon_inx = 1; mon_inx <= 12; mon_inx++) {
+		for (int i = 0; i < nytpes; i++) {
+
+		fscanf(default_file, "%d", &(reservoir_default_object_list[i].Vp[mon_inx]));
+		}
 	read_record(default_file, record);
-
-	for (int i = 0; i < nytpes; i++) {
-		fscanf(default_file, "%d", &(reservoir_default_object_list[i].Fld_end));
 	}
-	read_record(default_file, record);
 
-	for (int i = 0; i < nytpes; i++) {
-		fscanf(default_file, "%lf", &(reservoir_default_object_list[i].Qout_max));
+	for (int mon_inx = 1; mon_inx <= 12; mon_inx++) {
+		for (int i = 0; i < nytpes; i++) {
+
+			fscanf(default_file, "%d", &(reservoir_default_object_list[i].Vc[mon_inx]));
+		}
+		read_record(default_file, record);
 	}
-	read_record(default_file, record);
 
-	for (int i = 0; i < nytpes; i++) {
-		fscanf(default_file, "%lf", &(reservoir_default_object_list[i].Qout_min));
+	for (int mon_inx = 1; mon_inx <= 12; mon_inx++) {
+		for (int i = 0; i < nytpes; i++) {
+
+			fscanf(default_file, "%d", &(reservoir_default_object_list[i].kmon[mon_inx]));
+		}
+		read_record(default_file, record);
 	}
-	read_record(default_file, record);
-
-	for (int i = 0; i < nytpes; i++) {
-		fscanf(default_file, "%lf", &(reservoir_default_object_list[i].NDtarget));
-	}
-	read_record(default_file, record);
-
-
 
 	fclose(default_file);
 	return(reservoir_default_object_list);

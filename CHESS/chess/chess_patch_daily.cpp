@@ -17,7 +17,8 @@ void  chess_patch_daily(struct patch_object *patch,
 	struct	date 			current_date,
 	struct  daily_clim_object *daily_clim,
 	int num_patches,
-	int patch_pch[][PATCH_NUM],
+	int **patch_pch,
+	int thread_num,
 	int thread_patch_num[]
 )
 {
@@ -26,17 +27,19 @@ void  chess_patch_daily(struct patch_object *patch,
 	//---------------------------------------------------------------------------------------------------------------------------
 	
 	//creat thread
-	std::thread thd[BASIN_NUM];
+	std::thread *thd=new std::thread [thread_num];
 	//init and run all thread
-	for (int thread_inx = 0; thread_inx != BASIN_NUM; thread_inx++) {
+	for (int thread_inx = 0; thread_inx != thread_num; thread_inx++) {
 
 		//parallel patch daily is served to be a elementary function of patch daily process
 		thd[thread_inx] = thread(parallel_patch_daily, patch, command_line, current_date, daily_clim, patch_pch, thread_patch_num, thread_inx);
 	}
 	//wait till all threads terminate
-	for (int thread_inx = 0; thread_inx != BASIN_NUM; thread_inx++) {
+	for (int thread_inx = 0; thread_inx != thread_num; thread_inx++) {
 		thd[thread_inx].join();
 	}
+
+	delete[] thd;
 
 	return;
 }//__END OF DAILY PATCH
