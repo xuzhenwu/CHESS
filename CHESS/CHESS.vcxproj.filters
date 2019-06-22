@@ -482,11 +482,11 @@
     <ClCompile Include="init\contruct_reservoir_default.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
-    <ClCompile Include="main_dj.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="init\construct_reservoir_correponding_data.cpp">
       <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="main_dj_be_chan.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

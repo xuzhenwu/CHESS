@@ -959,7 +959,7 @@ struct reservoir_object {
 	int ID;//patchID
 	int	StartYear;//start operation
 	int EndYear;
-	double Vp[12];//monthly principle volumn
+	double Vp[12];//monthly principle volumn  start from 0
 	double Vc[12];//monthly critical volumn
 
 	double Ve;//emergency volumn

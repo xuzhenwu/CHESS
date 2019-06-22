@@ -53,7 +53,7 @@ struct reservoir_default *construct_reservoir_defaults(
 	}
 	read_record(default_file, record);
 
-	for (int mon_inx = 1; mon_inx <= 12; mon_inx++) {
+	for (int mon_inx = 0; mon_inx < 12; mon_inx++) {
 		for (int i = 0; i < nytpes; i++) {
 
 		fscanf(default_file, "%lf", &(reservoir_default_object_list[i].Vp[mon_inx]));
@@ -61,7 +61,7 @@ struct reservoir_default *construct_reservoir_defaults(
 	read_record(default_file, record);
 	}
 
-	for (int mon_inx = 1; mon_inx <= 12; mon_inx++) {
+	for (int mon_inx = 0; mon_inx < 12; mon_inx++) {
 		for (int i = 0; i < nytpes; i++) {
 
 			fscanf(default_file, "%lf", &(reservoir_default_object_list[i].Vc[mon_inx]));
@@ -69,7 +69,7 @@ struct reservoir_default *construct_reservoir_defaults(
 		read_record(default_file, record);
 	}
 
-	for (int mon_inx = 1; mon_inx <= 12; mon_inx++) {
+	for (int mon_inx = 0; mon_inx < 12; mon_inx++) {
 		for (int i = 0; i < nytpes; i++) {
 
 			fscanf(default_file, "%lf", &(reservoir_default_object_list[i].kmon[mon_inx]));

@@ -103,7 +103,7 @@ void  chess_channel_daily(patch_object *patch, struct reservoir_object reservoir
 							//---------------------------------------------------------------------------------------------------------------------------
 							//1. For Reservoirs (Target Release)
 							//---------------------------------------------------------------------------------------------------------------------------
-							if (command_line->re == TRUE && patch[i].channel->ID == RESERVOIR)
+							if (command_line->re == TRUE && patch[i].channel->ID == RESERVOIR && current_date.year>=patch[i].channel->reservoir->StartYear)
 							{
 								//STORAGE
 								patch[i].channel->storage+= patch[i].channel->Q_in;
@@ -143,11 +143,12 @@ void  chess_channel_daily(patch_object *patch, struct reservoir_object reservoir
 
 
 								//modificaion of power、supply、impound
+								//note that month start from 0
 								patch[i].channel->reservoir->npow = (patch[i].channel->storage - patch[i].channel->reservoir->Vc[current_date.month - 1]) /
 											max(patch[i].channel->reservoir->Vp[current_date.month - 1] - patch[i].channel->reservoir->Vc[current_date.month - 1],
 											patch[i].channel->reservoir->Vc[current_date.month - 1] - patch[i].channel->reservoir->Vd);
 
-								int year_day = yearday(current_date)-1;
+								int year_day = yearday(current_date)-1;//start from 0
 								patch[i].channel->reservoir->nsup = (patch[i].channel->reservoir->longterm_i30[year_day] - patch[i].channel->reservoir->i30_mean)*
 									(patch[i].channel->storage - patch[i].channel->reservoir->Vd) /
 									(patch[i].channel->reservoir->Vp[current_date.month - 1] - patch[i].channel->reservoir->Vd) /
@@ -163,8 +164,17 @@ void  chess_channel_daily(patch_object *patch, struct reservoir_object reservoir
 									(patch[i].channel->reservoir->npow*patch[i].channel->reservoir->alpha[year_inx] +
 										patch[i].channel->reservoir->nsup*patch[i].channel->reservoir->beta[year_inx] +
 										patch[i].channel->reservoir->nimp*patch[i].channel->reservoir->gamma[year_inx]
-										)*patch[i].channel->reservoir->kmon[current_date.month])*
+										)*patch[i].channel->reservoir->kmon[current_date.month-1])*
 									patch[i].channel->reservoir->longterm_qout[year_day];
+
+
+								//mass balance and limitation
+								if (patch[i].channel->storage < patch[i].channel->reservoir->Vd)
+									patch[i].channel->Q_out = 0;
+								//if(patch[i].channel->storage > patch[i].channel->reservoir->Ve)
+									//patch[i].channel->Q_out = min(patch[i].channel->Q_out, (patch[i].channel->storage- patch[i].channel->reservoir->Ve)/5.0);
+
+								patch[i].channel->Q_out = max(patch[i].channel->Q_out, 0);
 
 
 								//RENEW STORAGE

@@ -38,7 +38,7 @@ void construct_resvoir_correponding_data(char *filename,int patchID, struct patc
 			ABG >> yeartmp;
 			year_inx = yeartmp - patch->channel->reservoir->StartYear;//start from zero
 			ABG >> patch->channel->reservoir->alpha[year_inx] >> patch->channel->reservoir->beta[year_inx]
-				>> patch->channel->reservoir->beta[year_inx];
+				>> patch->channel->reservoir->gamma[year_inx];
 		}
 
 	}

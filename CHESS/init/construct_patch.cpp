@@ -600,14 +600,14 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 							patch[p].channel->reservoir->EndYear = reservoir_default_object_list[j].EndYear;
 							patch[p].channel->reservoir->Ve = reservoir_default_object_list[j].Ve;
 							patch[p].channel->reservoir->Vd = reservoir_default_object_list[j].Vd;
-							for (int mon_inx = 1; mon_inx <= 12; mon_inx++) {
+							for (int mon_inx = 0; mon_inx < 12; mon_inx++) {
 								patch[p].channel->reservoir->Vc[mon_inx] = reservoir_default_object_list[j].Vc[mon_inx];
 								patch[p].channel->reservoir->Vp[mon_inx] = reservoir_default_object_list[j].Vp[mon_inx];
 								patch[p].channel->reservoir->kmon[mon_inx] = reservoir_default_object_list[j].kmon[mon_inx];
 							}
 							patch[p].channel->ID = 2;//RESERVOIR ID
 						
-							patch[p].channel->storage = patch[p].channel->reservoir->Vc[1];
+							patch[p].channel->storage = 0;
 
 
 							//READ CORRESPONDING DATA in /re file list

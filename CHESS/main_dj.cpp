@@ -71,17 +71,17 @@ const double    cellsize = 200;
 const float     NODATA_value = -9999;
 
 // define the simulation year, month and day
-const int start_year = 1961, end_year = 1971, start_month = 1, end_month = 12, start_day = 1, end_day = 31;
+const int start_year = 1961, end_year = 2014, start_month = 1, end_month = 12, start_day = 1, end_day = 31;
 const int start_hour = 1, end_hour = 24;
 //int       end_day; //The end of date in February varies between normal and leap year
 
 // define the time period for outputting simulation results
 // out_date_range outdate={first_year, last_year, first_month, last_month, first_day, last_day, first_hour, last_hour};
-struct out_date_range out_date = { 1960, 1970, 1, 12, 1, 31, 1, 24 };
+struct out_date_range out_date = { 1961, 2013, 1, 12, 1, 31, 1, 24 };
 
 // define the number of spin years required for vegetation and soil carbon to reach the stable state with long-term
 // climatology. Spin interval is the period of input climate data used for spin-up simulations
-const int spin_years = 5, spin_interval = 10;
+const int spin_years = 20, spin_interval = 10;
 bool      spin_flag = true;
 
 // define the input file prefix and paths for model forcing data
