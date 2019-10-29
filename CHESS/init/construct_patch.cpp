@@ -55,7 +55,11 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	//local variable
 	double soil_depth, air_entry, pore_size;
 
-	strcat(filename, prefix);
+	//SPECIFY HERE 
+	char  prefix1[120] = "cleve_60";
+	strcat(filename, prefix1);
+	//strcat(filename, prefix);
+
 	strcpy(fnclimatedef, filename);
 	strcpy(fnsoildef, filename);
 	strcpy(fnvegdef, filename);

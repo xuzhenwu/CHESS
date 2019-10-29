@@ -63,12 +63,12 @@ using namespace std;
 //=======================================================================================================================
 
 
-char  inDefFilePrefix[121] = { "I://CHESS//cleve//120F//defs//" };
-char  outPutPathPrefix[121] = { "I://CHESS//cleve//120F//out//" };
+char  inDefFilePrefix[121] = { "E://ALGO//CHESS//cleve//120F//defs//T//" };
+char  outPutPathPrefix[121] = { "E://ALGO//CHESS//cleve//120F//out//" };
 char  FlowTableNamePrefix[40] = "cleve_120_flow_table_";
 
-const int parameter_start = 0;
-const int parameter_end = 0;
+const int parameter_start = 7;
+const int parameter_end = 9;
 const int algo_start = 1;
 const int algo_end = 4;
 
@@ -118,9 +118,9 @@ int	main(int main_argc, char **main_argv)
 
 
 			char  inDefFile[121]{};
-			char  inImgFile[121] = { "I://CHESS//cleve//120F//geo//" };
-			char  inFlowFile[121] = { "I://CHESS//cleve//120F//flowtable//" };
-			char  inClimPath[121] = { "I://CHESS//cleve//120F//clim//" };
+			char  inImgFile[121] = { "E://ALGO//CHESS//cleve//120F//geo//" };
+			char  inFlowFile[121] = { "E://ALGO//CHESS//cleve//120F//flowtable//" };
+			char  inClimPath[121] = { "E://ALGO//CHESS//cleve//120F//clim//" };
 
 
 			char  FlowTableName[40]{};
@@ -132,7 +132,7 @@ int	main(int main_argc, char **main_argv)
 			cout << FlowTableName << endl;
 			strcpy(outPutPath, outPutPathPrefix);
 			strcat(outPutPath, algorithm[algorithm_inx]);
-			strcat(outPutPath, "//");
+			strcat(outPutPath, "//T//");
 			strcat(outPutPath, ParameterPrefix[parameter_inx]);
 			cout << outPutPath << endl;
 
@@ -329,8 +329,8 @@ int	main(int main_argc, char **main_argv)
 
 			if (command_line->b != NULL)
 			{
-				fclose(DM_outfiles.fPatchDailyHydro);
-				fclose(DM_outfiles.fPatchDailyPlant);
+				fclose(DM_outfiles.fBasinDailyHydro);
+				fclose(DM_outfiles.fBasinDailyPlant);
 			}
 
 
